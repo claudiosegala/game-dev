@@ -7,7 +7,7 @@
 int main()
 {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
-    SDL_Window* window = SDL_CreateWindow("Meu Jogo daora", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 600, 0);
+    SDL_Window* window = SDL_CreateWindow("Penguin", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 600, 0);
 
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
