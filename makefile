@@ -30,18 +30,6 @@ config:
 	brew install sdl2_mixer
 	brew install sdl2_ttf
 
-project: config
-	mkdir project
-	cd project
-	mkdir $(SRCDIR) 
-	mkdir $(INCDIR)
-	mkdir $(BINDIR)
-	mkdir $(OBJDIR)
-	mkdir $(RESDIR)
-	cd $(SRCDIR)
-	touch main.cpp
-
-
 # CC = g++
 # RMDIR = rm -rf
 # RM = rm -f
