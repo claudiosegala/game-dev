@@ -1,9 +1,10 @@
 CC=g++
-EXECNAME = game
+EXECNAME = game.out
 SRCDIR = src
 INCDIR = include
 BINDIR = bin
 OBJDIR = object
+RESDIR = resources
 LFLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 CFLAGS = -std=c++11
 
@@ -17,6 +18,9 @@ all: $(OBJ)
 %.o: $(patsubst $(OBJDIR)/%.o, $(SRCDIR)/%.cpp, $@)
 	$(CC) -c $(CFLAGS) $(patsubst $(OBJDIR)/%.o, $(SRCDIR)/%.cpp, $@) -o $@ -g -ggdb
 
+run: all
+	./game.out
+
 clean:
 	rm -f $(OBJ) *~
 
@@ -25,6 +29,18 @@ config:
 	brew install sdl2_image
 	brew install sdl2_mixer
 	brew install sdl2_ttf
+
+project: config
+	mkdir project
+	cd project
+	mkdir $(SRCDIR) 
+	mkdir $(INCDIR)
+	mkdir $(BINDIR)
+	mkdir $(OBJDIR)
+	mkdir $(RESDIR)
+	cd $(SRCDIR)
+	touch main.cpp
+
 
 # CC = g++
 # RMDIR = rm -rf
