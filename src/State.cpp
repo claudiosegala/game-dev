@@ -4,11 +4,11 @@ namespace penguin {
 
     State::State () {
         this->quitRequested = false;
-        // TODO: fix this
-        //this->bg = new Sprite("img/ocean.jpg");
+        this->bg.Open("/assets/img/ocean.jpg");
+        this->music.Open("/assets/audio/stageState.ogg");
     }
 
-void State::LoadAssets () {
+    void State::LoadAssets () {
         // load assets here
     }
 
