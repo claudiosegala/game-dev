@@ -6,12 +6,8 @@
 
 #include <iostream>
 #include "Game.h"
-#include "Sprite.h"
-#include "State.h"
-#include "Music.h"
 
-int main(int argc, char** argv)
-{
+void test () {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
     SDL_Window* window = SDL_CreateWindow("Penguin", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 600, 0);
 
@@ -45,5 +41,13 @@ int main(int argc, char** argv)
     SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
+}
+
+int main(int argc, char** argv)
+{
+    auto g = penguin::Game::GetInstance();
+
+    g->Run();
+
     return 0;
 }
