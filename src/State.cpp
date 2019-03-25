@@ -4,12 +4,13 @@ namespace penguin {
 
     State::State () {
         this->quitRequested = false;
+        // TODO: verify if this is correct;
         this->bg.Open("/assets/img/ocean.jpg");
         this->music.Open("/assets/audio/stageState.ogg");
     }
 
     void State::LoadAssets () {
-        // load assets here
+        // TODO: discover what should be here
     }
 
     void State::Update (float dt) {
@@ -22,7 +23,7 @@ namespace penguin {
     }
 
     void State::Render () {
-        // render do bg?????
+        this->bg.Render(0, 0);
     }
 
     bool State::QuitRequested () {

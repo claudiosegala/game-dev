@@ -1,6 +1,5 @@
 #pragma once
 
-// Include
 #include "Sprite.h"
 #include "Music.h"
 

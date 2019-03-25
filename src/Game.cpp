@@ -1,5 +1,9 @@
 #include "Game.h"
 
+#define INCLUDE_SDL_IMAGE
+#define INCLUDE_SDL_MIXER
+#include "SDL_Include.h"
+
 namespace penguin {
 
     Game* Game::instance;
@@ -44,7 +48,7 @@ namespace penguin {
             return Game::instance;
         }
 
-        return Game::instance = new Game("Penguin", 1024, 600);
+        return Game::instance = new Game("ClaudioSegala_150032552", 1024, 600);
     }
 
     State* Game::GetState () {
@@ -61,17 +65,23 @@ namespace penguin {
 
     void Game::Init_RDR () {
         auto index = -1; // SDL will choose the best for us
-        uint32_t flags = (
-            SDL_RENDERER_SOFTWARE |
-            SDL_RENDERER_PRESENTVSYNC |
-            SDL_RENDERER_ACCELERATED |
+
+        /*
+            Available flags:
+            SDL_RENDERER_SOFTWARE
+            SDL_RENDERER_PRESENTVSYNC
+            SDL_RENDERER_ACCELERATED
             SDL_RENDERER_TARGETTEXTURE
+        */
+        uint32_t flags = (
+            SDL_RENDERER_ACCELERATED
         );
 
         this->renderer = SDL_CreateRenderer(this->window, index, flags);
 
         if (this->renderer == nullptr) {
-            throw std::runtime_error("Failed to create a renderer\n");
+            SDL_GetNumRenderDrivers();
+            SDL_Error();
         }
     }
 
@@ -82,7 +92,7 @@ namespace penguin {
         this->window = SDL_CreateWindow(title.c_str(), (int) pos, (int) pos, width, height, flags);
 
         if (this->window == nullptr) {
-            throw std::runtime_error("Failed to create a window\n");
+            SDL_Error();
         }
     }
 
@@ -97,26 +107,25 @@ namespace penguin {
             MIX_INIT_MODPLUG
         */
         auto flags = (
-            MIX_INIT_MP3 |
             MIX_INIT_OGG
         );
 
         auto res = Mix_Init(flags);
 
         if (res != flags) {
-            throw std::runtime_error("MIX_Init failed! Could not load everything\n");
+            SDL_Error();
         }
 
         res = Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 
         if (res < 0) {
-            throw std::runtime_error("Mix_OpenAudio failed! Could not open audio\n");
+            SDL_Error();
         }
 
         res = Mix_AllocateChannels(32);
 
         if (res < 0) {
-            throw std::runtime_error("Mix_AllocateChannels failed! Could not allocate enough channels\n");
+            SDL_Error();
         }
     }
 
@@ -135,11 +144,23 @@ namespace penguin {
         auto res = IMG_Init(flags);
 
         if (res != flags) {
-            throw std::runtime_error("IMG_Init failed! Could not load everything\n");
+            SDL_Error();
         }
     }
 
     void Game::Init_SDL () {
+        /* 
+            Available Flags:
+            SDL_INIT_TIMER
+            SDL_INIT_GAMECONTROLLER
+            SDL_INIT_AUDIO
+            SDL_INIT_EVENTS
+            SDL_INIT_VIDEO
+            SDL_INIT_EVERYTHING
+            SDL_INIT_JOYSTICK
+            SDL_INIT_NOPARACHUTE
+            SDL_INIT_HAPTIC
+        */
         auto flags = (
             SDL_INIT_VIDEO |
             SDL_INIT_AUDIO |

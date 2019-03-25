@@ -1,12 +1,10 @@
 #pragma once
 
-// Include SDL
+#include <string>
+
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
 #include "SDL_Include.h"
-
-// Include
-#include <string>
 
 namespace penguin {
 

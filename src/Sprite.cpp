@@ -1,6 +1,9 @@
 #include "Game.h"
 #include "Sprite.h"
 
+#define INCLUDE_SDL_IMAGE
+#include "SDL_Include.h"
+
 namespace penguin {
 
     Sprite::Sprite() {
