@@ -10,7 +10,7 @@
 #include "State.h"
 #include "Music.h"
 
-int main()
+int main(int argc, char** argv)
 {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
     SDL_Window* window = SDL_CreateWindow("Penguin", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 600, 0);
