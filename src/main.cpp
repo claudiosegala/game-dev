@@ -1,8 +1,14 @@
+#define INCLUDE_SDL
+#define INCLUDE_SDL_IMAGE
+#define INCLUDE_SDL_MIXER
+#define INCLUDE_SDL_TTF
+#include "SDL_Include.h"
+
 #include <iostream>
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_ttf.h"
+#include "Game.h"
+#include "Sprite.h"
+#include "State.h"
+#include "Music.h"
 
 int main()
 {
@@ -11,7 +17,7 @@ int main()
 
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
-    SDL_Texture* texture = IMG_LoadTexture(renderer, "resources/ocean.jpeg");
+    SDL_Texture* texture = IMG_LoadTexture(renderer, "/assets/img/ocean.jpg");
     int textureWidth, textureHeight;
     SDL_QueryTexture(texture, nullptr, nullptr, &textureWidth, &textureHeight);
 
@@ -21,16 +27,16 @@ int main()
     SDL_RenderPresent(renderer);
 
     Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096);
-    Mix_Music* music = Mix_LoadMUS("resources/Tema_Boss_01.wav");
+    Mix_Music* music = Mix_LoadMUS("/assets/audio/boom.wav");
     Mix_PlayMusic(music, 1);
 
-    while(true)
-    {
-        if(SDL_QuitRequested())
-        {
-            break;
-        }
-    }
+     while(true)
+     {
+         if(SDL_QuitRequested())
+         {
+             break;
+         }
+     }
 
     Mix_FreeMusic(music);
     Mix_CloseAudio();
