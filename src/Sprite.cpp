@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Sprite.h"
+#include <iostream>
 
 #define INCLUDE_SDL_IMAGE
 #include "SDL_Include.h"
@@ -17,6 +18,7 @@ namespace penguin {
     }
 
     Sprite::~Sprite() {
+        std::cout << "Destroying Texture" << std::endl;
         SDL_DestroyTexture(this->texture);
     }
 
@@ -27,11 +29,15 @@ namespace penguin {
 
         auto g = Game::GetInstance();
 
+        std::cout << "Loading Texture" << std::endl;
+        
         this->texture = IMG_LoadTexture(g->GetRenderer(), file.c_str());
 
         if (this->texture == nullptr) {
             SDL_Error();
         }
+        
+        std::cout << "Querying the texture" << std::endl
 
         auto query = SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
 
@@ -52,6 +58,8 @@ namespace penguin {
 
         SDL_Rect dstRect{ x, y, this->clipRect.w, this->clipRect.h };
 
+        std::cout << "Rendering a copy" << std::endl;
+        
         SDL_RenderCopy(g->GetRenderer(), this->texture, &srcRect, &dstRect);
     }
 
