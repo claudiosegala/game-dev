@@ -45,7 +45,11 @@ void test () {
 
 int main(int argc, char** argv)
 {
+    std::cout << "Loading Game" << std::endl;
+    
     auto g = penguin::Game::GetInstance();
+    
+    std::cout << "Starting Game" << std::endl;
 
     g->Run();
 
