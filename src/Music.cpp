@@ -11,6 +11,7 @@ namespace penguin {
     }
 
     Music::~Music() {
+        std::cout << "Destroying music" << std::endl;
         Mix_FreeMusic(this->music);
     }
 
@@ -19,6 +20,8 @@ namespace penguin {
             return;
         }
 
+        std::cout << "Playing music" << std::endl;
+        
         auto err = Mix_PlayMusic(this->music, times);
 
         if (err < 0) {
@@ -27,6 +30,8 @@ namespace penguin {
     }
 
     void Music::Stop(int msToStop) {
+        std::cout << "Stoping music" << std::endl;
+        
         auto err = Mix_FadeOutMusic(msToStop);
 
         if (err < 0) {
@@ -35,6 +40,7 @@ namespace penguin {
     }
 
     void Music::Open(std::string file) {
+        std::cout << "Loading music" << std::endl;
         this->music = Mix_LoadMUS(file.c_str());
 
         if (this->music == nullptr) {
