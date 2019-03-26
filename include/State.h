@@ -10,6 +10,8 @@ namespace penguin {
 
         State();
 
+        ~State();
+
         bool QuitRequested();
 
         void LoadAssets();

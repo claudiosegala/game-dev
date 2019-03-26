@@ -4,17 +4,22 @@ namespace penguin {
 
     State::State () {
         this->quitRequested = false;
-        // TODO: verify if this is correct;
+        
+        LoadAssets();
+        
+        this->music.Play();
+    }
+
+    State::~State () {
+        this->music.Stop();
+    }
+
+    void State::LoadAssets () {
         this->bg.Open("/assets/img/ocean.jpg");
         this->music.Open("/assets/audio/stageState.ogg");
     }
 
-    void State::LoadAssets () {
-        // TODO: discover what should be here
-    }
-
     void State::Update (float dt) {
-        // TODO: discover what does it serve dt
         auto quit = SDL_QuitRequested();
 
         if (quit) {
