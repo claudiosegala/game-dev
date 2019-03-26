@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <iostream>
 
 #define INCLUDE_SDL_IMAGE
 #define INCLUDE_SDL_MIXER
@@ -25,11 +26,22 @@ namespace penguin {
     }
 
     Game::~Game() {
+        std::cout << "Destroying renderer" << std::endl;
         SDL_DestroyRenderer(this->renderer);
+        
+        std::cout << "Destroying window" << std::endl;
         SDL_DestroyWindow(this->window);
+        
+        std::cout << "Quiting SDL Mix Audio" << std::endl;
         Mix_CloseAudio();
+        
+        std::cout << "Quiting SDL Mixer" << std::endl;
         Mix_Quit();
+        
+        std::cout << "Quiting SDL Image" << std::endl;
         IMG_Quit();
+        
+        std::cout << "Quiting SDL" << std::endl;
         SDL_Quit();
     }
 
@@ -47,7 +59,8 @@ namespace penguin {
         if (Game::instance != nullptr) {
             return Game::instance;
         }
-
+        
+        std::cout << "Creating the game instance" << std::endl;
         return Game::instance = new Game("ClaudioSegala_150032552", 1024, 600);
     }
 
@@ -76,6 +89,8 @@ namespace penguin {
         uint32_t flags = (
             SDL_RENDERER_ACCELERATED
         );
+        
+        std::cout << "Create renderer" << std::endl;
 
         this->renderer = SDL_CreateRenderer(this->window, index, flags);
 
@@ -88,6 +103,8 @@ namespace penguin {
     void Game::Init_WDW (std::string title, int width, int height) {
         auto pos = SDL_WINDOWPOS_CENTERED;
         uint32_t flags = 0;
+        
+        std::cout << "Creating window" << std::endl;
 
         this->window = SDL_CreateWindow(title.c_str(), (int) pos, (int) pos, width, height, flags);
 
@@ -109,18 +126,24 @@ namespace penguin {
         auto flags = (
             MIX_INIT_OGG
         );
+        
+        std::cout << "Initing mixer" << std::endl;
 
         auto res = Mix_Init(flags);
 
         if (res != flags) {
             SDL_Error();
         }
+        
+        std::cout << "Configuring audio" << std::endl;
 
         res = Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 
         if (res < 0) {
             SDL_Error();
         }
+        
+        std::cout << "Allocating channels" << std::endl;
 
         res = Mix_AllocateChannels(32);
 
@@ -140,6 +163,8 @@ namespace penguin {
             IMG_INIT_JPG |
             IMG_INIT_PNG
         );
+        
+        std::cout << "Initing SDL Image" << std::endl;
 
         auto res = IMG_Init(flags);
 
@@ -166,6 +191,8 @@ namespace penguin {
             SDL_INIT_AUDIO |
             SDL_INIT_TIMER
         );
+        
+        std::cout << "Initing SDL" << std::endl;
 
         auto err = SDL_Init(flags);
 
