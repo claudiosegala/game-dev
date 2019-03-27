@@ -8,7 +8,7 @@ DEP_FLAGS = -MT $@ -MMD -MP -MF $(DEP_PATH)/$*.d
 
 DIRECTIVES = -std=c++11 -Wall -Wextra -pedantic -std=c++11 -O3 -Wshadow -Wformat=2 -Wfloat-equal -Wconversion -Wshift-overflow  -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -c -I $(HEADER_PATH)
 
-LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
+LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lSDL2_net -lm
 
 HEADER_PATH = include
 SRC_PATH = src
@@ -45,11 +45,6 @@ UNAME_S := $(shell uname -s)
 
 # LFLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
-# config:
-# 	brew install sdl2
-# 	brew install sdl2_image
-# 	brew install sdl2_mixer
-# 	brew install sdl2_ttf
 endif
 
 all: $(EXEC)
@@ -81,7 +76,7 @@ gdb: dev
 release: DIRECTIVES += -Ofast -mtune=native
 release: all
 
-run:
+run: all
 	$(RUN)$(EXEC)
 
 clean:
