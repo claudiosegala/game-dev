@@ -1,16 +1,24 @@
-# game-dev
-Game development training using SDL2
+# Penguin
 
-## Running on MacOS
+A small game to train on how to use SDL2
 
-Iniciate with `make config` to install the dependencies with `brew`. Then run:
+## Running
+
 ```bash
 make run
 ```
 
-## Install SDL2
+## Install SDL2 on MacOS
 
-Follow [this guide](https://medium.com/@edkins.sarah/set-up-sdl2-on-your-mac-without-xcode-6b0c33b723f7). To install SDL2 Image, [see this](http://macappstore.org/sdl2_image/). To install SLD2 TTF, [see this](http://macappstore.org/sdl2_ttf/). To install SDL Mixer, [see this](http://macappstore.org/sdl_mixer/).
+To install on macOS the SDL2 library, install first Homebrew and run:
+
+```
+brew install sdl2
+brew install sdl2_image
+brew install sdl2_mixer
+brew install sdl2_ttf
+brew install sdl2_net
+```
 
 ## Makefile
 
