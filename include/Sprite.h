@@ -3,7 +3,7 @@
 #include<string>
 
 #define INCLUDE_SDL
-#include "SDL_Include.h"
+#include <SDL_Include.h>
 
 namespace penguin {
 

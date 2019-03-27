@@ -2,10 +2,10 @@
 
 #include <string>
 #include <stdexcept>
-#include "State.h"
+#include <State.h>
 
 #define INCLUDE_SDL
-#include "SDL_Include.h"
+#include <SDL_Include.h>
 
 namespace penguin {
 

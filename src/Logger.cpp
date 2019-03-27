@@ -1,4 +1,4 @@
-#include "Logger.h"
+#include <Logger.h>
 #include <iostream>
 #include <string>
 
@@ -14,21 +14,12 @@ namespace penguin {
 
     Logger* Logger::instance;
 
-    bool Logger::logInfoEnabled;
-
-    bool Logger::logWarningEnabled;
-
-    bool Logger::logErrorEnabled;
-
     Logger::Logger(std::string filename) {
         if (this->instance != nullptr) {
             throw std::runtime_error("There should be only one instance!");
         }
 
         this->instance = this;
-        this->logInfoEnabled = true;
-        this->logWarningEnabled = true;
-        this->logErrorEnabled = true;
 
         // TODO: open file
     }
@@ -54,10 +45,12 @@ namespace penguin {
         return Logger::instance = new Logger(filename);
     }
 
-    void Logger::Error(std::string msg, int type) {
-        auto logger = Logger::GetInstance();
+    void Logger::Init (std::string filename) {
+        (void)GetInstance(filename);
+    }
 
-        if (logger->logInfoEnabled) {
+    void Logger::Error(const std::string &msg, int type) {
+        #ifdef LOG_ERROR
             std::cout << RED << "\n";
             if (type == 0 || type == 2) {
                 std::cout << "> [error]: ";    
@@ -69,13 +62,15 @@ namespace penguin {
                 std::cout << "\n\n";
             }
             std::cout << RESET;
-        }
+        #else
+            // Avoid warnings
+            (void)msg;
+            (void)type;
+        #endif
     }
 
-    void Logger::Info(std::string msg, int type) {
-        auto logger = Logger::GetInstance();
-
-        if (logger->logInfoEnabled) {
+    void Logger::Info(const std::string &msg, int type) {
+        #ifdef LOG_INFO
             if (type == 0 || type == 2) {
                 std::cout << "> [info]: ";    
             }
@@ -85,13 +80,15 @@ namespace penguin {
             if (type == 0 || type == 1) {
                 std::cout << "\n";
             }
-        }
+        #else
+            // Avoid warnings
+            (void)msg;
+            (void)type;
+        #endif
     }
 
-    void Logger::Warning(std::string msg, int type) {
-        auto logger = Logger::GetInstance();
-        
-        if (logger->logWarningEnabled) {
+    void Logger::Warning(const std::string &msg, int type) {
+        #ifdef LOG_WARN
             std::cout << YELLOW;
             if (type == 0 || type == 2) {
                 std::cout << "> [warn]: ";    
@@ -103,6 +100,10 @@ namespace penguin {
                 std::cout << "\n";
             }
             std::cout << RESET;
-        }
+        #else
+            // Avoid warnings
+            (void)msg;
+            (void)type;
+        #endif
     }
 }

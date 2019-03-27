@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Sprite.h"
-#include "Music.h"
+#include <Sprite.h>
+#include <Music.h>
 
 namespace penguin {
 

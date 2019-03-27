@@ -4,7 +4,7 @@
 
 #define INCLUDE_SDL
 #define INCLUDE_SDL_MIXER
-#include "SDL_Include.h"
+#include <SDL_Include.h>
 
 namespace penguin {
 

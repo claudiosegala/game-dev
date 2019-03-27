@@ -2,11 +2,10 @@
 #define INCLUDE_SDL_IMAGE
 #define INCLUDE_SDL_MIXER
 #define INCLUDE_SDL_TTF
-#include "SDL_Include.h"
-
-#include <iostream>
-#include "Game.h"
-#include "Logger.h"
+#include <SDL_Include.h>
+#include <Game.h>
+#include <Logger.h>
+#include <Util.h>
 
 void test () {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
@@ -46,7 +45,10 @@ void test () {
 
 int main(int argc, char** argv)
 {
-    auto logger = penguin::Logger::GetInstance("pinguin_log.txt");    
+    UNUSED(argc);
+    UNUSED(argv);
+
+    penguin::Logger::Init("pinguin_log.txt");    
     
     auto g = penguin::Game::GetInstance();
 
