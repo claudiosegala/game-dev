@@ -8,7 +8,7 @@ namespace penguin {
         this->music = nullptr;
     }
 
-    Music::Music(std::string file) {
+    Music::Music(const std::string &file) {
         Open(file);
     }
 
@@ -44,7 +44,7 @@ namespace penguin {
         }
     }
 
-    void Music::Open(std::string file) {
+    void Music::Open(const std::string &file) {
         Logger::Info("Loading Music...", 2);
         this->music = Mix_LoadMUS(file.c_str());
 

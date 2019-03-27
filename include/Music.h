@@ -13,7 +13,7 @@ namespace penguin {
 
         Music();
 
-        Music(std::string);
+        Music(const std::string&);
 
         ~Music();
 
@@ -21,7 +21,7 @@ namespace penguin {
 
         void Stop(int msToStop = 1500);
 
-        void Open(std::string);
+        void Open(const std::string&);
 
         bool IsOpen();
 

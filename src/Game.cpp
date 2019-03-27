@@ -11,7 +11,7 @@ namespace penguin {
 
     Game* Game::instance;
 
-    Game::Game(std::string title, int width, int height) {
+    Game::Game(const std::string &title, int width, int height) {
         if (this->instance != nullptr) {
             throw std::runtime_error("There should be only one instance!");
         }
@@ -116,7 +116,7 @@ namespace penguin {
         }
     }
 
-    void Game::Init_WDW (std::string title, int width, int height) {
+    void Game::Init_WDW (const std::string &title, int width, int height) {
         auto pos = SDL_WINDOWPOS_CENTERED;
         uint32_t flags = 0;
         

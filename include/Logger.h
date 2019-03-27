@@ -11,9 +11,9 @@ namespace penguin {
 
         static Logger* GetInstance();
 
-        static Logger* GetInstance(std::string);
+        static Logger* GetInstance(const std::string&);
 
-        static void Init(std::string);
+        static void Init(const std::string&);
 
         static void Error(const std::string&, int type = 0);
 
@@ -25,7 +25,7 @@ namespace penguin {
 
         static Logger* instance;
 
-        Logger(std::string);
+        Logger(const std::string&);
     };
 
 }

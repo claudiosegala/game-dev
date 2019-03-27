@@ -32,7 +32,7 @@ namespace penguin {
 
         static Game* instance;
 
-        Game(std::string, int, int);
+        Game(const std::string&, int, int);
 
         void Init_SDL();
 
@@ -40,7 +40,7 @@ namespace penguin {
 
         void Init_MIX();
 
-        void Init_WDW(std::string, int, int);
+        void Init_WDW(const std::string&, int, int);
 
         void Init_RDR();
 

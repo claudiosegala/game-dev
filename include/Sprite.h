@@ -12,11 +12,11 @@ namespace penguin {
 
         Sprite();
 
-        Sprite(std::string);
+        Sprite(const std::string&);
 
         ~Sprite();
 
-        void Open (std::string);
+        void Open (const std::string&);
 
         void SetClip (int, int, int, int);
 

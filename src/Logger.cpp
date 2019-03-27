@@ -14,7 +14,7 @@ namespace penguin {
 
     Logger* Logger::instance;
 
-    Logger::Logger(std::string filename) {
+    Logger::Logger(const std::string &filename) {
         if (this->instance != nullptr) {
             throw std::runtime_error("There should be only one instance!");
         }
@@ -37,7 +37,7 @@ namespace penguin {
         return Logger::instance;
     }
 
-    Logger* Logger::GetInstance (std::string filename) {
+    Logger* Logger::GetInstance (const std::string &filename) {
         if (Logger::instance != nullptr) {
             return Logger::instance;
         }
@@ -45,7 +45,7 @@ namespace penguin {
         return Logger::instance = new Logger(filename);
     }
 
-    void Logger::Init (std::string filename) {
+    void Logger::Init (const std::string &filename) {
         (void)GetInstance(filename);
     }
 

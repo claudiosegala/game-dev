@@ -12,7 +12,7 @@ namespace penguin {
         this->texture = nullptr;
     }
 
-    Sprite::Sprite(std::string file) {
+    Sprite::Sprite(const std::string &file) {
         this->texture = nullptr;
 
         Open(file);
@@ -24,7 +24,7 @@ namespace penguin {
         Logger::Info("Done", 1);
     }
 
-    void Sprite::Open (std::string file) {
+    void Sprite::Open (const std::string &file) {
         if (this->texture != nullptr) {
             SDL_DestroyTexture(this->texture);
         }
