@@ -6,7 +6,7 @@ RUN = ./
 
 DEP_FLAGS = -MT $@ -MMD -MP -MF $(DEP_PATH)/$*.d
 
-DIRECTIVES = -std=c++11 -Wall -Wextra -pedantic -std=c++11 -O3 -Wshadow -Wformat=2 -Wfloat-equal -Wconversion -Wshift-overflow  -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=address -fsanitize=undefined -fno-sanitize-recover=all -fstack-protector -c -I $(HEADER_PATH)
+DIRECTIVES = -std=c++11 -Wall -Wextra -pedantic -std=c++11 -O3 -Wshadow -Wformat=2 -Wfloat-equal -Wconversion -Wshift-overflow  -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -c -I $(HEADER_PATH)
 
 LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 
@@ -55,7 +55,7 @@ endif
 all: $(EXEC)
 
 $(EXEC): $(OBJ_FILES)
-	$(CC) -o $@ $^ $(LIBS)  -fsanitize=address -fsanitize=undefined -fno-sanitize-recover=all -fstack-protector
+	$(CC) -o $@ $^ $(LIBS)
 
 $(BIN_PATH)/%.o: $(SRC_PATH)/%.cpp
 

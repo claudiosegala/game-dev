@@ -16,8 +16,8 @@ namespace penguin {
     }
 
     void State::LoadAssets () {
-        this->bg.Open("/assets/img/ocean.jpg");
-        this->music.Open("/assets/audio/stageState.ogg");
+        this->bg.Open("assets/img/ocean.jpg");
+        this->music.Open("assets/audio/stageState.ogg");
     }
 
     void State::Update (float dt) {
