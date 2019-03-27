@@ -55,7 +55,7 @@ endif
 all: $(EXEC)
 
 $(EXEC): $(OBJ_FILES)
-	$(CC) -o $@ $^ $(LIBS)  -fsanitize=address
+	$(CC) -o $@ $^ $(LIBS)  -fsanitize=address -fsanitize=undefined -fno-sanitize-recover=all -fstack-protector
 
 $(BIN_PATH)/%.o: $(SRC_PATH)/%.cpp
 
