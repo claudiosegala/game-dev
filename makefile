@@ -1,36 +1,3 @@
-# CC=g++
-# EXECNAME = game.out
-# SRCDIR = src
-# INCDIR = include
-# BINDIR = bin
-# OBJDIR = object
-# RESDIR = resources
-# LFLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
-# CFLAGS = -Wall -Wextra -pedantic -std=c++11 -O3 -Wshadow -Wformat=2 -Wfloat-equal -Wconversion -Wlogical-op -Wshift-overflow=2 -Wduplicated-cond -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fsanitize=address -fsanitize=undefined -fno-sanitize-recover=all -fstack-protector
-
-# BIN = $(BINDIR)/$(EXECNAME)
-# SRC = $(wildcard $(SRCDIR)/*.cpp)
-# OBJ = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRC))
-
-# all: $(OBJ)
-# 	$(CC) $(OBJ) $(LFLAGS)  $(CFLAGS) -o $(EXECNAME) -g -ggdb
-
-# %.o: $(patsubst $(OBJDIR)/%.o, $(SRCDIR)/%.cpp, $@)
-# 	$(CC) -c $(CFLAGS) $(patsubst $(OBJDIR)/%.o, $(SRCDIR)/%.cpp, $@) -o $@ -g -ggdb
-
-# run: all
-# 	./game.out
-
-# clean:
-# 	rm -f $(OBJ) *~
-
-# config:
-# 	brew install sdl2
-# 	brew install sdl2_image
-# 	brew install sdl2_mixer
-# 	brew install sdl2_ttf
-
-
 CC = g++
 RMDIR = rm -rf
 RM = rm -f
@@ -75,6 +42,14 @@ UNAME_S := $(shell uname -s)
 # ifeq ($(UNAME_S), Darwin)
 # LIBS = -lm -framework SDL2 -framework SDL2_image -framework SDL2_mixer -framework SDL2_ttf
 # endif
+
+# LFLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+
+# config:
+# 	brew install sdl2
+# 	brew install sdl2_image
+# 	brew install sdl2_mixer
+# 	brew install sdl2_ttf
 endif
 
 all: $(EXEC)
@@ -95,7 +70,7 @@ endif
 
 print-% : ; @echo $* = $($*)
 
-debug: DIRECTIVES += -ggdb -O0 -DDEBUG
+debug: DIRECTIVES += -ggdb -O0 -DDEBUG -DLOG_WARN -DLOG_INFO -DLOG_ERROR
 debug: all
 
 dev: debug run
