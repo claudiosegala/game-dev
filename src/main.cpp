@@ -12,12 +12,16 @@ int main(int argc, char** argv)
     UNUSED(argc);
     UNUSED(argv);
 
-    penguin::Logger::Init("pinguin_log.txt");    
+    try {
+        penguin::Logger::Init("pinguin_log.txt");    
     
-    auto g = penguin::Game::GetInstance();
+        auto g = penguin::Game::GetInstance();
 
-    g->Run();
-    g->~Game();
+        g->Run();
+        g->~Game();
+    } catch (std::exception e) {
+        penguin::Logger::Error(e.what());
+    }
 
     return 0;
 }
