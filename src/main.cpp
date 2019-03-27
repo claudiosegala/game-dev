@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include "Game.h"
+#include "Logger.h"
 
 void test () {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
@@ -45,13 +46,12 @@ void test () {
 
 int main(int argc, char** argv)
 {
-    std::cout << "Loading Game" << std::endl;
+    auto logger = penguin::Logger::GetInstance("pinguin_log.txt");    
     
     auto g = penguin::Game::GetInstance();
-    
-    std::cout << "Starting Game" << std::endl;
 
     g->Run();
+    g->~Game();
 
     return 0;
 }

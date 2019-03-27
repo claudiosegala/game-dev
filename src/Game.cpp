@@ -1,5 +1,7 @@
 #include "Game.h"
+#include "Logger.h"
 #include <iostream>
+#include <string>
 
 #define INCLUDE_SDL_IMAGE
 #define INCLUDE_SDL_MIXER
@@ -10,7 +12,6 @@ namespace penguin {
     Game* Game::instance;
 
     Game::Game(std::string title, int width, int height) {
-        // Init Instance
         if (this->instance != nullptr) {
             throw std::runtime_error("There should be only one instance!");
         }
@@ -23,29 +24,42 @@ namespace penguin {
         Init_WDW(title, width, height);
         Init_RDR();
         Init_STS();
+
+        Logger::Info("Created the game instance");
     }
 
     Game::~Game() {
-        std::cout << "Destroying renderer" << std::endl;
+        delete this->state;
+        Logger::Info("Destroying State...Done");
+
+        Logger::Info("Destroying Renderer...", 2);
         SDL_DestroyRenderer(this->renderer);
+        Logger::Info("Done", 1);
         
-        std::cout << "Destroying window" << std::endl;
+        Logger::Info("Destroying Window...", 2);
         SDL_DestroyWindow(this->window);
+        Logger::Info("Done", 1);
         
-        std::cout << "Quiting SDL Mix Audio" << std::endl;
+        Logger::Info("Quiting SDL Mix Audio...", 2);
         Mix_CloseAudio();
+        Logger::Info("Done", 1);
         
-        std::cout << "Quiting SDL Mixer" << std::endl;
+        Logger::Info("Quiting SDL Mixer...", 2);
         Mix_Quit();
+        Logger::Info("Done", 1);
         
-        std::cout << "Quiting SDL Image" << std::endl;
+        Logger::Info("Quiting SDL Image...", 2);
         IMG_Quit();
+        Logger::Info("Done", 1);
         
-        std::cout << "Quiting SDL" << std::endl;
+        Logger::Info("Quiting SDL...", 2);
         SDL_Quit();
+        Logger::Info("Done", 1);
     }
 
     void Game::Run() {
+        Logger::Info("Started Game");
+
         while(!this->state->QuitRequested()) {
             this->state->Update(1.0); // TODO: change this argument
             this->state->Render();
@@ -53,6 +67,8 @@ namespace penguin {
             SDL_RenderPresent(this->renderer);
             SDL_Delay(33);
         }
+
+        Logger::Info("Ended Game");
     }
 
     Game* Game::GetInstance () {
@@ -60,7 +76,6 @@ namespace penguin {
             return Game::instance;
         }
         
-        std::cout << "Creating the game instance" << std::endl;
         return Game::instance = new Game("ClaudioSegala_150032552", 1024, 600);
     }
 
@@ -90,13 +105,14 @@ namespace penguin {
             SDL_RENDERER_ACCELERATED
         );
         
-        std::cout << "Create renderer" << std::endl;
-
+        Logger::Info("Creating Renderer...", 2);
         this->renderer = SDL_CreateRenderer(this->window, index, flags);
 
         if (this->renderer == nullptr) {
             SDL_GetNumRenderDrivers();
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
     }
 
@@ -104,12 +120,13 @@ namespace penguin {
         auto pos = SDL_WINDOWPOS_CENTERED;
         uint32_t flags = 0;
         
-        std::cout << "Creating window" << std::endl;
-
+        Logger::Info("Creating Window...", 2);
         this->window = SDL_CreateWindow(title.c_str(), (int) pos, (int) pos, width, height, flags);
 
         if (this->window == nullptr) {
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
     }
 
@@ -127,28 +144,31 @@ namespace penguin {
             MIX_INIT_OGG
         );
         
-        std::cout << "Initing mixer" << std::endl;
-
+        Logger::Info("Initing Mixer...", 2);
         auto res = Mix_Init(flags);
 
         if (res != flags) {
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
-        
-        std::cout << "Configuring audio" << std::endl;
 
+        Logger::Info("Configuring Audio...", 2);
         res = Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 
         if (res < 0) {
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
         
-        std::cout << "Allocating channels" << std::endl;
-
+        Logger::Info("Allocating Channels...", 2);
         res = Mix_AllocateChannels(32);
 
         if (res < 0) {
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
     }
 
@@ -164,12 +184,13 @@ namespace penguin {
             IMG_INIT_PNG
         );
         
-        std::cout << "Initing SDL Image" << std::endl;
-
+        Logger::Info("Initing SDL Image...", 2);
         auto res = IMG_Init(flags);
 
         if (res != flags) {
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
     }
 
@@ -192,12 +213,13 @@ namespace penguin {
             SDL_INIT_TIMER
         );
         
-        std::cout << "Initing SDL" << std::endl;
-
+        Logger::Info("Initing SDL...", 2);
         auto err = SDL_Init(flags);
 
         if (err < 0) {
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
     }
 

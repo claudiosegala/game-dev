@@ -1,4 +1,5 @@
 #include "Music.h"
+#include "Logger.h"
 #include <iostream>
 
 namespace penguin {
@@ -12,8 +13,9 @@ namespace penguin {
     }
 
     Music::~Music() {
-        std::cout << "Destroying music" << std::endl;
+        Logger::Info("Destroying Music...", 2);
         Mix_FreeMusic(this->music);
+        Logger::Info("Done", 1);
     }
 
     void Music::Play(int times) {
@@ -21,31 +23,35 @@ namespace penguin {
             return;
         }
 
-        std::cout << "Playing music" << std::endl;
-        
+        Logger::Info("Start Playing Music...", 2);
         auto err = Mix_PlayMusic(this->music, times);
 
         if (err < 0) {
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
     }
 
     void Music::Stop(int msToStop) {
-        std::cout << "Stoping music" << std::endl;
-        
+        Logger::Info("Fading Out Music...", 2);
         auto err = Mix_FadeOutMusic(msToStop);
 
         if (err < 0) {
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
     }
 
     void Music::Open(std::string file) {
-        std::cout << "Loading music" << std::endl;
+        Logger::Info("Loading Music...", 2);
         this->music = Mix_LoadMUS(file.c_str());
 
         if (this->music == nullptr) {
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
     }
 

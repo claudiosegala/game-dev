@@ -1,5 +1,6 @@
-#include "Game.h"
 #include "Sprite.h"
+#include "Game.h"
+#include "Logger.h"
 #include <iostream>
 
 #define INCLUDE_SDL_IMAGE
@@ -18,8 +19,9 @@ namespace penguin {
     }
 
     Sprite::~Sprite() {
-        std::cout << "Destroying Texture" << std::endl;
+        Logger::Info("Destroying Texture...", 2);
         SDL_DestroyTexture(this->texture);
+        Logger::Info("Done", 1);
     }
 
     void Sprite::Open (std::string file) {
@@ -29,20 +31,22 @@ namespace penguin {
 
         auto g = Game::GetInstance();
 
-        std::cout << "Loading Texture" << std::endl;
-        
+        Logger::Info("Loading Texture...", 2);
         this->texture = IMG_LoadTexture(g->GetRenderer(), file.c_str());
 
         if (this->texture == nullptr) {
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
         
-        std::cout << "Querying the texture" << std::endl
-
+        Logger::Info("Querying Texture...", 2);
         auto query = SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
 
         if (query < 0) {
             SDL_Error();
+        } else {
+            Logger::Info("Done", 1);
         }
 
         SetClip(0, 0, this->width, this->height);
@@ -58,9 +62,9 @@ namespace penguin {
 
         SDL_Rect dstRect{ x, y, this->clipRect.w, this->clipRect.h };
 
-        std::cout << "Rendering a copy" << std::endl;
-        
+        Logger::Info("Rendering Copy...", 2);
         SDL_RenderCopy(g->GetRenderer(), this->texture, &srcRect, &dstRect);
+        Logger::Info("Done", 1);
     }
 
     int Sprite::GetWidth() {
