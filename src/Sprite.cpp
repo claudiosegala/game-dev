@@ -1,10 +1,8 @@
+#include <SDL_Include.h>
 #include <Sprite.h>
 #include <Game.h>
 #include <Logger.h>
 #include <iostream>
-
-#define INCLUDE_SDL_IMAGE
-#include <SDL_Include.h>
 
 namespace penguin {
 

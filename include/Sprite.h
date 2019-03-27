@@ -1,9 +1,7 @@
 #pragma once
 
-#include<string>
-
-#define INCLUDE_SDL
 #include <SDL_Include.h>
+#include<string>
 
 namespace penguin {
 

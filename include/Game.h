@@ -1,11 +1,9 @@
 #pragma once
 
+#include <SDL_Include.h>
+#include <State.h>
 #include <string>
 #include <stdexcept>
-#include <State.h>
-
-#define INCLUDE_SDL
-#include <SDL_Include.h>
 
 namespace penguin {
 
