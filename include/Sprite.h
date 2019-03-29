@@ -1,11 +1,11 @@
 #pragma once
 
 #include <SDL_Include.h>
-#include<string>
+#include <string>
 
 namespace penguin {
 
-    class Sprite {
+    class Sprite : Component {
         public:
 
         Sprite();
