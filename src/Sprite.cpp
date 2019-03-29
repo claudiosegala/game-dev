@@ -54,7 +54,10 @@ namespace penguin {
         this->clipRect = {x, y, w, h};
     }
 
-    void Sprite::Render (int x, int y) {
+    void Sprite::Render () {
+        auto x = this->associated.x;
+        auto y = this->associated.y;
+        
         auto g = Game::GetInstance();
         auto srcRect = this->clipRect;
 
