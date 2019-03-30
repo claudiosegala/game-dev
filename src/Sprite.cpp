@@ -6,11 +6,11 @@
 
 namespace penguin {
 
-    Sprite::Sprite() {
+    Sprite::Sprite(GameObject& obj) : Component(obj) {
         this->texture = nullptr;
     }
 
-    Sprite::Sprite(const std::string &file) {
+    Sprite::Sprite(GameObject& obj, const std::string &file)  : Component(obj) {
         this->texture = nullptr;
 
         Open(file);
@@ -41,6 +41,9 @@ namespace penguin {
         Logger::Info("Querying Texture...", 2);
         auto query = SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
 
+        Point dl(0, 0), ur(this->width, this->heigth);
+        this->associated.box = Rectangle(dl, ur);
+
         if (query < 0) {
             SDL_Error();
         } else {
@@ -54,9 +57,13 @@ namespace penguin {
         this->clipRect = {x, y, w, h};
     }
 
+    void Update () {}
+
     void Sprite::Render () {
-        auto x = this->associated.x;
-        auto y = this->associated.y;
+        // TODO: See if this is correct
+        
+        auto x = this->associated.box.x;
+        auto y = this->associated.box.y;        
         
         auto g = Game::GetInstance();
         auto srcRect = this->clipRect;
@@ -66,6 +73,10 @@ namespace penguin {
         Logger::Info("Rendering Copy...", 2);
         SDL_RenderCopy(g->GetRenderer(), this->texture, &srcRect, &dstRect);
         Logger::Info("Done", 1);
+    }
+
+    bool Is (std::string type) {
+        return type == "Sprite";
     }
 
     int Sprite::GetWidth() {

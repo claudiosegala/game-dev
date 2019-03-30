@@ -5,12 +5,12 @@
 
 namespace penguin {
 
-    class Sprite : Component {
+    class Sprite : public Component {
         public:
 
-        Sprite();
+        Sprite(GameObject& associated);
 
-        Sprite(const std::string&);
+        Sprite(GameObject& associated, const std::string&);
 
         ~Sprite();
 
@@ -18,7 +18,11 @@ namespace penguin {
 
         void SetClip (int, int, int, int);
 
-        void Render (int, int);
+        void Update();
+
+        void Render();
+
+        bool Is(std::string);
 
         int GetWidth();
 
