@@ -2,6 +2,8 @@
 
 #include <Sprite.h>
 #include <Music.h>
+#include <GameObject.h>
+#include <memory>
 
 namespace penguin {
 
@@ -22,11 +24,17 @@ namespace penguin {
 
         private:
 
+        bool quitRequested;
+
         Sprite bg;
 
         Music music;
 
-        bool quitRequested;
+        std::vector<std::unique_ptr<GameObject>> objects;
+
+        void Input();
+
+        void AddObject(int, int);
     };
 
 }
