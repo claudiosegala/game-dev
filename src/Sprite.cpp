@@ -42,8 +42,8 @@ namespace penguin {
         Logger::Info("Querying Texture...", 2);
         auto query = SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
 
-        Point dl(0, 0), ur(this->width, this->heigth);
-        this->associated.box = Rectangle(dl, ur);
+        Point P;
+        this->associated.box = Rectangle(P, this->width, this->height);
 
         if (query < 0) {
             auto sdl_msg = SDL_GetError();
@@ -61,11 +61,11 @@ namespace penguin {
 
     void Update () {}
 
+    // TODO: See if this is correct
     void Sprite::Render () {
-        // TODO: See if this is correct
-        
-        auto x = this->associated.box.x;
-        auto y = this->associated.box.y;        
+        auto v = this->associated.box.vector;
+        auto x = v.x;
+        auto y = v.y;        
         
         auto g = Game::GetInstance();
         auto srcRect = this->clipRect;
