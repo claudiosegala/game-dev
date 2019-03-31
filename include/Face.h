@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Component.h"
-#include "GameObject.h"
+#include <Component.h>
+#include <GameObject.h>
 #include <string>
 
 namespace penguin {

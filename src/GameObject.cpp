@@ -1,7 +1,7 @@
-#include "GameObject.h"
-#include "Component.h"
-#include "Rectangle.h"
-
+#include <GameObject.h>
+#include <Component.h>
+#include <Rectangle.h>
+#include <Logger.h>
 #include <vector>
 #include <string>
 #include <algorithm>

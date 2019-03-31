@@ -1,5 +1,6 @@
-#include "Component.h"
-#include "GameObject.h"
+#include <Component.h>
+#include <GameObject.h>
+#include <Logger.h>
 
 namespace penguin {
 

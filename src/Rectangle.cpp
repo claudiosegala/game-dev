@@ -1,6 +1,7 @@
 #include <Rectangle.h>
 #include <Vector.h>
 #include <Point.h>
+#include <Logger.h>
 #include <tuple>
 
 namespace penguin {

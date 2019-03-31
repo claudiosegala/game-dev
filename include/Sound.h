@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GameObject.h"
-#include "SDL_Include.h"
+#include <GameObject.h>
+#include <SDL_Include.h>
 
 // TODO: add logs
 

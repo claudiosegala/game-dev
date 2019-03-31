@@ -1,7 +1,8 @@
-#include "Face.h"
-#include "Component.h"
-#include "GameObject.h"
-#include "Sound.h"
+#include <Face.h>
+#include <Component.h>
+#include <GameObject.h>
+#include <Sound.h>
+#include <Logger.h>
 
 namespace penguin {
 

@@ -1,6 +1,6 @@
 #include <Vector.h>
 #include <Point.h>
-
+#include <Logger.h>
 #include <cmath>
 
 namespace penguin {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Component.h"
-#include "Rectangle.h"
+#include <Component.h>
+#include <Rectangle.h>
 #include <vector>
 #include <string>
 
