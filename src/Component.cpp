@@ -3,10 +3,6 @@
 
 namespace penguin {
 
-    Component::Component(GameObject& obj) {
-        this->associated = obj;
-    }
-
-    Component::~Component() {}
+    Component::Component(GameObject& obj) : associated(obj) {}
 
 }
