@@ -7,25 +7,31 @@ namespace penguin {
 
     Face::Face(GameObject& obj) : Component(obj) {
         this->hitpoints = 30; // 30HP
+
+        Logger::Info("Created a face");
     }
 
     void Face::Damage(int damage) {
-        this->hitpoints -= damage;
+        Logger::Info("Face took " + std::to_string(damage) + " damage");
+
+        this->hitpoints -= damage;        
 
         if (this->hitpoints <= 0) {
-            auto associatedSound = this->associated.GetComponent("Sound");
+            Logger::Info("Face died");
+            auto component = this->associated.GetComponent("Sound");
 
-            this->associated.RequestDelete();
-
-            if (associatedSound != nullptr) {
-                auto sound = static_cast<Sound*>(associatedSound);
-
+            if (component != nullptr) {
+                auto sound = static_cast<Sound*>(component);
                 sound->Play();
+            } else {
+                Logger::Error("Could not find the sound in Face");
             }
+
+            this->associated.RequestDelete();            
         }
     }
 
-    void Face::Update(float) {}
+    void Face::Update(float dt) {}
 
     void Face::Render() {}
 
