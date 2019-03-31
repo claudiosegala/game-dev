@@ -26,8 +26,6 @@ namespace penguin {
 
         Mix_Music* music;
 
-        void SDL_Error();
-
     };
 
 }

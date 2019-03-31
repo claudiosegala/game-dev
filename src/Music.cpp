@@ -14,7 +14,10 @@ namespace penguin {
 
     Music::~Music() {
         Logger::Info("Destroying Music...", 2);
+
         Mix_FreeMusic(this->music);
+        this->music = nullptr;
+
         Logger::Info("Done", 1);
     }
 
@@ -27,7 +30,8 @@ namespace penguin {
         auto err = Mix_PlayMusic(this->music, times);
 
         if (err < 0) {
-            SDL_Error();
+            auto mix_msg = Mix_GetError();
+            throw std::runtime_error(mix_msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -37,8 +41,9 @@ namespace penguin {
         Logger::Info("Fading Out Music...", 2);
         auto err = Mix_FadeOutMusic(msToStop);
 
-        if (err < 0) {
-            SDL_Error();
+        if (err != 1) {
+            auto mix_msg = Mix_GetError();
+            throw std::runtime_error(mix_msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -49,7 +54,8 @@ namespace penguin {
         this->music = Mix_LoadMUS(file.c_str());
 
         if (this->music == nullptr) {
-            SDL_Error();
+            auto mix_msg = Mix_GetError();
+            throw std::runtime_error(mix_msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -57,11 +63,6 @@ namespace penguin {
 
     bool Music::IsOpen() {
         return (this->music != nullptr);
-    }
-
-    void Music::SDL_Error () {
-        auto sdl_msg = SDL_GetError();
-        throw std::runtime_error(sdl_msg);
     }
 
 }

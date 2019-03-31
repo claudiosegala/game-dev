@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "SDL_Include.h"
 
-// TODO: check if I have done a good job with all the destructors
+// TODO: add logs
 
 namespace penguin {
 

@@ -42,7 +42,8 @@ namespace penguin {
         Logger::Info("Done", 1);
         
         Logger::Info("Quiting SDL Mixer...", 2);
-        Mix_Quit();
+        // That is the only way to make sure of quitting accordingly to documentation
+        while(Mix_Init(0)) Mix_Quit();
         Logger::Info("Done", 1);
         
         Logger::Info("Quiting SDL Image...", 2);
@@ -107,7 +108,9 @@ namespace penguin {
 
         if (this->renderer == nullptr) {
             SDL_GetNumRenderDrivers();
-            SDL_Error();
+
+            auto sdl_msg = SDL_GetError();
+            throw std::runtime_error(sdl_msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -121,7 +124,8 @@ namespace penguin {
         this->window = SDL_CreateWindow(title.c_str(), (int) pos, (int) pos, width, height, flags);
 
         if (this->window == nullptr) {
-            SDL_Error();
+            auto sdl_msg = SDL_GetError();
+            throw std::runtime_error(sdl_msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -144,8 +148,9 @@ namespace penguin {
         Logger::Info("Initing Mixer...", 2);
         auto res = Mix_Init(flags);
 
-        if (res != flags) {
-            SDL_Error();
+        if (res&flags != flags) {
+            auto mix_msg = Mix_GetError();
+            throw std::runtime_error(mix_msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -154,7 +159,8 @@ namespace penguin {
         res = Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 
         if (res < 0) {
-            SDL_Error();
+            auto mix_msg = Mix_GetError();
+            throw std::runtime_error(mix_msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -163,7 +169,8 @@ namespace penguin {
         res = Mix_AllocateChannels(32);
 
         if (res < 0) {
-            SDL_Error();
+            auto mix_msg = Mix_GetError();
+            throw std::runtime_error(mix_msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -185,7 +192,8 @@ namespace penguin {
         auto res = IMG_Init(flags);
 
         if (res != flags) {
-            SDL_Error();
+            auto mix_msg = IMG_GetError();
+            throw std::runtime_error(mix_msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -214,14 +222,11 @@ namespace penguin {
         auto err = SDL_Init(flags);
 
         if (err < 0) {
-            SDL_Error();
+            auto sdl_msg = SDL_GetError();
+            throw std::runtime_error(sdl_msg);
         } else {
             Logger::Info("Done", 1);
         }
     }
-
-    void Game::SDL_Error () {
-        auto sdl_msg = SDL_GetError();
-        throw std::runtime_error(sdl_msg);
-    }
+    
 }

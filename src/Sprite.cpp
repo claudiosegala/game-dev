@@ -33,7 +33,8 @@ namespace penguin {
         this->texture = IMG_LoadTexture(g->GetRenderer(), file.c_str());
 
         if (this->texture == nullptr) {
-            SDL_Error();
+            auto sdl_msg = IMG_GetError();
+            throw std::runtime_error(sdl_msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -45,7 +46,8 @@ namespace penguin {
         this->associated.box = Rectangle(dl, ur);
 
         if (query < 0) {
-            SDL_Error();
+            auto sdl_msg = SDL_GetError();
+            throw std::runtime_error(sdl_msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -89,11 +91,6 @@ namespace penguin {
 
     bool Sprite::IsOpen() {
         return (this->texture != nullptr);
-    }
-
-    void Sprite::SDL_Error() {
-        auto sdl_msg = SDL_GetError();
-        throw std::runtime_error(sdl_msg);
     }
 
 }

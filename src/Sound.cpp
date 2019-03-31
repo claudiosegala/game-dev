@@ -16,20 +16,22 @@ namespace penguin {
             Stop();
 
             Mix_FreeChunk(this->chunk);
-            // TODO: implementar chamada de erro sdl
+            this->chunk = nullptr;
         }
     }
 
     void Sound::Play(int times) {
         this->channel = Mix_PlayChannel(-1, this->chunk, times);
 
-        // TODO: implementar chamada de erro sdl
+        if (this->channel < 0) {
+            auto mix_msg = Mix_GetError();
+            throw std::runtime_error(mix_msg);
+        }
     }
 
     void Sound::Stop() {
         if (this->chunk != nullptr) {
             Mix_HaltChannel(this->channel);
-            // implementar chamada de erro SDl
         }
     }
 
@@ -37,12 +39,13 @@ namespace penguin {
         this->chunk = Mix_LoadWAV(filename);
 
         if (this->chunk == nullptr) {
-            // TODO: implement sdl error
+            auto mix_msg = Mix_GetError();
+            throw std::runtime_error(mix_msg);
         }
     }
 
     bool Sound::IsOpen() {
-        return (this->chunk == nullptr);
+        return this->chunk == nullptr;
     }
 
     void Sound::Update(float dt) {}

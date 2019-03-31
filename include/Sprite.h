@@ -40,8 +40,6 @@ namespace penguin {
 
         SDL_Rect clipRect;
 
-        void SDL_Error();
-
     };
 
 }

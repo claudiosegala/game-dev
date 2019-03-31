@@ -1,6 +1,7 @@
 #include "Face.h"
 #include "Component.h"
 #include "GameObject.h"
+#include "Sound.h"
 
 namespace penguin {
 
@@ -17,8 +18,9 @@ namespace penguin {
             this->associated.RequestDelete();
 
             if (associatedSound != nullptr) {
-                // TODO: how do I give play???
-                associatedSound->Play();
+                auto sound = static_cast<Sound*>(associatedSound);
+
+                sound->Play();
             }
         }
     }

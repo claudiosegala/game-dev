@@ -44,7 +44,6 @@ namespace penguin {
 
         void Init_STS();
 
-        void SDL_Error();
     };
 
 }
