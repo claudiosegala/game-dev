@@ -5,13 +5,15 @@ namespace penguin {
 
     #define EPS 0.00001
 
+    Point::Point() : x(0.0), y(0.0) {}
+
     Point::Point(double xv, double yv) : x(xv), y(yv) {}
 
     double Point::Length() const {
         return hypot(this->x, this->y);
     }
 
-    double Point::Distance(const Point& P) {
+    double Point::Distance(const Point& P) const {
         return hypot(P.x - this->x, P.y - this->y);
     }
 
@@ -38,6 +40,10 @@ namespace penguin {
         
         this->x /= len;
         this-> y /= len;
+    }
+
+    bool Point::Equal (double u, double v) const {
+        return fabs(u - v) < EPS;
     }
 
     Point Point::operator+= (const Point& P) {
@@ -82,10 +88,6 @@ namespace penguin {
 
     bool Point::operator<(const Point& P) {
         return Equal(this->x, P.x) ? this->y < P.y : this->x < P.x;
-    }
-
-    bool Point::Equal (double u, double v) {
-        return fabs(u - v) < EPS;
     }
 
 }

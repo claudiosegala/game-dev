@@ -2,6 +2,9 @@
 
 #include <Point.h>
 
+// TODO: check corretude
+// TODO: check if I should add const operators
+
 namespace penguin {
 
     class Vector : public Point {
@@ -15,13 +18,13 @@ namespace penguin {
         double Angle() const;
 
         // Angle Between This Vector And Another
-        double Angle(const Vector&);
+        double Angle(const Vector&) const;
         
         // Cross Product
         Vector operator* (const Vector&);
         
         // Dot Product
-        double operator^ (const Vector&);
+        double operator^ (const Vector&) const;
                 
     };
 

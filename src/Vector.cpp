@@ -15,7 +15,7 @@ namespace penguin {
         return atan(y / x) + (x < 0 ? PI : 0);
     }
 
-    double Vector::Angle(const Vector& V) {
+    double Vector::Angle(const Vector& V) const {
         auto lu = this->Length();
         auto lv = V.Length();
         auto ds = lu * lv;
@@ -28,7 +28,7 @@ namespace penguin {
         return Vector { this->x * V.y, this->y * V.x };
     }
 
-    double Vector::operator^ (const Vector& V) {
+    double Vector::operator^ (const Vector& V) const {
         return this->x * V.x + this->y * V.y;
     }
 

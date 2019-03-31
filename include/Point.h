@@ -1,5 +1,8 @@
 #pragma once
 
+// TODO: check corretude
+// TODO: check if I should add const operators
+
 namespace penguin {
 
     class Point {
@@ -9,11 +12,13 @@ namespace penguin {
 
         double y;
 
+        Point();
+
         Point(double, double);
 
         double Length() const;
 
-        double Distance(const Point&);
+        double Distance(const Point&) const;
 
         static double Distance(const Point&, const Point&);
 
@@ -47,7 +52,7 @@ namespace penguin {
 
         private:
 
-        bool Equal(double, double);
+        bool Equal(double, double) const;
     };
 
 }

@@ -2,25 +2,33 @@
 
 #include <Vector.h>
 #include <Point.h>
+#include <tuple>
+
+// TODO: check corretude
+// TODO: check if I should add const operators
 
 namespace penguin {
 
     class Rectangle {
         public:
 
-        // Down Left
-        Point dl;
+        Vector vector;
 
-        // Up Right
-        Point ur;
+        int width;
 
-        Rectangle(Point u, Point v);
+        int height;
+
+        Rectangle();
+
+        Rectangle(Vector, int, int);
 
         Point Center() const;
 
-        double CenterDistance(const Rectangle&);
+        double CenterDistance(const Rectangle&) const;
 
-        bool IsInside(const Point&); 
+        bool IsInside(const Point&) const;
+
+        std::tuple<Point, Point> GetPoints() const;
 
         Rectangle operator+ (const Vector&);
 
