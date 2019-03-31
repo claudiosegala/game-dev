@@ -35,31 +35,18 @@ namespace penguin {
 
         Input();
 
-        for (auto obj : this->objects) {
+        for (auto &obj : this->objects) {
             obj->Update(dt);
         }
 
-        std::vector<int> toDelete;
-
-        for (int i = 0; i < this->objects.size(); i++) {
-            auto obj = this->objects[i];
-            if (obj.IsDead()) {
-                toDelete.push_back(i);
-            }
-        }
-
-        auto b = this->objects.begin();
-        for (auto idx : toDelete) {
-            this->objects.erase(b + idx);
-        }
-
+        Clean();
     }
 
     void State::Render () {
         this->bg.Render(0, 0);
 
-        for (auto obj : this->objects) {
-            obj.Render();
+        for (auto &obj : this->objects) {
+            obj->Render();
         }
     }
 
@@ -67,10 +54,18 @@ namespace penguin {
         return this->quitRequested;
     }
 
-    void State::Input() {
+    void State::Input () {
         // O corpo dessa função está disponível no Moodle. Podem ser
         // necessários alguns ajustes nele para se adequar aos nomes de variáveis ou funções do seu código. Além disso, você pode tirar a chamada à SDL_QuitRequested em Update(), já que Input cuida de eventos de SDL_QUIT para nós.
         // ATENÇÃO: O dano só é aplicado se o GameObject tiver um componente do tipo face, caso contrário, continue procurando.
+    }
+
+    void State::Clean () {
+        auto it = std::remove_if(this->objects.begin(), this->objects.end(), f = [&] (GameObject* o) { 
+            return o.IsDead();
+        });
+
+        this->objects.erase(it, this->objects.end());
     }
 
     void State::AddObjects (int mouseX, int mouseY) {

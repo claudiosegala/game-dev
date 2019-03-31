@@ -35,6 +35,8 @@ namespace penguin {
         void Input();
 
         void AddObject(int, int);
+
+        void Clean();
     };
 
 }
