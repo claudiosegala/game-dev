@@ -9,13 +9,11 @@
 namespace penguin {
 
     GameObject::GameObject() {
-        // TODO: init rectangle
         this->isDead = false;
     }
 
     GameObject::~GameObject() {
-        // TODO: see if this is OK
-        for (auto component : this->components) {
+        for (auto &component : this->components) {
             delete component;
         }
 
@@ -23,13 +21,13 @@ namespace penguin {
     }
 
     void GameObject::Update(float dt) {
-        for (auto component : this->components) {
+        for (auto &component : this->components) {
             component->Update(dt);
         }
     }
 
     void GameObject::Render() {
-        for (auto component : this->components) {
+        for (auto &component : this->components) {
             component->Render();
         }
     }
@@ -43,30 +41,23 @@ namespace penguin {
     }
 
     void GameObject::AddComponent(Component* component) {
-        this->components.push_back(component);
+        this->components.emplace_back(component);
     }
 
     void GameObject::RemoveComponent(Component* component) {
-        auto b = this->components.begin();
-        auto e = this->components.end();
-        auto it = std::find(b, e, component);
-        auto found = (it != e);
+        auto it = std::remove_if(this->components.begin(), this->components.end(), f = [&] (Component* c) { 
+            return c == component;
+        });
 
-        if (found) {
-            delete *it;
-
-            this->components.erase(it);
-        }
+        this->components.erase(it, this->components.end());
     }
 
     Component* GameObject::GetComponent(std::string type) {
-        for (auto component : this->components) {
-            if (component->Is(type)) {
-                return component;
-            }
-        }
+        auto it = std::find_if(this->components.begin(), this->components.end(), [&] (Component* c) {
+            return c->Is(type);
+        });
 
-        return nullptr;
+        return it == this->components.end() ? nullptr : (*it);
     }
 
 }
