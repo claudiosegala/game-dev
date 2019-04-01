@@ -148,7 +148,7 @@ namespace penguin {
         Logger::Info("Initing Mixer...", 2);
         auto res = Mix_Init(flags);
 
-        if (res&flags != flags) {
+        if ((res&flags) != flags) {
             auto mix_msg = Mix_GetError();
             throw std::runtime_error(mix_msg);
         } else {
