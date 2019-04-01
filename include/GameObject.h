@@ -2,8 +2,11 @@
 
 #include <Component.h>
 #include <Rectangle.h>
+#include <Vector.h>
+#include <Point.h>
 #include <vector>
 #include <string>
+#include <memory>
 
 namespace penguin {
 
@@ -13,6 +16,8 @@ namespace penguin {
         Rectangle box;
 
         GameObject();
+
+        GameObject(Vector&, int, int);
 
         ~GameObject();
 
@@ -26,15 +31,15 @@ namespace penguin {
 
         void AddComponent(Component*);
 
-        void RemoveComponent(Component*);
+        void RemoveComponent(std::unique_ptr<Component>);
 
-        Component* GetComponent(std::string);
+        std::unique_ptr<Component> GetComponent(std::string);
 
         private:
 
         bool isDead;
 
-        std::vector<Component*> components;
+        std::vector<unique_ptr<Component>> components;
     };
 
 }

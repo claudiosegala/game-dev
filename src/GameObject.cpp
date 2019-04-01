@@ -12,11 +12,11 @@ namespace penguin {
         this->isDead = false;
     }
 
-    GameObject::~GameObject() {
-        for (auto &component : this->components) {
-            delete component;
-        }
+    GameObject::GameObject(Vector& p, int w, int h) : box(p, w, h) {
+        this->isDead = false;
+    }
 
+    GameObject::~GameObject() {
         this->components.clear();
     }
 
@@ -44,15 +44,16 @@ namespace penguin {
         this->components.emplace_back(component);
     }
 
-    void GameObject::RemoveComponent(Component* component) {
-        auto it = std::remove_if(this->components.begin(), this->components.end(), f = [&] (Component* c) { 
+    // TODO: not using... should I have used
+    void GameObject::RemoveComponent(std::unique_ptr<Component> component) {
+        auto it = std::remove_if(this->components.begin(), this->components.end(), [&] (auto const& c) { 
             return c == component;
         });
 
         this->components.erase(it, this->components.end());
     }
 
-    Component* GameObject::GetComponent(std::string type) {
+    std::unique_ptr<Component> GameObject::GetComponent(std::string type) {
         auto it = std::find_if(this->components.begin(), this->components.end(), [&] (Component* c) {
             return c->Is(type);
         });
