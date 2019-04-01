@@ -6,4 +6,6 @@ namespace penguin {
 
     Component::Component(GameObject& obj) : associated(obj) {}
 
+    Component::~Component() {}
+
 }
