@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL_Include.h>
+#include <Component.h>
 #include <string>
 
 namespace penguin {
@@ -18,7 +19,7 @@ namespace penguin {
 
         void SetClip (int, int, int, int);
 
-        void Update();
+        void Update(float);
 
         void Render();
 

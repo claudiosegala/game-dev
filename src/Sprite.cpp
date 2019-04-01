@@ -42,8 +42,8 @@ namespace penguin {
         Logger::Info("Querying Texture...", 2);
         auto query = SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
 
-        Point P;
-        this->associated.box = Rectangle(P, this->width, this->height);
+        Vector V;
+        this->associated.box = Rectangle(V, this->width, this->height);
 
         if (query < 0) {
             auto sdl_msg = SDL_GetError();
@@ -59,25 +59,26 @@ namespace penguin {
         this->clipRect = {x, y, w, h};
     }
 
-    void Update () {}
+    void Sprite::Update (float dt) {}
 
     // TODO: See if this is correct
     void Sprite::Render () {
         auto v = this->associated.box.vector;
         auto x = v.x;
-        auto y = v.y;        
+        auto y = v.y;    
         
         auto g = Game::GetInstance();
         auto srcRect = this->clipRect;
 
-        SDL_Rect dstRect{ x, y, this->clipRect.w, this->clipRect.h };
+        // TODO: check if it was suppose to do this
+        SDL_Rect dstRect{ static_cast<int>(x), static_cast<int>(y), this->clipRect.w, this->clipRect.h };
 
         Logger::Info("Rendering Copy...", 2);
         SDL_RenderCopy(g->GetRenderer(), this->texture, &srcRect, &dstRect);
         Logger::Info("Done", 1);
     }
 
-    bool Is (std::string type) {
+    bool Sprite::Is (std::string type) {
         return type == "Sprite";
     }
 

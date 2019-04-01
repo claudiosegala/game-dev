@@ -5,14 +5,11 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <memory>
 
 namespace penguin {
 
     GameObject::GameObject() {
-        this->isDead = false;
-    }
-
-    GameObject::GameObject(Vector& p, int w, int h) : box(p, w, h) {
         this->isDead = false;
     }
 
@@ -45,20 +42,25 @@ namespace penguin {
     }
 
     // TODO: not using... should I have used
-    void GameObject::RemoveComponent(std::unique_ptr<Component> component) {
-        auto it = std::remove_if(this->components.begin(), this->components.end(), [&] (auto const& c) { 
+    void GameObject::RemoveComponent(std::unique_ptr<Component>& component) {
+        auto it = std::remove_if(this->components.begin(), this->components.end(), [&] (std::unique_ptr<Component>& c) { 
             return c == component;
         });
 
         this->components.erase(it, this->components.end());
     }
 
-    std::unique_ptr<Component> GameObject::GetComponent(std::string type) {
-        auto it = std::find_if(this->components.begin(), this->components.end(), [&] (Component* c) {
+    Component* GameObject::GetComponent(std::string type) {
+        auto it = std::find_if(this->components.begin(), this->components.end(), [&] (std::unique_ptr<Component>& c) {
             return c->Is(type);
         });
 
-        return it == this->components.end() ? nullptr : (*it);
+        if (it != this->components.end()) {
+            // TODO: should I use get in this?
+            return (*it).get();
+        } else {
+            return nullptr;
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 #define UNUSED(x) (void)x
 
-#define PI 3.141592653589793
+#define PI (float) 3.141592653589793
 
 #include <algorithm>
 
