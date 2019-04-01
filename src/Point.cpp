@@ -8,21 +8,21 @@ namespace penguin {
 
     Point::Point() : x(0.0), y(0.0) {}
 
-    Point::Point(double xv, double yv) : x(xv), y(yv) {}
+    Point::Point(float xv, float yv) : x(xv), y(yv) {}
 
-    double Point::Length() const {
+    float Point::Length() const {
         return hypot(this->x, this->y);
     }
 
-    double Point::Distance(const Point& P) const {
+    float Point::Distance(const Point& P) const {
         return hypot(P.x - this->x, P.y - this->y);
     }
 
-    double Point::Distance(const Point& P, const Point& Q) {
+    float Point::Distance(const Point& P, const Point& Q) {
         return hypot(P.x - Q.x, P.y - Q.y);
     }
 
-    void Point::Rotate(double angle) {
+    void Point::Rotate(float angle) {
         auto xv = cos(angle) * this->x - sin(angle) * this->y;
         auto yv = sin(angle) * this->x + cos(angle) * this->y;
 
@@ -30,7 +30,7 @@ namespace penguin {
         this->y = yv;
     }
 
-    void Point::Rotate(double angle, const Point& C) {
+    void Point::Rotate(float angle, const Point& C) {
         (*this) -= C;
         (*this).Rotate(angle);
         (*this) += C;
@@ -43,7 +43,7 @@ namespace penguin {
         this-> y /= len;
     }
 
-    bool Point::Equal (double u, double v) const {
+    bool Point::Equal (float u, float v) const {
         return fabs(u - v) < EPS;
     }
 
@@ -67,7 +67,7 @@ namespace penguin {
         return Point { this->x * value, this->y * value };
     }
 
-    Point Point::operator* (double value) {
+    Point Point::operator* (float value) {
         return Point { this->x * value, this->y * value };
     }
 
@@ -75,7 +75,7 @@ namespace penguin {
         return Point { this->x / value, this->y / value };
     }
 
-    Point Point::operator/ (double value) {
+    Point Point::operator/ (float value) {
         return Point { this->x / value, this->y / value };
     }
 

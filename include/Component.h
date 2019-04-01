@@ -11,7 +11,7 @@ namespace penguin {
 
         virtual ~Component();
 
-        virtual void Update(double dt) = 0;
+        virtual void Update(float dt) = 0;
 
         virtual void Render() = 0;
 

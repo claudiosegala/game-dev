@@ -24,7 +24,7 @@ namespace penguin {
 
         Point Center() const;
 
-        double CenterDistance(const Rectangle&) const;
+        float CenterDistance(const Rectangle&) const;
 
         bool IsInside(const Point&) const;
 

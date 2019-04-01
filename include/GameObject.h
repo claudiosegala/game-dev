@@ -10,6 +10,8 @@
 
 namespace penguin {
 
+    class Component;
+
     class GameObject {
         public:
 
@@ -39,7 +41,7 @@ namespace penguin {
 
         bool isDead;
 
-        std::vector<unique_ptr<Component>> components;
+        std::vector<std::unique_ptr<Component>> components;
     };
 
 }

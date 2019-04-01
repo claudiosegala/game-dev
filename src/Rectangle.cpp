@@ -18,7 +18,7 @@ namespace penguin {
         return (dl + ur) / 2;
     }
 
-    double Rectangle::CenterDistance(const Rectangle& R) const {
+    float Rectangle::CenterDistance(const Rectangle& R) const {
         auto c1 = this->Center();
         auto c2 = R.Center();
 

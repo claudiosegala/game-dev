@@ -8,23 +8,23 @@ namespace penguin {
     class Point {
         public:
 
-        double x;
+        float x;
 
-        double y;
+        float y;
 
         Point();
 
-        Point(double, double);
+        Point(float, float);
 
-        double Length() const;
+        float Length() const;
 
-        double Distance(const Point&) const;
+        float Distance(const Point&) const;
 
-        static double Distance(const Point&, const Point&);
+        static float Distance(const Point&, const Point&);
 
-        void Rotate(double);
+        void Rotate(float);
 
-        void Rotate(double, const Point&);
+        void Rotate(float, const Point&);
 
         void Normalize();
 
@@ -38,11 +38,11 @@ namespace penguin {
 
         Point operator* (int);
 
-        Point operator* (double);
+        Point operator* (float);
 
         Point operator/ (int);
 
-        Point operator/ (double);
+        Point operator/ (float);
 
         Point operator= (const Point&);
 
@@ -52,7 +52,7 @@ namespace penguin {
 
         private:
 
-        bool Equal(double, double) const;
+        bool Equal(float, float) const;
     };
 
 }
