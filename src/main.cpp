@@ -6,6 +6,8 @@
 #include <Game.h>
 #include <Logger.h>
 #include <Util.h>
+#include <stdlib.h>
+#include <time.h>
 
 int main(int argc, char** argv)
 {
@@ -13,6 +15,8 @@ int main(int argc, char** argv)
     UNUSED(argv);
 
     try {
+        srand (time(NULL));
+
         penguin::Logger::Init("pinguin_log.txt");    
     
         auto g = penguin::Game::GetInstance();
