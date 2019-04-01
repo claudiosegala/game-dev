@@ -22,6 +22,8 @@ namespace penguin {
 
         Rectangle(Vector, float, float);
 
+        Rectangle(float, float, float, float);
+
         Point Center() const;
 
         float CenterDistance(const Rectangle&) const;

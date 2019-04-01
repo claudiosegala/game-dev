@@ -12,21 +12,9 @@ namespace penguin {
 
         float y;
 
-        Point();
-
-        Point(float, float);
-
-        float Length() const;
-
-        float Distance(const Point&) const;
+        Point(float xv = 0.0, float yv = 0.0);
 
         static float Distance(const Point&, const Point&);
-
-        void Rotate(float);
-
-        void Rotate(float, const Point&);
-
-        void Normalize();
 
         Point operator+= (const Point&);
 
@@ -49,10 +37,6 @@ namespace penguin {
         bool operator==(const Point&);
 
         bool operator<(const Point&);
-
-        private:
-
-        bool Equal(float, float) const;
     };
 
 }

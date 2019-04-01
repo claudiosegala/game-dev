@@ -26,8 +26,10 @@ namespace penguin {
         if (this->texture != nullptr) {
             SDL_DestroyTexture(this->texture);
         }
-
+        
         auto g = Game::GetInstance();
+
+        Logger::Info("test");
 
         Logger::Info("Loading Texture...", 2);
         this->texture = IMG_LoadTexture(g->GetRenderer(), file.c_str());
@@ -42,9 +44,6 @@ namespace penguin {
         Logger::Info("Querying Texture...", 2);
         auto query = SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
 
-        Vector V;
-        this->associated.box = Rectangle(V, this->width, this->height);
-
         if (query < 0) {
             auto sdl_msg = SDL_GetError();
             throw std::runtime_error(sdl_msg);
@@ -53,13 +52,18 @@ namespace penguin {
         }
 
         SetClip(0, 0, this->width, this->height);
+        
+        this->associated.box.width = this->width;
+        this->associated.box.height = this->height;
     }
 
     void Sprite::SetClip (int x, int y, int w, int h) {
         this->clipRect = {x, y, w, h};
     }
 
-    void Sprite::Update (float dt) {}
+    void Sprite::Update (float dt) {
+        UNUSED(dt);
+    }
 
     // TODO: See if this is correct
     void Sprite::Render () {
@@ -73,9 +77,9 @@ namespace penguin {
         // TODO: check if it was suppose to do this
         SDL_Rect dstRect{ static_cast<int>(x), static_cast<int>(y), this->clipRect.w, this->clipRect.h };
 
-        Logger::Info("Rendering Copy...", 2);
+        // Logger::Info("Rendering Copy...", 2);
         SDL_RenderCopy(g->GetRenderer(), this->texture, &srcRect, &dstRect);
-        Logger::Info("Done", 1);
+        // Logger::Info("Done", 1);
     }
 
     bool Sprite::Is (std::string type) {

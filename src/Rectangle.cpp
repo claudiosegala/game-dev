@@ -2,6 +2,7 @@
 #include <Vector.h>
 #include <Point.h>
 #include <Logger.h>
+#include <Util.h>
 #include <tuple>
 
 namespace penguin {
@@ -9,6 +10,8 @@ namespace penguin {
     Rectangle::Rectangle() : vector(), width(0), height(0) {}
 
     Rectangle::Rectangle(Vector v, float w, float h) : vector(v), width(w), height(h) {}
+
+    Rectangle::Rectangle(float x, float y, float w, float h) : vector(x, y), width(w), height(h) {};
 
     Point Rectangle::Center() const {
         Point dl, ur;
@@ -22,16 +25,12 @@ namespace penguin {
         auto c1 = this->Center();
         auto c2 = R.Center();
 
-        return c1.Distance(c2);
+        return Point::Distance(c1, c2);
     }
 
     bool Rectangle::IsInside(const Point& P) const {
-        Point dl, ur;
-
-        std::tie(dl, ur) = GetPoints();
-
-        return (P.x >= dl.x && P.x < ur.x)
-            && (P.y >= dl.y && P.y < ur.y);
+        return (P.x >= this->vector.x && P.x <= this->vector.x + this->width)
+            && (P.y >= this->vector.y && P.y <= this->vector.y + this->height);
     } 
 
     std::tuple<Point, Point> Rectangle::GetPoints() const {

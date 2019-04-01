@@ -2,6 +2,7 @@
 #include <Component.h>
 #include <GameObject.h>
 #include <Sound.h>
+#include <Util.h>
 #include <Logger.h>
 
 namespace penguin {
@@ -32,7 +33,9 @@ namespace penguin {
         }
     }
 
-    void Face::Update(float dt) {}
+    void Face::Update (float dt) {
+        UNUSED(dt);
+    }
 
     void Face::Render() {}
 

@@ -3,7 +3,6 @@
 #include <Component.h>
 #include <Rectangle.h>
 #include <Vector.h>
-#include <Point.h>
 #include <vector>
 #include <string>
 #include <memory>

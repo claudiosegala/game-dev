@@ -10,6 +10,10 @@ namespace penguin {
 
     Vector::Vector(const Point& A, const Point& B) : Point(B.x - A.x, B.y - A.y) {}
 
+     float Vector::Length() const {
+        return hypot(this->x, this->y);
+    }
+
     float Vector::Angle() const {
         return atan(y / x) + (x < 0 ? PI : 0);
     }
@@ -23,10 +27,43 @@ namespace penguin {
         return acos(prod / ds);
     }
 
-    Vector Vector::operator* (const Vector& V) {
-        return Vector { this->x * V.y, this->y * V.x };
+    void Vector::Normalize () {
+        auto len = this->Length();
+        
+        this->x /= len;
+        this-> y /= len;
     }
 
+    void Vector::Rotate(float angle) {
+        auto xv = cos(angle) * this->x - sin(angle) * this->y;
+        auto yv = sin(angle) * this->x + cos(angle) * this->y;
+
+        this->x = xv;
+        this->y = yv;
+    }
+
+    void Vector::Rotate(float angle, const Point& C) {
+        (*this) -= C;
+        (*this).Rotate(angle);
+        (*this) += C;
+    }
+
+    Vector Vector::operator= (const Point& P) {
+        this->x = P.x;
+        this->y = P.y;
+
+        return *this;
+    }
+
+    // TODO: check this
+    Vector Vector::operator* (const Vector& V) {
+        this->x *= V.y;
+        this->y *= V.x;
+
+        return *this;
+    }
+
+    // TODO: check this
     float Vector::operator^ (const Vector& V) const {
         return this->x * V.x + this->y * V.y;
     }

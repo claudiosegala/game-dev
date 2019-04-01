@@ -1,19 +1,20 @@
 #include <Sound.h>
 #include <Logger.h>
+#include <Util.h>
 #include <SDL_Include.h>
 
 namespace penguin {
 
-    Sound::Sound(GameObject& obj) : Component(obj) {
+    Sound::Sound (GameObject& obj) : Component(obj) {
         this->chunk = nullptr;
     }
 
-    Sound::Sound(GameObject& obj, std::string name) : Component(obj) {
+    Sound::Sound (GameObject& obj, std::string name) : Component(obj) {
         Open(name);
     }
 
     // TODO: check if this is correct
-    Sound::~Sound() {
+    Sound::~Sound () {
         if (this->chunk != nullptr) {
             Stop();
             Mix_FreeChunk(this->chunk);
@@ -21,7 +22,7 @@ namespace penguin {
         }
     }
 
-    void Sound::Play(int times) {
+    void Sound::Play (int times) {
         this->channel = Mix_PlayChannel(-1, this->chunk, times);
 
         if (this->channel < 0) {
@@ -32,14 +33,14 @@ namespace penguin {
         }
     }
 
-    void Sound::Stop() {
+    void Sound::Stop () {
         if (this->chunk != nullptr) {
             Mix_HaltChannel(this->channel);
             Logger::Info("Halting the channel " + std::to_string(this->channel));
         }
     }
 
-    void Sound::Open(std::string filename) {
+    void Sound::Open (std::string filename) {
         this->chunk = Mix_LoadWAV(filename.c_str());
 
         if (this->chunk == nullptr) {
@@ -50,16 +51,18 @@ namespace penguin {
         }
     }
 
-    bool Sound::IsOpen() {
+    bool Sound::IsOpen () {
         return (this->chunk == nullptr);
     }
 
-    bool Sound::Is(std::string type) {
+    bool Sound::Is (std::string type) {
         return (type == "Sound");
     }
 
-    void Sound::Update(float dt) {}
+    void Sound::Update (float dt) {
+        UNUSED(dt);
+    }
 
-    void Sound::Render() {}
+    void Sound::Render () {}
 
 }

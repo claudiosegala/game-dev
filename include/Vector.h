@@ -14,17 +14,27 @@ namespace penguin {
 
         Vector(const Point&, const Point&);
 
+        float Length() const;
+
         // Angle With Vector (0, 0)
         float Angle() const;
 
         // Angle Between This Vector And Another
         float Angle(const Vector&) const;
+
+        void Normalize();
+
+        void Rotate(float);
+
+        void Rotate(float, const Point&);
         
         // Cross Product
         Vector operator* (const Vector&);
         
         // Dot Product
         float operator^ (const Vector&) const;
+
+        Vector operator= (const Point&);
                 
     };
 

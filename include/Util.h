@@ -1,8 +1,16 @@
-#define UNUSED(x) (void)x
+#include <iostream>
+#include <cmath>
+
+#define W(x) std::cerr << "\033[31m" << #x << "=" << x << "\033[0m" << "\n";
 
 #define PI (float) 3.141592653589793
+#define TAO (float) 2.0 * PI
+#define EPS 0.00001
 
-#include <algorithm>
+#define UNUSED(x) (void)x
+#define EQUAL(x, y) fabs(x - y) < EPS
+
+// #include <algorithm>
 
 // namespace range
 // {

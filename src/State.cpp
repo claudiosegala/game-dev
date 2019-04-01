@@ -17,9 +17,9 @@ namespace penguin {
 
     State::State () {
         auto obj = new GameObject();
-        Sprite background(*obj, "assets/img/ocean.jpg");
+        auto bg  = new Sprite(*obj, "assets/img/ocean.jpg");
 
-        obj->AddComponent(&background);
+        obj->AddComponent(bg);
 
         this->quitRequested = false;
         this->music.Open("assets/audio/stageState.ogg");
@@ -46,7 +46,6 @@ namespace penguin {
             return;
         }
 
-        Logger::Info("Updating");
         for (auto &obj : this->objects) {
             obj->Update(dt);
         }
@@ -65,16 +64,12 @@ namespace penguin {
     }
 
     void State::Input () {
-        Logger::Info("Reading Input");
-
         SDL_Event event;
         int mouseX, mouseY;
 
         SDL_GetMouseState(&mouseX, &mouseY);
 
         while (SDL_PollEvent(&event)) {
-            Logger::Info("Got a event");
-
             if(event.type == SDL_QUIT) {
                 this->quitRequested = true;
             }
@@ -82,9 +77,9 @@ namespace penguin {
             if(event.type == SDL_MOUSEBUTTONDOWN) {
                 Logger::Info("Someone clicked");
                 // Get the newer object (the one that is on top of the vector) and deal the damage
-                for(auto i = this->objects.size() - 1; i >= 0; --i) {
+                for(int i = (int)this->objects.size() - 1; i >= 0; --i) {
                     auto obj = this->objects[i].get();
-
+                    
                     if(obj->box.IsInside( {(float)mouseX, (float)mouseY } ) ) {
                         auto component = obj->GetComponent("Face"); // avoid using get
                         
@@ -102,10 +97,13 @@ namespace penguin {
                 if(event.key.keysym.sym == SDLK_ESCAPE) {
                     this->quitRequested = true;
                 } else {
-                    Vector pos = Vector(200, 0);
-                    
-                    pos.Rotate(PI*(rand()/rand()));
-                    pos += Vector(mouseX, mouseY);
+                    float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX); // 0.0 to 1.0
+                    float angle = TAO * r;
+                    Vector pos(200, 0);
+                    Vector center(mouseX, mouseY);
+
+                    pos.Rotate(angle);
+                    pos += center;
 
                     AddObject((int)pos.x, (int)pos.y);
                 }
@@ -114,7 +112,7 @@ namespace penguin {
     }
 
     void State::Prune () {
-        Logger::Info("Prunning");
+        // Logger::Info("Prunning");
         auto it = std::remove_if(this->objects.begin(), this->objects.end(), [&] (std::unique_ptr<GameObject>& o) { 
             return o->IsDead();
         });
@@ -122,21 +120,22 @@ namespace penguin {
         this->objects.erase(it, this->objects.end());
     }
 
-    // TODO: verify
     void State::AddObject (int mouseX, int mouseY) {
         auto obj = new GameObject();
+        auto sound = new Sound(*obj, "assets/audio/boom.wav");
+        auto sprite = new Sprite(*obj, "assets/img/penguinface.png");
+        auto face = new Face(*obj);
 
-        obj->box = Rectangle(Vector((float)mouseX, (float)mouseY), 0.0, 0.0);
-        obj->box.vector -= obj->box.Center();
+        // Add components to the object
+        obj->AddComponent(sound);
+        obj->AddComponent(sprite);
+        obj->AddComponent(face);
 
-        Sound sound(*obj, "assets/audio/boom.wav");
-        Sprite sprite(*obj, "assets/img/penguinface.png");
-        Face face(*obj);
+        // Adjust position for the sprite
+        obj->box.vector = Point(mouseX, mouseY);
+        obj->box.vector -= Vector(obj->box.width/2, obj->box.height/2);
 
-        obj->AddComponent(&sound);
-        obj->AddComponent(&sprite);
-        obj->AddComponent(&face);
-
+        // Insert
         this->objects.emplace_back(obj);
     }
 
