@@ -1,39 +1,39 @@
 #include <State.h>
+#include <Rectangle.h>
+#include <Vector.h>
+#include <Util.h>
 #include <Logger.h>
 
 namespace penguin {
 
     State::State () {
         this->quitRequested = false;
-        
-        LoadAssets();
-        
+        this->bg.Open("assets/img/ocean.jpg");
+        this->music.Open("assets/audio/stageState.ogg");
         this->music.Play();
+
+        // TODO: come back when finishing the AddObject function
     }
 
     State::~State () {
         this->music.Stop();
-
-        // TODO: verify if this is enough, since the unique_ptr
         this->objects.clear();
     }
 
     void State::LoadAssets () {
-        this->bg.Open("assets/img/ocean.jpg");
-        this->music.Open("assets/audio/stageState.ogg");
+        // For now, nothing
     }
 
     void State::Update (float dt) {
         Logger::Info("Updating...");
 
-        auto quit = SDL_QuitRequested();
+        Input();
 
-        if (quit) {
-            this->quitRequested = quit;
+        this->quitRequested |= SDL_QuitRequested();
+
+        if (this->quitRequested) {
             return;
         }
-
-        Input();
 
         for (auto &obj : this->objects) {
             obj->Update(dt);
@@ -43,6 +43,7 @@ namespace penguin {
     }
 
     void State::Render () {
+        // TODO: discover if this should be removed
         this->bg.Render(0, 0);
 
         for (auto &obj : this->objects) {
@@ -55,9 +56,42 @@ namespace penguin {
     }
 
     void State::Input () {
-        // O corpo dessa função está disponível no Moodle. Podem ser
-        // necessários alguns ajustes nele para se adequar aos nomes de variáveis ou funções do seu código. Além disso, você pode tirar a chamada à SDL_QuitRequested em Update(), já que Input cuida de eventos de SDL_QUIT para nós.
-        // ATENÇÃO: O dano só é aplicado se o GameObject tiver um componente do tipo face, caso contrário, continue procurando.
+        SDL_Event event;
+        int mouseX, mouseY;
+
+        SDL_GetMouseState(&mouseX, &mouseY);
+
+        while (SDL_PollEvent(&event)) {
+            if(event.type == SDL_QUIT) {
+                this->quitRequested = true;
+            }
+            
+            if(event.type == SDL_MOUSEBUTTONDOWN) {
+                // Get the newer object (the one that is on top of the vector) and deal the damage
+                for(int i = this->objects.size() - 1; i >= 0; --i) {
+                    auto &obj = this->objects[i].get();
+
+                    if(obj->box.Contains( {(float)mouseX, (float)mouseY } ) ) {
+                        auto &component = obj.GetComponent("Face"); // avoid using get
+                        
+                        if (component != nullptr) {
+                            auto face = static_cast<Face*>(obj);
+                            face->Damage(std::rand() % 10 + 10);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if( event.type == SDL_KEYDOWN ) {
+                if(event.key.keysym.sym == SDLK_ESCAPE) {
+                    this->quitRequested = true;
+                } else {
+                    Vector pos = Vector(200, 0).Rotate(-PI + PI*(rand() % 1001)/500.0) + Vector(mouseX, mouseY);
+                    AddObject((int)pos.x, (int)pos.y);
+                }
+            }
+        }
     }
 
     void State::Clean () {
@@ -68,14 +102,19 @@ namespace penguin {
         this->objects.erase(it, this->objects.end());
     }
 
+    // TODO: verify
     void State::AddObjects (int mouseX, int mouseY) {
-        // TODO: fix this
-        Point corner(0, 0), pos(mouseX, mouseY);
-        Reactangle rect(corner, pos);
-        GameObject obj(rect);
-        Sprite face(obj, "assets/img/penguinface.png");
+        GameObject obj(Point(mouseX, mouseY), 0, 0);
+        Sound sound(obj, "assets/audio/boom.wav");
+        Sprite sprite(obj, "assets/img/penguinface.png");
 
-        obj.AddComponent();
+        obj.box.vector -= obj.box.Center();
+        obj.AddComponent(sound);
+        obj.AddComponent(sprite);
+
+        Face face(obj);
+
+        this->objects.emplace_back(face);
 
         // TODO: continue
     }
