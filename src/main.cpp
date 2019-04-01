@@ -15,7 +15,7 @@ int main(int argc, char** argv)
     UNUSED(argv);
 
     try {
-        srand (time(NULL));
+        srand((unsigned int)time(NULL));
 
         penguin::Logger::Init("pinguin_log.txt");    
     
