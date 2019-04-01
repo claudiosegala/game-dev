@@ -1,13 +1,12 @@
 #pragma once
 
 #include <GameObject.h>
+#include <Component.h>
 #include <SDL_Include.h>
-
-// TODO: add logs
 
 namespace penguin {
 
-    class Sound : public GameObject {
+    class Sound : public Component {
         public:
 
         Sound(GameObject&);

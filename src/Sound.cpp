@@ -1,5 +1,6 @@
 #include <Sound.h>
 #include <Logger.h>
+#include <SDL_Include.h>
 
 namespace penguin {
 
@@ -13,7 +14,7 @@ namespace penguin {
 
     // TODO: check if this is correct
     Sound::~Sound() {
-        if (this->chunck != nullptr) {
+        if (this->chunk != nullptr) {
             Stop();
             Mix_FreeChunk(this->chunk);
             this->chunk = nullptr;
@@ -39,7 +40,7 @@ namespace penguin {
     }
 
     void Sound::Open(std::string filename) {
-        this->chunk = Mix_LoadWAV(filename);
+        this->chunk = Mix_LoadWAV(filename.c_str());
 
         if (this->chunk == nullptr) {
             auto mix_msg = Mix_GetError();
@@ -53,7 +54,7 @@ namespace penguin {
         return (this->chunk == nullptr);
     }
 
-    bool Sound::Is(std::string) {
+    bool Sound::Is(std::string type) {
         return (type == "Sound");
     }
 
