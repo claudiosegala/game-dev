@@ -14,13 +14,13 @@ namespace penguin {
 
         Vector vector;
 
-        int width;
+        float width;
 
-        int height;
+        float height;
 
         Rectangle();
 
-        Rectangle(Vector, int, int);
+        Rectangle(Vector, float, float);
 
         Point Center() const;
 

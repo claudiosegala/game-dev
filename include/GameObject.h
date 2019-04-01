@@ -19,8 +19,6 @@ namespace penguin {
 
         GameObject();
 
-        GameObject(Vector&, int, int);
-
         ~GameObject();
 
         void Update(float);
@@ -33,9 +31,9 @@ namespace penguin {
 
         void AddComponent(Component*);
 
-        void RemoveComponent(std::unique_ptr<Component>);
+        void RemoveComponent(std::unique_ptr<Component>&);
 
-        std::unique_ptr<Component> GetComponent(std::string);
+        Component* GetComponent(std::string);
 
         private:
 
