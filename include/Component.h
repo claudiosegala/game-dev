@@ -1,8 +1,11 @@
 #pragma once
 
 #include <GameObject.h>
+#include <string>
 
 namespace penguin {
+
+    class GameObject;
 
     class Component {
         public:
