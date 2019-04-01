@@ -1,11 +1,10 @@
 #include <Vector.h>
 #include <Point.h>
 #include <Logger.h>
+#include <Util.h>
 #include <cmath>
 
 namespace penguin {
-
-    #define PI 3.141592653589793
 
     Vector::Vector(double xv, double yv) : Point(xv, yv) {}
 

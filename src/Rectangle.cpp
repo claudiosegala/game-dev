@@ -43,14 +43,16 @@ namespace penguin {
         return std::make_tuple(v, u);
     }
 
+    // TODO: fix this
     Rectangle Rectangle::operator+ (const Vector& V) {
-        auto P = static_cast<Point>(this->vector + V);
-        return Rectangle { P, this->width, this->height };
+        auto P = this->vector + V;
+        return Rectangle { Vector(P.x, P.y), this->width, this->height };
     }
 
+    // TODO: fix this
     Rectangle Rectangle::operator- (const Vector& V) {
-        auto P = static_cast<Point>(this->vector - V);
-        return Rectangle { P, this->width, this->height };
+        auto P = this->vector - V;
+        return Rectangle { Vector(P.x, P.y), this->width, this->height };
     }
 
     Rectangle Rectangle::operator* (int value) {
