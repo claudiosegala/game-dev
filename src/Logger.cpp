@@ -1,4 +1,5 @@
 #include <Logger.h>
+#include <Util.h>
 #include <iostream>
 #include <string>
 
@@ -22,6 +23,7 @@ namespace penguin {
         this->instance = this;
 
         // TODO: open file
+        UNUSED(filename);
     }
 
     Logger::~Logger() {

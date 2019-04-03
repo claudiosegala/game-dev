@@ -77,8 +77,8 @@ namespace penguin {
             if(event.type == SDL_MOUSEBUTTONDOWN) {
                 Logger::Info("Someone clicked");
                 // Get the newer object (the one that is on top of the vector) and deal the damage
-                for(int i = (int)this->objects.size() - 1; i >= 0; --i) {
-                    auto obj = this->objects[i].get();
+                for(auto it = this->objects.rbegin(); it != this->objects.rend(); ++it) {
+                    auto obj = it->get();
                     
                     if(obj->box.IsInside( {(float)mouseX, (float)mouseY } ) ) {
                         auto component = obj->GetComponent("Face"); // avoid using get
