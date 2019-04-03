@@ -15,40 +15,26 @@ namespace penguin {
 
     Logger* Logger::instance;
 
-    Logger::Logger(const std::string &filename) {
+    Logger::Logger() {
         if (this->instance != nullptr) {
             throw std::runtime_error("There should be only one instance!");
         }
 
         this->instance = this;
-
-        // TODO: open file
-        UNUSED(filename);
     }
 
-    Logger::~Logger() {
-        // TODO: close file
-    }
+    Logger::~Logger() {}
 
     Logger* Logger::GetInstance () {
-        if (Logger::instance == nullptr) {
-            // TODO: create a file named log.txt
+        if (Logger::instance != nullptr) {
             throw new std::runtime_error("[PANIC] Wrong use of Logger!");
         }
         
-        return Logger::instance;
+        return Logger::instance = new Logger();
     }
 
-    Logger* Logger::GetInstance (const std::string &filename) {
-        if (Logger::instance != nullptr) {
-            return Logger::instance;
-        }
-        
-        return Logger::instance = new Logger(filename);
-    }
-
-    void Logger::Init (const std::string &filename) {
-        (void)GetInstance(filename);
+    void Logger::Init () {
+        (void)GetInstance();
     }
 
     void Logger::Error(const std::string &msg, int type) {
