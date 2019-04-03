@@ -65,25 +65,20 @@ namespace penguin {
         UNUSED(dt);
     }
 
-    // TODO: See if this is correct
+    // TODO: check if this is correct
     void Sprite::Render () {
-        auto v = this->associated.box.vector;
-        auto x = v.x;
-        auto y = v.y;    
-        
         auto g = Game::GetInstance();
+        auto x = static_cast<int>(this->associated.box.vector.x);
+        auto y = static_cast<int>(this->associated.box.vector.y);    
         auto srcRect = this->clipRect;
 
-        // TODO: check if it was suppose to do this
-        SDL_Rect dstRect{ static_cast<int>(x), static_cast<int>(y), this->clipRect.w, this->clipRect.h };
+        SDL_Rect dstRect{ x, y, this->clipRect.w, this->clipRect.h };
 
-        // Logger::Info("Rendering Copy...", 2);
         SDL_RenderCopy(g->GetRenderer(), this->texture, &srcRect, &dstRect);
-        // Logger::Info("Done", 1);
     }
 
     bool Sprite::Is (std::string type) {
-        return type == "Sprite";
+        return (type == "Sprite");
     }
 
     int Sprite::GetWidth() {

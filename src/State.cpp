@@ -98,12 +98,7 @@ namespace penguin {
                     this->quitRequested = true;
                 } else {
                     float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX); // 0.0 to 1.0
-                    float angle = TAO * r;
-                    Vector pos(200, 0);
-                    Vector center(mouseX, mouseY);
-
-                    pos.Rotate(angle);
-                    pos += center;
+                    Vector pos = Vector(200, 0).GetRotate(TAO * r) + Vector(mouseX, mouseY);
 
                     AddObject((int)pos.x, (int)pos.y);
                 }
@@ -132,8 +127,7 @@ namespace penguin {
         obj->AddComponent(face);
 
         // Adjust position for the sprite
-        obj->box.vector = Point(mouseX, mouseY);
-        obj->box.vector -= Vector(obj->box.width/2, obj->box.height/2);
+        obj->box.vector = Vector(mouseX, mouseY) - Vector(obj->box.width/2, obj->box.height/2);
 
         // Insert
         this->objects.emplace_back(obj);
