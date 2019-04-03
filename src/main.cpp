@@ -17,7 +17,7 @@ int main(int argc, char** argv)
     try {
         srand((unsigned int)time(NULL));
 
-        penguin::Logger::Init("pinguin_log.txt");    
+        penguin::Logger::GetInstance();    
     
         auto g = penguin::Game::GetInstance();
 

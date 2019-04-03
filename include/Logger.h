@@ -11,8 +11,6 @@ namespace penguin {
 
         static Logger* GetInstance();
 
-        static void Init();
-
         static void Error(const std::string&, int type = 0);
 
         static void Info(const std::string&, int type = 0);

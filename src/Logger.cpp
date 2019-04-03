@@ -27,14 +27,10 @@ namespace penguin {
 
     Logger* Logger::GetInstance () {
         if (Logger::instance != nullptr) {
-            throw new std::runtime_error("[PANIC] Wrong use of Logger!");
+            return Logger::instance;
         }
         
         return Logger::instance = new Logger();
-    }
-
-    void Logger::Init () {
-        (void)GetInstance();
     }
 
     void Logger::Error(const std::string &msg, int type) {
