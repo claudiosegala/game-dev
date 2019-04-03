@@ -59,7 +59,7 @@ namespace penguin {
         Logger::Info("Started Game");
 
         while(!this->state->QuitRequested()) {
-            this->state->Update(1.0); // TODO: change this argument
+            this->state->Update(1.0);
             this->state->Render();
 
             SDL_RenderPresent(this->renderer);

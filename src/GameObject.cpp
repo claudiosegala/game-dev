@@ -41,7 +41,7 @@ namespace penguin {
         this->components.emplace_back(component);
     }
 
-    // TODO: not using... should I have used
+    // TODO: Function not being used
     void GameObject::RemoveComponent(std::unique_ptr<Component>& component) {
         auto it = std::remove_if(this->components.begin(), this->components.end(), [&] (std::unique_ptr<Component>& c) { 
             return c == component;
@@ -56,7 +56,7 @@ namespace penguin {
         });
 
         if (it != this->components.end()) {
-            // TODO: should I use get in this?
+            // TODO: check if this is correct
             return (*it).get();
         } else {
             return nullptr;
