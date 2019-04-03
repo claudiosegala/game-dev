@@ -2,6 +2,7 @@
 #include <Sprite.h>
 #include <Game.h>
 #include <Logger.h>
+#include <Util.h>
 #include <iostream>
 
 namespace penguin {
@@ -19,12 +20,14 @@ namespace penguin {
     Sprite::~Sprite() {
         Logger::Info("Destroying Texture...", 2);
         SDL_DestroyTexture(this->texture);
+        this->texture = nullptr;
         Logger::Info("Done", 1);
     }
 
     void Sprite::Open (const std::string &file) {
         if (this->texture != nullptr) {
             SDL_DestroyTexture(this->texture);
+            this->texture = nullptr;
         }
         
         auto g = Game::GetInstance();

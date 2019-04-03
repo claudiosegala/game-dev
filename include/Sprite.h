@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL_Include.h>
+#include <GameObject.h>
 #include <Component.h>
 #include <string>
 

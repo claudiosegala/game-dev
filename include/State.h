@@ -1,18 +1,8 @@
 #pragma once
 
-#include <State.h>
-#include <Sound.h>
-#include <Sprite.h>
 #include <Music.h>
-#include <Rectangle.h>
 #include <GameObject.h>
-#include <Vector.h>
-#include <Face.h>
-#include <Util.h>
-#include <Logger.h>
 #include <vector>
-#include <algorithm>
-#include <string>
 #include <memory>
 
 namespace penguin {
