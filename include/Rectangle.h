@@ -4,9 +4,6 @@
 #include <Point.h>
 #include <tuple>
 
-// TODO: check corretude
-// TODO: check if I should add const operators
-
 namespace penguin {
 
     class Rectangle {
@@ -32,11 +29,17 @@ namespace penguin {
 
         std::tuple<Point, Point> GetPoints() const;
 
-        Rectangle operator+ (const Vector&);
+        Rectangle operator+ (const Vector&) const;
 
-        Rectangle operator- (const Vector&);
+        void operator+= (const Vector&);
 
-        Rectangle operator* (int);
+        Rectangle operator- (const Vector&) const;
+
+        void operator-= (const Vector&);
+
+        Rectangle operator* (float) const;
+
+        void operator*= (float);
 
         Rectangle operator= (const Rectangle&);
     };

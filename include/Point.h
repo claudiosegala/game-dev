@@ -1,8 +1,5 @@
 #pragma once
 
-// TODO: check corretude
-// TODO: check if I should add const operators
-
 namespace penguin {
 
     class Point {

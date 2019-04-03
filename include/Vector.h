@@ -1,9 +1,7 @@
 #pragma once
 
 #include <Point.h>
-
-// TODO: check corretude
-// TODO: check if I should add const operators
+#include <iostream>
 
 namespace penguin {
 
@@ -12,29 +10,56 @@ namespace penguin {
 
         Vector(float xv = 0, float yv = 0);
 
-        Vector(const Point&, const Point&);
+        ///> Find magnitude of vector
+        float GetLength() const;
 
-        float Length() const;
+        ///> Find angle with point (0, 0)
+        float GetAngle() const;
 
-        // Angle With Vector (0, 0)
-        float Angle() const;
+        ///> Find angle between this vector and another
+        float GetAngle(const Vector&) const;
 
-        // Angle Between This Vector And Another
-        float Angle(const Vector&) const;
+        ///> Transform vector, on unit
+        void Unit();
 
-        void Normalize();
+        ///> Get unit vector
+        Vector GetUnit() const;
 
+        ///> Transform vector, rotating
         void Rotate(float);
 
-        void Rotate(float, const Point&);
+        ///> Get rotated vector
+        Vector GetRotate(float) const;
         
-        // Cross Product
+        ///> Cross product
         Vector operator* (const Vector&);
         
-        // Dot Product
+        ///> Dot product
         float operator^ (const Vector&) const;
 
+        Vector operator* (const float) const;
+
+        void operator*= (const float);
+
+        Vector operator/ (const float) const;
+
+        void operator/= (const float);
+
+        Vector operator+(const Vector&) const;
+
+        Vector operator+= (const Vector&);
+
+        Vector operator-(const Vector&) const;
+
+        Vector operator-= (const Vector&);
+
         Vector operator= (const Point&);
+
+        Vector operator= (const Vector&);
+
+        friend std::ostream& operator<<(std::ostream &os, const  Vector& n);
+
+        friend std::istream& operator>>(std::istream &is, Vector& n);
                 
     };
 

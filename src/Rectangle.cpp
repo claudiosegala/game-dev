@@ -42,24 +42,35 @@ namespace penguin {
         return std::make_tuple(v, u);
     }
 
-    // TODO: fix this
-    Rectangle Rectangle::operator+ (const Vector& V) {
-        auto P = this->vector + V;
-        return Rectangle { Vector(P.x, P.y), this->width, this->height };
+    Rectangle Rectangle::operator+ (const Vector& V) const {
+        return Rectangle { this->vector + V, this->width, this->height };
     }
 
-    // TODO: fix this
-    Rectangle Rectangle::operator- (const Vector& V) {
-        auto P = this->vector - V;
-        return Rectangle { Vector(P.x, P.y), this->width, this->height };
+    void Rectangle::operator+= (const Vector& V) {
+        this->vector.x += V.x;
+        this->vector.y += V.y;
     }
 
-    Rectangle Rectangle::operator* (int value) {
+    Rectangle Rectangle::operator- (const Vector& V) const {
+        return Rectangle { this->vector - V, this->width, this->height };
+    }
+
+    void Rectangle::operator-= (const Vector& V) {
+        this->vector.x -= V.x;
+        this->vector.y -= V.y;
+    }
+
+    Rectangle Rectangle::operator* (float value) const {
         auto w = this->width * value;
         auto h = this->height * value;
 
         return Rectangle { this->vector, w, h};
     }   
+
+    void Rectangle::operator*= (float v) {
+        this->vector.x *= v;
+        this->vector.y *= v;
+    }
 
     Rectangle Rectangle::operator= (const Rectangle& R) {
         return Rectangle { R.vector, R.width, R.height };

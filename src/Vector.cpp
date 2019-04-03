@@ -8,30 +8,29 @@ namespace penguin {
 
     Vector::Vector(float xv, float yv) : Point(xv, yv) {}
 
-    Vector::Vector(const Point& A, const Point& B) : Point(B.x - A.x, B.y - A.y) {}
-
-     float Vector::Length() const {
+     float Vector::GetLength() const {
         return hypot(this->x, this->y);
     }
 
-    float Vector::Angle() const {
-        return atan(y / x) + (x < 0 ? PI : 0);
+    // TODO: check if this is correct
+    float Vector::GetAngle() const {
+        return atan(this->y / this->x) + (this->x < 0 ? PI : 0);
     }
 
-    float Vector::Angle(const Vector& V) const {
-        auto lu = this->Length();
-        auto lv = V.Length();
-        auto ds = lu * lv;
+    // TODO: check if this is correct
+    float Vector::GetAngle(const Vector& V) const {
+        auto ds = this->GetLength() * V.GetLength();
         auto prod = (*this) ^ V;
 
         return acos(prod / ds);
     }
 
-    void Vector::Normalize () {
-        auto len = this->Length();
-        
-        this->x /= len;
-        this-> y /= len;
+    void Vector::Unit () {
+        (*this) /= this->GetLength();
+    }
+
+    Vector Vector::GetUnit () const {
+        return (*this) / this->GetLength();
     }
 
     void Vector::Rotate(float angle) {
@@ -42,10 +41,18 @@ namespace penguin {
         this->y = yv;
     }
 
-    void Vector::Rotate(float angle, const Point& C) {
-        (*this) -= C;
-        (*this).Rotate(angle);
-        (*this) += C;
+    Vector Vector::GetRotate(float angle) const {
+        return {
+            cos(angle) * this->x - sin(angle) * this->y,
+            sin(angle) * this->x + cos(angle) * this->y
+        };
+    }
+
+    Vector Vector::operator= (const Vector& V) {
+        this->x = V.x;
+        this->y = V.y;
+
+        return *this;
     }
 
     Vector Vector::operator= (const Point& P) {
@@ -55,7 +62,7 @@ namespace penguin {
         return *this;
     }
 
-    // TODO: check this
+    // TODO: check if this is correct
     Vector Vector::operator* (const Vector& V) {
         this->x *= V.y;
         this->y *= V.x;
@@ -63,9 +70,59 @@ namespace penguin {
         return *this;
     }
 
-    // TODO: check this
     float Vector::operator^ (const Vector& V) const {
         return this->x * V.x + this->y * V.y;
+    }
+
+    Vector Vector::operator* (const float v) const {
+        return { this->x * v, this->y * v };
+    }
+
+    void Vector::operator*= (const float v) {
+        this->x *= v;
+        this->y *= v;
+    }
+
+    Vector Vector::operator/ (const float v) const {
+        return { this->x / v, this->y / v };
+    }
+
+    void Vector::operator/= (const float v) {
+        this->x /= v;
+        this->y /= v;
+    }
+
+    Vector Vector::operator+(const Vector &V) const {
+        return { this->x + V.x, this->y + V.y };
+    }
+
+    Vector Vector::operator+= (const Vector &V) {
+        this->x += V.x;
+        this->y += V.y;
+
+        return (*this);
+    }
+
+    Vector Vector::operator-(const Vector &V) const {
+        return { this->x - V.x, this->y - V.y };
+    }
+
+    Vector Vector::operator-= (const Vector &V) {
+        this->x -= V.x;
+        this->y -= V.y;
+
+        return (*this);
+    }
+
+    std::ostream& operator<<(std::ostream &out, const Vector& V) {
+        out << "Vector: { " << V.x << ", " << V.y << " }";
+        return out;
+    }
+
+    std::istream&  operator>>(std::istream &in, Vector& V) {
+        in >> V.x >> V.y;
+        return in;
+
     }
 
 }
