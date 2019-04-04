@@ -4,6 +4,7 @@
 #include <Sound.h>
 #include <Util.h>
 #include <Logger.h>
+#include <unistd.h>
 
 namespace penguin {
 
@@ -18,13 +19,13 @@ namespace penguin {
 
         this->hitpoints -= damage;        
 
-        if (this->hitpoints <= 0) {
+        if (this->hitpoints < 1) {
             Logger::Info("Face died");
             auto component = this->associated.GetComponent("Sound");
 
             if (component != nullptr) {
                 auto sound = static_cast<Sound*>(component);
-                sound->Play();
+                sound->Play(0);
             } else {
                 Logger::Error("Could not find the sound in Face");
             }

@@ -41,7 +41,6 @@ namespace penguin {
         this->components.emplace_back(component);
     }
 
-    // TODO: Function not being used
     void GameObject::RemoveComponent(std::unique_ptr<Component>& component) {
         auto it = std::remove_if(this->components.begin(), this->components.end(), [&] (std::unique_ptr<Component>& c) { 
             return c == component;

@@ -13,10 +13,15 @@ namespace penguin {
         Open(name);
     }
 
-    // TODO: check if this is correct
     Sound::~Sound () {
+        if (this->channel >= 0) {
+            while(Mix_Playing(this->channel));
+        }
+        
+        
+        Stop();
+
         if (this->chunk != nullptr) {
-            Stop();
             Mix_FreeChunk(this->chunk);
             this->chunk = nullptr;
         }
@@ -34,7 +39,9 @@ namespace penguin {
     }
 
     void Sound::Stop () {
-        if (this->chunk != nullptr) {
+        // TODO: Discover why the channel is coming negative here
+        Logger::Info("Halting the channel " + std::to_string(this->channel));
+        if (this->chunk != nullptr && this->channel >= 0) {
             Mix_HaltChannel(this->channel);
             Logger::Info("Halting the channel " + std::to_string(this->channel));
         }
