@@ -56,8 +56,8 @@ namespace penguin {
 
         SetClip(0, 0, this->width, this->height);
         
-        this->associated.box.width = this->width;
-        this->associated.box.height = this->height;
+        this->associated.box.width = static_cast<float>(this->width);
+        this->associated.box.height = static_cast<float>(this->height);
     }
 
     void Sprite::SetClip (int x, int y, int w, int h) {

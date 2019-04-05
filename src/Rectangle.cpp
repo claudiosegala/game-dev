@@ -11,7 +11,7 @@ namespace penguin {
 
     Rectangle::Rectangle(Vector v, float w, float h) : vector(v), width(w), height(h) {}
 
-    Rectangle::Rectangle(float x, float y, float w, float h) : vector(x, y), width(w), height(h) {};
+    Rectangle::Rectangle(float x, float y, float w, float h) : vector(x, y), width(w), height(h) {}
 
     Point Rectangle::Center() const {
         Point dl, ur;

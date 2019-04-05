@@ -16,6 +16,7 @@ namespace penguin {
 
     Sound::~Sound () {
         if (this->channel >= 0) {
+            // Make this busy wait to make sure that the sound works
             while(Mix_Playing(this->channel));
         }
         

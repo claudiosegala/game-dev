@@ -9,18 +9,18 @@ namespace penguin {
     Vector::Vector(float xv, float yv) : Point(xv, yv) {}
 
      float Vector::GetLength() const {
-        return hypot(this->x, this->y);
+        return (float) hypot(this->x, this->y);
     }
 
     float Vector::GetAngle() const {
-        return atan(this->y / this->x) + (this->x < 0 ? PI : 0);
+        return (float) atan(this->y / this->x) + (this->x < 0 ? PI : 0);
     }
 
     float Vector::GetAngle(const Vector& V) const {
         auto ds = this->GetLength() * V.GetLength();
         auto prod = (*this) ^ V;
 
-        return acos(prod / ds);
+        return (float) acos(prod / ds);
     }
 
     void Vector::Unit () {
@@ -35,14 +35,14 @@ namespace penguin {
         auto xv = cos(angle) * this->x - sin(angle) * this->y;
         auto yv = sin(angle) * this->x + cos(angle) * this->y;
 
-        this->x = xv;
-        this->y = yv;
+        this->x = static_cast<float>(xv);
+        this->y = static_cast<float>(yv);
     }
 
     Vector Vector::GetRotate(float angle) const {
         return {
-            cos(angle) * this->x - sin(angle) * this->y,
-            sin(angle) * this->x + cos(angle) * this->y
+            static_cast<float>(cos(angle) * this->x - sin(angle) * this->y),
+            static_cast<float>(sin(angle) * this->x + cos(angle) * this->y)
         };
     }
 

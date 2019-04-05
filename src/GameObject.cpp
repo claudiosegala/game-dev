@@ -14,6 +14,7 @@ namespace penguin {
     }
 
     GameObject::~GameObject() {
+        this->box.~Rectangle();
         this->components.clear();
     }
 

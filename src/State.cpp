@@ -97,8 +97,10 @@ namespace penguin {
                 if(event.key.keysym.sym == SDLK_ESCAPE) {
                     this->quitRequested = true;
                 } else {
-                    float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX); // 0.0 to 1.0
-                    Vector pos = Vector(200, 0).GetRotate(TAO * r) + Vector(mouseX, mouseY);
+                    auto x = static_cast<float>(mouseX);
+                    auto y = static_cast<float>(mouseY);
+                    auto r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX); // 0.0 to 1.0
+                    Vector pos = Vector(200.0, 0.0).GetRotate(TAO * r) + Vector(x, y);
 
                     AddObject((int)pos.x, (int)pos.y);
                 }
@@ -127,7 +129,9 @@ namespace penguin {
         obj->AddComponent(face);
 
         // Adjust position for the sprite
-        obj->box.vector = Vector(mouseX, mouseY) - Vector(obj->box.width/2, obj->box.height/2);
+        auto x = static_cast<float>(mouseX);
+        auto y = static_cast<float>(mouseY);
+        obj->box.vector = Vector(x, y) - Vector(obj->box.width/2, obj->box.height/2);
 
         // Insert
         this->objects.emplace_back(obj);

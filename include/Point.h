@@ -21,11 +21,7 @@ namespace penguin {
 
         Point operator- (const Point&);
 
-        Point operator* (int);
-
         Point operator* (float);
-
-        Point operator/ (int);
 
         Point operator/ (float);
 

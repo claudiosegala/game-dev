@@ -10,7 +10,7 @@ namespace penguin {
     Point::Point(float xv, float yv) : x(xv), y(yv) {}
 
     float Point::Distance(const Point& P, const Point& Q) {
-        return hypot(P.x - Q.x, P.y - Q.y);
+        return (float) hypot(P.x - Q.x, P.y - Q.y);
     }
 
     Point Point::operator+= (const Point& P) {
@@ -41,23 +41,9 @@ namespace penguin {
         return *this; 
     }
 
-    Point Point::operator* (int value) {
-        this->x *= value;
-        this->y *= value;
-
-        return *this;
-    }
-
     Point Point::operator* (float value) {
         this->x *= value;
         this->y *= value;
-
-        return *this;
-    }
-
-    Point Point::operator/ (int value) {
-        this->x /= value;
-        this->y /= value;
 
         return *this;
     }
