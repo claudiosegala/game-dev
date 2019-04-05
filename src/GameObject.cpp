@@ -55,7 +55,6 @@ namespace penguin {
         });
 
         if (it != this->components.end()) {
-            // TODO: check if this is correct
             return (*it).get();
         } else {
             return nullptr;

@@ -12,12 +12,10 @@ namespace penguin {
         return hypot(this->x, this->y);
     }
 
-    // TODO: check if this is correct
     float Vector::GetAngle() const {
         return atan(this->y / this->x) + (this->x < 0 ? PI : 0);
     }
 
-    // TODO: check if this is correct
     float Vector::GetAngle(const Vector& V) const {
         auto ds = this->GetLength() * V.GetLength();
         auto prod = (*this) ^ V;
@@ -62,7 +60,6 @@ namespace penguin {
         return *this;
     }
 
-    // TODO: check if this is correct
     Vector Vector::operator* (const Vector& V) {
         this->x *= V.y;
         this->y *= V.x;

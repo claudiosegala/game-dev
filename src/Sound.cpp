@@ -10,6 +10,7 @@ namespace penguin {
     }
 
     Sound::Sound (GameObject& obj, std::string name) : Component(obj) {
+        this->chunk = nullptr;
         Open(name);
     }
 
@@ -39,7 +40,6 @@ namespace penguin {
     }
 
     void Sound::Stop () {
-        // TODO: Discover why the channel is coming negative here
         Logger::Info("Halting the channel " + std::to_string(this->channel));
         if (this->chunk != nullptr && this->channel >= 0) {
             Mix_HaltChannel(this->channel);

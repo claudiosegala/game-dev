@@ -68,7 +68,6 @@ namespace penguin {
         UNUSED(dt);
     }
 
-    // TODO: check if this is correct
     void Sprite::Render () {
         auto g = Game::GetInstance();
         auto x = static_cast<int>(this->associated.box.vector.x);
