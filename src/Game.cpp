@@ -148,9 +148,10 @@ namespace penguin {
         Logger::Info("Initing Mixer...", 2);
         auto res = Mix_Init(flags);
 
-        if ((res&flags) != flags) {
-            auto mix_msg = Mix_GetError();
-            throw std::runtime_error(mix_msg);
+        if (res != flags) {
+            auto mix_msg = "MixError: " + std::string(Mix_GetError()) + "\n";
+            auto msg = "The flag sent was " + std::to_string(flags) + ", but the result of initing mixer was " + std::to_string(res) + "\n";
+            throw std::runtime_error(mix_msg + msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -192,8 +193,9 @@ namespace penguin {
         auto res = IMG_Init(flags);
 
         if (res != flags) {
-            auto mix_msg = IMG_GetError();
-            throw std::runtime_error(mix_msg);
+            auto img_msg = "ImageError: " + std::string(IMG_GetError())  + "\n";
+            auto msg = "The flag sent was " + std::to_string(flags) + ", but the result of initing image was " + std::to_string(res) + "\n";
+            throw std::runtime_error(img_msg + msg);
         } else {
             Logger::Info("Done", 1);
         }
@@ -222,7 +224,7 @@ namespace penguin {
         auto err = SDL_Init(flags);
 
         if (err < 0) {
-            auto sdl_msg = SDL_GetError();
+            auto sdl_msg = "SDLError: " + std::string(SDL_GetError()) + "\n";
             throw std::runtime_error(sdl_msg);
         } else {
             Logger::Info("Done", 1);
