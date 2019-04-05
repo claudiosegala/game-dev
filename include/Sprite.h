@@ -24,6 +24,10 @@ namespace penguin {
 
         void Render();
 
+        void Render(int x, int y);
+
+        void Render(float x, float y);
+
         bool Is(std::string);
 
         int GetWidth();

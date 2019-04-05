@@ -69,9 +69,21 @@ namespace penguin {
     }
 
     void Sprite::Render () {
-        auto g = Game::GetInstance();
         auto x = static_cast<int>(this->associated.box.vector.x);
         auto y = static_cast<int>(this->associated.box.vector.y);    
+
+        Render(x, y);
+    }
+
+    void Sprite::Render (float _x, float _y) {
+        auto x = static_cast<int>(_x);
+        auto y = static_cast<int>(_y);    
+
+        Render(x, y);
+    }
+
+    void Sprite::Render (int x, int y) {
+        auto g = Game::GetInstance();
         auto srcRect = this->clipRect;
 
         SDL_Rect dstRect{ x, y, this->clipRect.w, this->clipRect.h };
