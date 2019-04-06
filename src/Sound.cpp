@@ -31,7 +31,7 @@ namespace penguin {
     }
 
     void Sound::Play (int times) {
-        this->channel = Mix_PlayChannel(-1, this->chunk, times);
+        this->channel = Mix_PlayChannel(-1, this->chunk, times - 1);
 
         if (this->channel < 0) {
             auto mix_msg = Mix_GetError();
