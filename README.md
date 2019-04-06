@@ -1,4 +1,4 @@
-# Penguin
+# [Penguin](https://github.com/claudiosegala/penguin)
 
 A small game to train on how to use SDL2
 
