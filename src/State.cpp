@@ -84,7 +84,7 @@ namespace penguin {
                         auto component = obj->GetComponent("Face"); // avoid using get
                         
                         if (component != nullptr) {
-                            auto face = static_cast<Face*>(component);
+                            auto face = std::static_pointer_cast<Face>(component);
                             face->Damage(std::rand() % 10 + 10);
                             break;
                         }
@@ -110,7 +110,7 @@ namespace penguin {
 
     void State::Prune () {
         // Logger::Info("Prunning");
-        auto it = std::remove_if(this->objects.begin(), this->objects.end(), [&] (std::unique_ptr<GameObject>& o) { 
+        auto it = std::remove_if(this->objects.begin(), this->objects.end(), [&] (std::shared_ptr<GameObject>& o) { 
             return o->IsDead();
         });
 

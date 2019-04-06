@@ -28,7 +28,7 @@ namespace penguin {
 
         Music music;
 
-        std::vector<std::unique_ptr<GameObject>> objects;
+        std::vector<std::shared_ptr<GameObject>> objects;
 
         void Input();
 

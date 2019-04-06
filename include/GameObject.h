@@ -30,15 +30,15 @@ namespace penguin {
 
         void AddComponent(Component*);
 
-        void RemoveComponent(std::unique_ptr<Component>&);
+        void RemoveComponent(std::shared_ptr<Component>&);
 
-        Component* GetComponent(std::string);
+        std::shared_ptr<Component> GetComponent(std::string);
 
         private:
 
         bool isDead;
 
-        std::vector<std::unique_ptr<Component>> components;
+        std::vector<std::shared_ptr<Component>> components;
     };
 
 }

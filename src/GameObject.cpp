@@ -42,21 +42,21 @@ namespace penguin {
         this->components.emplace_back(component);
     }
 
-    void GameObject::RemoveComponent(std::unique_ptr<Component>& component) {
-        auto it = std::remove_if(this->components.begin(), this->components.end(), [&] (std::unique_ptr<Component>& c) { 
+    void GameObject::RemoveComponent(std::shared_ptr<Component>& component) {
+        auto it = std::remove_if(this->components.begin(), this->components.end(), [&] (std::shared_ptr<Component>& c) { 
             return c == component;
         });
 
         this->components.erase(it, this->components.end());
     }
 
-    Component* GameObject::GetComponent(std::string type) {
-        auto it = std::find_if(this->components.begin(), this->components.end(), [&] (std::unique_ptr<Component>& c) {
+    std::shared_ptr<Component> GameObject::GetComponent(std::string type) {
+        auto it = std::find_if(this->components.begin(), this->components.end(), [&] (std::shared_ptr<Component>& c) {
             return c->Is(type);
         });
 
         if (it != this->components.end()) {
-            return (*it).get();
+            return (*it);
         } else {
             return nullptr;
         }

@@ -24,7 +24,7 @@ namespace penguin {
             auto component = this->associated.GetComponent("Sound");
 
             if (component != nullptr) {
-                auto sound = static_cast<Sound*>(component);
+                auto sound = std::static_pointer_cast<Sound>(component);
                 sound->Play(0);
             } else {
                 Logger::Error("Could not find the sound in Face");
