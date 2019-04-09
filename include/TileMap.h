@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GameObject.h>
+#include <TileSet.h>
 #include <string>
 
 namespace penguin {
