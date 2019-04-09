@@ -1,8 +1,8 @@
 #include <SDL_Include.h>
+#include <Resources.h>
 #include <Game.h>
 #include <Logger.h>
 #include <iostream>
-#include <string>
 
 namespace penguin {
 
@@ -42,8 +42,7 @@ namespace penguin {
         Logger::Info("Done", 1);
         
         Logger::Info("Quiting SDL Mixer...", 2);
-        // That is the only way to make sure of quitting accordingly to documentation
-        while(Mix_Init(0)) Mix_Quit();
+        while(Mix_Init(0)) Mix_Quit(); // That is the only way to make sure of quitting accordingly to documentation
         Logger::Info("Done", 1);
         
         Logger::Info("Quiting SDL Image...", 2);
@@ -67,6 +66,10 @@ namespace penguin {
         }
 
         Logger::Info("Ended Game");
+
+        Resources::ClearImages();
+        Resources::ClearMusics();
+        Resources::ClearSounds();
     }
 
     Game* Game::GetInstance () {
