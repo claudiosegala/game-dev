@@ -1,4 +1,5 @@
 #include <Music.h>
+#include <Resources.h>
 #include <Logger.h>
 #include <iostream>
 
@@ -12,14 +13,7 @@ namespace penguin {
         Open(file);
     }
 
-    Music::~Music() {
-        Logger::Info("Destroying Music...", 2);
-
-        Mix_FreeMusic(this->music);
-        this->music = nullptr;
-
-        Logger::Info("Done", 1);
-    }
+    Music::~Music() {}
 
     void Music::Play(int times) {
         if (this->music == nullptr) {
@@ -50,15 +44,7 @@ namespace penguin {
     }
 
     void Music::Open(const std::string &file) {
-        Logger::Info("Loading Music...", 2);
-        this->music = Mix_LoadMUS(file.c_str());
-
-        if (this->music == nullptr) {
-            auto mix_msg = Mix_GetError();
-            throw std::runtime_error(mix_msg);
-        } else {
-            Logger::Info("Done", 1);
-        }
+        this->music = Resources::GetMusic(file);
     }
 
     bool Music::IsOpen() {

@@ -1,5 +1,5 @@
-#include <SDL_Include.h>
 #include <Sprite.h>
+#include <Resources.h>
 #include <Game.h>
 #include <Logger.h>
 #include <Util.h>
@@ -17,42 +17,12 @@ namespace penguin {
         Open(file);
     }
 
-    Sprite::~Sprite() {
-        Logger::Info("Destroying Texture...", 2);
-        SDL_DestroyTexture(this->texture);
-        this->texture = nullptr;
-        Logger::Info("Done", 1);
-    }
+    Sprite::~Sprite() {}
 
     void Sprite::Open (const std::string &file) {
-        if (this->texture != nullptr) {
-            SDL_DestroyTexture(this->texture);
-            this->texture = nullptr;
-        }
+        this->texture = Resources::GetImage(file);
         
-        auto g = Game::GetInstance();
-
-        Logger::Info("test");
-
-        Logger::Info("Loading Texture...", 2);
-        this->texture = IMG_LoadTexture(g->GetRenderer(), file.c_str());
-
-        if (this->texture == nullptr) {
-            auto sdl_msg = IMG_GetError();
-            throw std::runtime_error(sdl_msg);
-        } else {
-            Logger::Info("Done", 1);
-        }
-        
-        Logger::Info("Querying Texture...", 2);
-        auto query = SDL_QueryTexture(this->texture, nullptr, nullptr, &this->width, &this->height);
-
-        if (query < 0) {
-            auto sdl_msg = SDL_GetError();
-            throw std::runtime_error(sdl_msg);
-        } else {
-            Logger::Info("Done", 1);
-        }
+        std::tie(this->width, this->height) = Resources::QueryImage(this->texture);
 
         SetClip(0, 0, this->width, this->height);
         

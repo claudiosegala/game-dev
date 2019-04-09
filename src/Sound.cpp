@@ -1,4 +1,5 @@
 #include <Sound.h>
+#include <Resources.h>
 #include <Logger.h>
 #include <Util.h>
 #include <SDL_Include.h>
@@ -14,21 +15,8 @@ namespace penguin {
         Open(name);
     }
 
-    Sound::~Sound () {
-        if (this->channel >= 0) {
-            // Make this busy wait to make sure that the sound works
-            Logger::Warning("Waiting for the music stop playing");
-            while(Mix_Playing(this->channel));
-        }
-        
-        
-        Stop();
-
-        if (this->chunk != nullptr) {
-            Mix_FreeChunk(this->chunk);
-            this->chunk = nullptr;
-        }
-    }
+    // TODO: discover if this is supposed to be empty
+    Sound::~Sound () {}
 
     void Sound::Play (int times) {
         this->channel = Mix_PlayChannel(-1, this->chunk, times - 1);
@@ -49,15 +37,8 @@ namespace penguin {
         }
     }
 
-    void Sound::Open (std::string filename) {
-        this->chunk = Mix_LoadWAV(filename.c_str());
-
-        if (this->chunk == nullptr) {
-            auto mix_msg = Mix_GetError();
-            throw std::runtime_error(mix_msg);
-        } else {
-            Logger::Info("Loaded WAV from " + filename);
-        }
+    void Sound::Open (std::string file) {
+        this->chunk = Resources::GetSound(file);
     }
 
     bool Sound::IsOpen () {
