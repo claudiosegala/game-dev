@@ -2,7 +2,7 @@
 
 namespace penguin {
 
-    TileSet::TileSet(GameObject& obj, int tileWidth, int tileHeight, std::string filename) : tileSet(obj, filename) {
+    TileSet::TileSet(GameObject& obj, int tileWidth, int tileHeight, std::string file) : tileSet(obj, file) {
         this->tileWidth = tileWidth;
         this->tileHeight = tileHeight;
     }

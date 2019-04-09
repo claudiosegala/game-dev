@@ -7,14 +7,14 @@
 namespace penguin {
 
     // TODO: correct this
-    TileMap(GameObject& obj, std::string filename, TileSet* tileSet) : tileSet(tileSet) {
-        Load(filename);
+    TileMap(GameObject& obj, std::string file, TileSet* tileSet) : tileSet(tileSet) {
+        Load(file);
     }
 
-    void Load(std::string filename) {
-        auto new_filename = CreateBetterFile(filename);
+    void Load(std::string file) {
+        auto new_file = CreateBetterFile(file);
 
-        ifstream fs(new_filename);
+        ifstream fs(new_file);
 
         if (!fs.is_open()) {
             auto msg = std::string("Could not open file created file"); 
@@ -32,11 +32,11 @@ namespace penguin {
         fs.close();
     }
 
-    std::string CreateBetterFile (std::string filename) {
-        auto _filename = std::string("_") + filename;
+    std::string CreateBetterFile (std::string file) {
+        auto _file = std::string("_") + file;
 
-        ifstream in(filename);
-        ofstream out(_filename);
+        ifstream in(file);
+        ofstream out(_file);
 
         if (!(in.is_open() && out.is_open())) {
             auto msg = std::string("Could not open file"); 
@@ -58,7 +58,7 @@ namespace penguin {
         in.close();
         out.close();
 
-        return _filename;
+        return _file;
     }
 
     void SetTileSet(TileSet* tileSet) {
