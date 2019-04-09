@@ -3,6 +3,7 @@
 #include <GameObject.h>
 #include <TileSet.h>
 #include <string>
+#include <vector>
 
 namespace penguin {
 
@@ -38,6 +39,8 @@ namespace penguin {
         int mapHeight;
 
         int mapDepth;
+
+        static std::string CreateBetterFile(std::string);
 
     };
 
