@@ -79,7 +79,7 @@ namespace penguin {
 
         for (int i = 0; i < this->mapHeight; i++) {
             for (int j = 0; j < this->mapWidth; j++) {
-                auto idx = (unsigned int) At(j, i, layer);
+                auto idx = (unsigned int) At(i, j, layer);
                 tileSet->RenderTile(idx, i, j);
             }
         }

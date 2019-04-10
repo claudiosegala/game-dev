@@ -3,11 +3,11 @@
 
 namespace penguin {
 
-    TileSet::TileSet(GameObject& obj, int tileWidth, int tileHeight, std::string file) : tileSet(obj, file) {
-        this->rows = this->tileSet.GetHeight() / tileHeight; 
-        this->columns = this->tileSet.GetWidth() / tileWidth;
-        this->tileWidth = tileWidth;
-        this->tileHeight = tileHeight;
+    TileSet::TileSet(GameObject& obj, int width, int height, std::string file) : tileSet(obj, file) {
+        this->rows = this->tileSet.GetHeight() / height; 
+        this->columns = this->tileSet.GetWidth() / width;
+        this->tileWidth = width;
+        this->tileHeight = height;
     }
         
     void TileSet::RenderTile(unsigned int index, float x, float y) {
@@ -15,7 +15,7 @@ namespace penguin {
 
         if (index < n) {
             auto i = (index % this->columns);
-            auto j = (index / this->rows);
+            auto j = (index / this->columns);
 
             this->tileSet.SetClip(i * this->tileWidth, j * this->tileHeight, this->tileWidth, this->tileHeight);
             this->tileSet.Render(x * this->tileWidth, y * this->tileHeight);
