@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 
         g->Run();
         g->~Game();
-    } catch (std::exception e) {
+    } catch (std::runtime_error e) {
         penguin::Logger::Error(e.what());
     }
 

@@ -3,23 +3,27 @@
 #include <Sprite.h>
 #include <Music.h>
 #include <Rectangle.h>
-#include <GameObject.h>
 #include <Vector.h>
 #include <Face.h>
+#include <TileSet.h>
+#include <TileMap.h>
 #include <Util.h>
 #include <Logger.h>
-#include <vector>
 #include <algorithm>
 #include <string>
-#include <memory>
 
 namespace penguin {
 
+    // TODO: verify if this is correct
     State::State () {
         auto obj = new GameObject();
-        auto bg  = new Sprite(*obj, "assets/img/ocean.jpg");
+        auto ts = new TileSet(*obj, 64, 64, "assets/img/tileset.png");
+        auto tm = new TileMap(*obj, "assets/map/tileMap.txt", ts);
+        // auto bg = new Sprite(*obj, "assets/img/ocean.jpg");
 
-        obj->AddComponent(bg);
+        obj->AddComponent(tm);
+        // obj->AddComponent(bg);
+        obj->box.vector = Vector(0, 0);
 
         this->quitRequested = false;
         this->music.Open("assets/audio/stageState.ogg");

@@ -1,6 +1,7 @@
 #include <Resources.h>
 #include <Game.h>
 #include <Logger.h>
+#include <Util.h>
 
 namespace penguin {
 
@@ -16,7 +17,7 @@ namespace penguin {
 
                 auto g = Game::GetInstance();
                 auto image = IMG_LoadTexture(g->GetRenderer(), file.c_str());
-
+                
                 if (image == nullptr) {
                     auto sdl_msg = IMG_GetError();
                     throw std::runtime_error(sdl_msg);
