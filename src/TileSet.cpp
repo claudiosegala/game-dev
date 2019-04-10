@@ -2,8 +2,7 @@
 
 namespace penguin {
 
-    TileSet::TileSet(GameObject& obj, int tileWidth, int tileHeight, std::string file) {
-        this->tileSet = new Sprite(obj, file); // TODO: is this correct?
+    TileSet::TileSet(GameObject& obj, int tileWidth, int tileHeight, std::string file) : tileSet(obj, file) {
         this->rows = this->tileSet.GetHeight() / tileHeight; 
         this->columns = this->tileSet.GetWidth() / tileWidth;
         this->tileWidth = tileWidth;

@@ -1,13 +1,14 @@
 #pragma once
 
 #include <GameObject.h>
+#include <Component.h>
 #include <TileSet.h>
 #include <string>
 #include <vector>
 
 namespace penguin {
 
-    class TileMap {
+    class TileMap : public Component {
         public:
 
         TileMap(GameObject&, std::string, TileSet*);
@@ -18,6 +19,8 @@ namespace penguin {
 
         int& At(int, int, int z = 0);
 
+        void Update(float);
+
         void Render();
 
         void RenderLayer(int, int cameraX = 0, int cameraY = 0);
@@ -27,6 +30,8 @@ namespace penguin {
         int GetHeight();
 
         int GetDepth();
+
+        bool Is(std::string);
 
         private:
 

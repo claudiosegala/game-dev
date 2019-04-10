@@ -7,7 +7,7 @@
 namespace penguin {
 
     // TODO: correct this
-    TileMap::TileMap(GameObject& obj, std::string file, TileSet* ts) : tileSet(ts) {
+    TileMap::TileMap(GameObject& obj, std::string file, TileSet* ts) : Component(obj), tileSet(ts) {
         Load(file);
     }
 
@@ -22,9 +22,12 @@ namespace penguin {
         }
 
         fs >> this->mapWidth >> this->mapHeight >> this->mapDepth;
-        this->tileMatrix.reserve(this->mapWidth * this->mapHeight * this->mapDepth);
 
-        for (unsigned int i = 0; i < this->tileMatrix.size(); i++) {
+        unsigned int n = this->mapWidth * this->mapHeight * this->mapDepth;
+
+        this->tileMatrix.reserve(n);
+
+        for (unsigned int i = 0; i < n; i++) {
             fs >> this->tileMatrix[i];
             this->tileMatrix[i]--;
         }
@@ -72,13 +75,27 @@ namespace penguin {
         return this->tileMatrix[idx];
     }
 
-    void TileMap::Render() {
+    void TileMap::Update (float dt) {
+        UNUSED(dt);
+    }
 
+    void TileMap::Render() {
+        for (int k = 0; k < this->mapDepth; k++) {
+            RenderLayer(k, 0, 0);
+        }
     }
 
     void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
         UNUSED(cameraX);
         UNUSED(cameraY);
+
+        for (int i = 0; i < this->mapHeight; i++) {
+            for (int j = 0; j < this->mapWidth; j++) {
+                unsigned int idx = At(i, j, layer);
+
+                tileSet->RenderTile(idx, i, j);
+            }
+        }
     }
 
     int TileMap::GetWidth() {
@@ -91,6 +108,10 @@ namespace penguin {
 
     int TileMap::GetDepth() {
         return this->mapDepth;
+    }
+
+    bool TileMap::Is (std::string type) {
+        return (type == "TileMap");
     }
 
 }
