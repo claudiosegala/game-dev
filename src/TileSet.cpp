@@ -1,4 +1,5 @@
-#include "TileSet.h"
+#include <TileSet.h>
+#include <Util.h>
 
 namespace penguin {
 
@@ -10,19 +11,18 @@ namespace penguin {
     }
         
     void TileSet::RenderTile(unsigned int index, float x, float y) {
-        auto idx = (int) index;
         auto n = GetQuantityTiles();
 
-        if (idx < n) {
-            auto i = (idx % this->columns);
-            auto j = (idx / this->rows);
+        if (index < n) {
+            auto i = (index % this->columns);
+            auto j = (index / this->rows);
 
             this->tileSet.SetClip(i * this->tileWidth, j * this->tileHeight, this->tileWidth, this->tileHeight);
-            this->tileSet.Render(x, y);
+            this->tileSet.Render(x * this->tileWidth, y * this->tileHeight);
         } 
     }
 
-    int TileSet::GetQuantityTiles() const {
+    unsigned int TileSet::GetQuantityTiles() const {
         return this->tileWidth * this->tileHeight;
     }
 

@@ -17,6 +17,8 @@ namespace penguin {
 
         void SetTileSet(TileSet*);
 
+        unsigned int Pos(unsigned int, unsigned int, unsigned int);
+
         int& At(int, int, int z = 0);
 
         void Update(float);
@@ -44,8 +46,6 @@ namespace penguin {
         int mapHeight;
 
         int mapDepth;
-
-        static std::string CreateBetterFile(std::string);
 
     };
 

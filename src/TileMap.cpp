@@ -12,56 +12,41 @@ namespace penguin {
     }
 
     void TileMap::Load(std::string file) {
-        auto new_file = CreateBetterFile(file);
-
-        std::ifstream fs(new_file);
+        std::string line;
+        std::ifstream fs(file);
 
         if (!fs.is_open()) {
             auto msg = std::string("Could not open file created file"); 
             throw std::runtime_error(msg);
         }
 
-        fs >> this->mapWidth >> this->mapHeight >> this->mapDepth;
+        
+        getline(fs, line, ',');
+        auto x = (unsigned int) std::stoi(line);
+        getline(fs, line, ',');
+        auto y = (unsigned int) std::stoi(line);
+        getline(fs, line, ',');
+        auto z = (unsigned int) std::stoi(line);
 
-        unsigned int n = this->mapWidth * this->mapHeight * this->mapDepth;
+        unsigned int n = x * y * z;
 
+        this->mapDepth = (int) z;
+        this->mapHeight = (int) y;
+        this->mapWidth = (int) x;
         this->tileMatrix.reserve(n);
 
-        for (unsigned int i = 0; i < n; i++) {
-            fs >> this->tileMatrix[i];
-            this->tileMatrix[i]--;
+        for (unsigned int k = 0; k < z; k++){
+            for (unsigned int i = 0; i < x; i++){
+                for (unsigned int j = 0; j < y; j++){
+                    getline(fs, line, ',');
+                    unsigned int idx = Pos(j, i, k);
+                    this->tileMatrix[idx] = std::stoi(line);
+                    this->tileMatrix[idx]--;
+                }
+            }
         }
         
         fs.close();
-    }
-
-    std::string TileMap::CreateBetterFile (std::string file) {
-        auto _file = std::string("_") + file;
-
-        std::ifstream in(file);
-        std::ofstream out(_file);
-
-        if (!(in.is_open() && out.is_open())) {
-            auto msg = std::string("Could not open file"); 
-            throw std::runtime_error(msg);
-        }
-
-        std::string line;
-
-        while (getline(in, line)) {
-            if (line == "\n") {
-                continue;
-            }
-
-            line.replace(line.begin(), line.end(), ',', ' ');
-            out << line;
-            std::cout << line; // TODO: remove later
-        }
-
-        in.close();
-        out.close();
-
-        return _file;
     }
 
     void TileMap::SetTileSet(TileSet* ts) {
@@ -69,9 +54,12 @@ namespace penguin {
         this->tileSet = ts;
     }
 
-    int& TileMap::At(int x, int y, int z) {
-        auto idx = (unsigned int) (z * (this->mapWidth * this->mapHeight) + y * (this->mapWidth) + x);
+    unsigned int TileMap::Pos(unsigned int x, unsigned int y, unsigned int z) {
+        return (z * (this->mapWidth * this->mapHeight) + y * (this->mapWidth) + x);
+    }
 
+    int& TileMap::At(int x, int y, int z) {
+        auto idx = Pos(x, y, z);
         return this->tileMatrix[idx];
     }
 
@@ -91,8 +79,7 @@ namespace penguin {
 
         for (int i = 0; i < this->mapHeight; i++) {
             for (int j = 0; j < this->mapWidth; j++) {
-                unsigned int idx = At(i, j, layer);
-
+                auto idx = (unsigned int) At(j, i, layer);
                 tileSet->RenderTile(idx, i, j);
             }
         }

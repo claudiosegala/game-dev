@@ -13,7 +13,7 @@ namespace penguin {
         
         void RenderTile(unsigned int, float, float);
 
-        int GetQuantityTiles() const;
+        unsigned int GetQuantityTiles() const;
     
         int GetTileWidth() const;
 
