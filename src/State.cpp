@@ -14,7 +14,6 @@
 
 namespace penguin {
 
-    // TODO: verify if this is correct
     State::State () {
         auto obj = new GameObject();
         auto ts = new TileSet(*obj, 64, 64, "assets/img/tileset.png");

@@ -15,7 +15,6 @@ namespace penguin {
         Open(name);
     }
 
-    // TODO: discover if this is supposed to be empty
     Sound::~Sound () {}
 
     void Sound::Play (int times) {

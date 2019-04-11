@@ -6,7 +6,6 @@
 
 namespace penguin {
 
-    // TODO: correct this
     TileMap::TileMap(GameObject& obj, std::string file, TileSet* ts) : Component(obj), tileSet(ts) {
         Load(file);
     }
@@ -54,7 +53,7 @@ namespace penguin {
     }
 
     void TileMap::SetTileSet(TileSet* ts) {
-        delete this->tileSet; // TODO: discover if I should delete
+        delete this->tileSet;
         this->tileSet = ts;
     }
 
