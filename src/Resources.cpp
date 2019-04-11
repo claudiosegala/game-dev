@@ -48,8 +48,10 @@ namespace penguin {
             for (auto &el : Resources::imageTable) {
                 auto image = el.second;
 
-                SDL_DestroyTexture(image);
-                image = nullptr;
+                if (image != nullptr) {
+                    SDL_DestroyTexture(image);
+                    image = nullptr;
+                }
             }
 
             Resources::imageTable.clear();
@@ -78,8 +80,10 @@ namespace penguin {
             for (auto &el : Resources::musicTable) {
                 auto music = el.second;
 
-                Mix_FreeMusic(music);
-                music = nullptr;
+                if (music != nullptr) {
+                    Mix_FreeMusic(music);
+                    music = nullptr;
+                }
             }
 
             Resources::musicTable.clear();
@@ -108,8 +112,10 @@ namespace penguin {
             for (auto &el : Resources::soundTable) {
                 auto sound = el.second;
 
-                Mix_FreeChunk(sound);
-                sound = nullptr;
+                if (sound != nullptr) {
+                    Mix_FreeChunk(sound);
+                    sound = nullptr;
+                }
             }
 
             Resources::soundTable.clear();

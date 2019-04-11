@@ -11,6 +11,10 @@ namespace penguin {
         Load(file);
     }
 
+    TileMap::~TileMap () {
+        delete this->tileSet;
+    }
+
     void TileMap::Load(std::string file) {
         std::string line;
         std::ifstream fs(file);

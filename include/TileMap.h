@@ -13,6 +13,8 @@ namespace penguin {
 
         TileMap(GameObject&, std::string, TileSet*);
 
+        ~TileMap();
+
         void Load(std::string);
 
         void SetTileSet(TileSet*);
