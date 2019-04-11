@@ -1,6 +1,7 @@
 #include <Music.h>
 #include <Resources.h>
 #include <Logger.h>
+#include <Util.h>
 #include <iostream>
 
 namespace penguin {
@@ -20,26 +21,23 @@ namespace penguin {
             return;
         }
 
-        Logger::Info("Start Playing Music...", 2);
+        Logger::Info("Start Playing Music");
         auto err = Mix_PlayMusic(this->music, times);
 
         if (err < 0) {
             auto mix_msg = Mix_GetError();
             throw std::runtime_error(mix_msg);
-        } else {
-            Logger::Info("Done", 1);
         }
     }
 
     void Music::Stop(int msToStop) {
-        Logger::Info("Fading Out Music...", 2);
+        Logger::Info("Fading Out Music");
         auto err = Mix_FadeOutMusic(msToStop);
 
         if (err != 1) {
             auto mix_msg = Mix_GetError();
+            W(mix_msg);
             throw std::runtime_error(mix_msg);
-        } else {
-            Logger::Info("Done", 1);
         }
     }
 

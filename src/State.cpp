@@ -32,6 +32,7 @@ namespace penguin {
     }
 
     State::~State () {
+        Logger::Info("Destroying State");
         this->music.Stop();
         this->objects.clear();
     }

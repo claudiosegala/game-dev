@@ -108,10 +108,9 @@ namespace penguin {
 
         void Resources::ClearSounds() {
             Logger::Info("Clearing sounds");
-
             for (auto &el : Resources::soundTable) {
                 auto sound = el.second;
-
+                
                 if (sound != nullptr) {
                     Mix_FreeChunk(sound);
                     sound = nullptr;
