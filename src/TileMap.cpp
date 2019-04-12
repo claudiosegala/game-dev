@@ -36,7 +36,7 @@ namespace penguin {
         this->mapDepth = (int) z;
         this->mapHeight = (int) y;
         this->mapWidth = (int) x;
-        this->tileMatrix.reserve(n);
+        this->tileMatrix.resize(n);
 
         for (unsigned int k = 0; k < z; k++){
             for (unsigned int i = 0; i < x; i++){
