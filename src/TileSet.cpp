@@ -14,8 +14,9 @@ namespace penguin {
         auto n = GetQuantityTiles();
 
         if (index < n) {
-            auto i = (index % this->columns);
-            auto j = (index / this->columns);
+            auto cols = static_cast<unsigned int>(this->columns);
+            auto i = static_cast<int>(index % cols);
+            auto j = static_cast<int>(index / cols);
 
             this->tileSet.SetClip(i * this->tileWidth, j * this->tileHeight, this->tileWidth, this->tileHeight);
             this->tileSet.Render(x * this->tileWidth, y * this->tileHeight);
@@ -23,7 +24,7 @@ namespace penguin {
     }
 
     unsigned int TileSet::GetQuantityTiles() const {
-        return this->tileWidth * this->tileHeight;
+        return static_cast<unsigned int>(this->tileWidth * this->tileHeight);
     }
 
     int TileSet::GetTileWidth() const {

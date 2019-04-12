@@ -19,7 +19,7 @@ namespace penguin {
 
         void SetTileSet(TileSet*);
 
-        unsigned int Pos(unsigned int, unsigned int, unsigned int);
+        unsigned int Pos(int, int, int);
 
         int& At(int, int, int z = 0);
 

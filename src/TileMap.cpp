@@ -25,24 +25,24 @@ namespace penguin {
 
         
         getline(fs, line, ',');
-        auto x = (unsigned int) std::stoi(line);
+        auto x = std::stoi(line);
         getline(fs, line, ',');
-        auto y = (unsigned int) std::stoi(line);
+        auto y = std::stoi(line);
         getline(fs, line, ',');
-        auto z = (unsigned int) std::stoi(line);
+        auto z = std::stoi(line);
 
-        unsigned int n = x * y * z;
+        auto n = static_cast<unsigned int>(x * y * z);
 
-        this->mapDepth = (int) z;
-        this->mapHeight = (int) y;
-        this->mapWidth = (int) x;
         this->tileMatrix.resize(n);
+        this->mapDepth = z;
+        this->mapHeight = y;
+        this->mapWidth = x;
 
-        for (unsigned int k = 0; k < z; k++){
-            for (unsigned int i = 0; i < x; i++){
-                for (unsigned int j = 0; j < y; j++){
+        for (auto k = 0; k < z; k++){
+            for (auto i = 0; i < x; i++){
+                for (auto j = 0; j < y; j++){
                     getline(fs, line, ',');
-                    unsigned int idx = Pos(j, i, k);
+                    auto idx = Pos(j, i, k);
                     this->tileMatrix[idx] = std::stoi(line);
                     this->tileMatrix[idx]--;
                 }
@@ -57,8 +57,11 @@ namespace penguin {
         this->tileSet = ts;
     }
 
-    unsigned int TileMap::Pos(unsigned int x, unsigned int y, unsigned int z) {
-        return (z * (this->mapWidth * this->mapHeight) + y * (this->mapWidth) + x);
+    unsigned int TileMap::Pos(int x, int y, int z) {
+        auto mapSize = (this->mapWidth * this->mapHeight);
+        auto columnSize = (this->mapWidth);
+
+        return static_cast<unsigned int>(z * mapSize + y * columnSize + x);
     }
 
     int& TileMap::At(int x, int y, int z) {
