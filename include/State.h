@@ -5,36 +5,32 @@
 #include <vector>
 #include <memory>
 
-namespace penguin {
+class State {
+    public:
 
-    class State {
-        public:
+    State();
 
-        State();
+    ~State();
 
-        ~State();
+    bool QuitRequested();
 
-        bool QuitRequested();
+    void LoadAssets();
 
-        void LoadAssets();
+    void Update(float);
 
-        void Update(float);
+    void Render();
 
-        void Render();
+    private:
 
-        private:
+    bool quitRequested;
 
-        bool quitRequested;
+    Music music;
 
-        Music music;
+    std::vector<std::shared_ptr<GameObject>> objects;
 
-        std::vector<std::shared_ptr<GameObject>> objects;
+    void Input();
 
-        void Input();
+    void AddObject(int, int);
 
-        void AddObject(int, int);
-
-        void Prune();
-    };
-
-}
+    void Prune();
+};

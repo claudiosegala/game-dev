@@ -1,7 +1,3 @@
-#define INCLUDE_SDL
-#define INCLUDE_SDL_IMAGE
-#define INCLUDE_SDL_MIXER
-#define INCLUDE_SDL_TTF
 #include <SDL_Include.h>
 #include <Game.h>
 #include <Logger.h>
@@ -17,14 +13,14 @@ int main(int argc, char** argv)
     try {
         srand((unsigned int)time(NULL));
 
-        penguin::Logger::GetInstance();    
+        Logger::GetInstance();    
     
-        auto g = penguin::Game::GetInstance();
+        auto g = Game::GetInstance();
 
         g->Run();
         g->~Game();
     } catch (std::runtime_error e) {
-        penguin::Logger::Error(e.what());
+        Logger::Error(e.what());
     }
 
     return 0;

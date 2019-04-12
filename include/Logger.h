@@ -2,26 +2,22 @@
 
 #include <string>
 
-namespace penguin {
+class Logger {
+    public:
 
-    class Logger {
-        public:
+    ~Logger();
 
-        ~Logger();
+    static Logger* GetInstance();
 
-        static Logger* GetInstance();
+    static void Error(const std::string&, int type = 0);
 
-        static void Error(const std::string&, int type = 0);
+    static void Info(const std::string&, int type = 0);
 
-        static void Info(const std::string&, int type = 0);
+    static void Warning(const std::string&, int type = 0);
 
-        static void Warning(const std::string&, int type = 0);
+    private:
 
-        private:
+    static Logger* instance;
 
-        static Logger* instance;
-
-        Logger();
-    };
-
-}
+    Logger();
+};

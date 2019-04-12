@@ -3,71 +3,65 @@
 #include <Util.h>
 #include <cmath>
 
-namespace penguin {
+Point::Point(float xv, float yv) : x(xv), y(yv) {}
 
-    #define EPS 0.00001
+float Point::Distance(const Point& P, const Point& Q) {
+    return (float) hypot(P.x - Q.x, P.y - Q.y);
+}
 
-    Point::Point(float xv, float yv) : x(xv), y(yv) {}
+Point Point::operator+= (const Point& P) {
+    this->x += P.x;
+    this->y += P.y;
 
-    float Point::Distance(const Point& P, const Point& Q) {
-        return (float) hypot(P.x - Q.x, P.y - Q.y);
-    }
+    return *this; 
+}
 
-    Point Point::operator+= (const Point& P) {
-        this->x += P.x;
-        this->y += P.y;
+Point Point::operator+ (const Point& P) {
+    this->x += P.x;
+    this->y += P.y;
 
-        return *this; 
-    }
+    return *this; 
+}
 
-    Point Point::operator+ (const Point& P) {
-        this->x += P.x;
-        this->y += P.y;
+Point Point::operator-= (const Point& P) {
+    this->x -= P.x;
+    this->y -= P.y;
 
-        return *this; 
-    }
+    return *this; 
+}
 
-    Point Point::operator-= (const Point& P) {
-        this->x -= P.x;
-        this->y -= P.y;
+Point Point::operator- (const Point& P) {
+    this->x -= P.x;
+    this->y -= P.y;
 
-        return *this; 
-    }
+    return *this; 
+}
 
-    Point Point::operator- (const Point& P) {
-        this->x -= P.x;
-        this->y -= P.y;
+Point Point::operator* (float value) {
+    this->x *= value;
+    this->y *= value;
 
-        return *this; 
-    }
+    return *this;
+}
 
-    Point Point::operator* (float value) {
-        this->x *= value;
-        this->y *= value;
+Point Point::operator/ (float value) {
+    this->x /= value;
+    this->y /= value;
 
-        return *this;
-    }
+    return *this;
+}
 
-    Point Point::operator/ (float value) {
-        this->x /= value;
-        this->y /= value;
+Point Point::operator= (const Point& P) {
+    this->x = P.x;
+    this->y = P.y;
 
-        return *this;
-    }
+    return (*this);
+}
 
-    Point Point::operator= (const Point& P) {
-        this->x = P.x;
-        this->y = P.y;
+bool Point::operator==(const Point& P) {
+    return EQUAL(this->x, P.x) && EQUAL(this->y, P.y);
+}
 
-        return (*this);
-    }
-
-    bool Point::operator==(const Point& P) {
-        return EQUAL(this->x, P.x) && EQUAL(this->y, P.y);
-    }
-
-    bool Point::operator<(const Point& P) {
-        return EQUAL(this->x, P.x) ? this->y < P.y : this->x < P.x;
-    }
-
+bool Point::operator<(const Point& P) {
+    return EQUAL(this->x, P.x) ? this->y < P.y : this->x < P.x;
 }

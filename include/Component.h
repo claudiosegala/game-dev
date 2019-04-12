@@ -3,27 +3,23 @@
 #include <GameObject.h>
 #include <string>
 
-namespace penguin {
+class GameObject;
 
-    class GameObject;
+class Component {
+    public:
 
-    class Component {
-        public:
+    Component(GameObject& associated);
 
-        Component(GameObject& associated);
+    virtual ~Component();
 
-        virtual ~Component();
+    virtual void Update(float dt) = 0;
 
-        virtual void Update(float dt) = 0;
+    virtual void Render() = 0;
 
-        virtual void Render() = 0;
+    virtual bool Is(std::string) = 0;
 
-        virtual bool Is(std::string) = 0;
+    protected:
+    
+    GameObject& associated;
 
-        protected:
-        
-        GameObject& associated;
-
-    };
-
-}
+};

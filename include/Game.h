@@ -5,45 +5,41 @@
 #include <string>
 #include <stdexcept>
 
-namespace penguin {
+class Game {
+    public:
 
-    class Game {
-        public:
+    ~Game();
 
-        ~Game();
+    void Run();
 
-        void Run();
+    static Game* GetInstance();
 
-        static Game* GetInstance();
+    State* GetState();
 
-        State* GetState();
+    SDL_Renderer* GetRenderer();
 
-        SDL_Renderer* GetRenderer();
+    private:
 
-        private:
+    SDL_Window* window;
 
-        SDL_Window* window;
+    SDL_Renderer* renderer;
 
-        SDL_Renderer* renderer;
+    State* state;
 
-        State* state;
+    static Game* instance;
 
-        static Game* instance;
+    Game(const std::string&, int, int);
 
-        Game(const std::string&, int, int);
+    void Init_SDL();
 
-        void Init_SDL();
+    void Init_IMG();
 
-        void Init_IMG();
+    void Init_MIX();
 
-        void Init_MIX();
+    void Init_WDW(const std::string&, int, int);
 
-        void Init_WDW(const std::string&, int, int);
+    void Init_RDR();
 
-        void Init_RDR();
+    void Init_STS();
 
-        void Init_STS();
-
-    };
-
-}
+};

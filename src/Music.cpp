@@ -4,49 +4,45 @@
 #include <Util.h>
 #include <iostream>
 
-namespace penguin {
+Music::Music() {
+    this->music = nullptr;
+}
 
-    Music::Music() {
-        this->music = nullptr;
+Music::Music(const std::string &file) {
+    Open(file);
+}
+
+Music::~Music() {}
+
+void Music::Play(int times) {
+    if (this->music == nullptr) {
+        return;
     }
 
-    Music::Music(const std::string &file) {
-        Open(file);
+    Logger::Info("Start Playing Music");
+    auto err = Mix_PlayMusic(this->music, times);
+
+    if (err < 0) {
+        auto mix_msg = Mix_GetError();
+        throw std::runtime_error(mix_msg);
     }
+}
 
-    Music::~Music() {}
+void Music::Stop(int msToStop) {
+    Logger::Info("Fading Out Music");
+    auto err = Mix_FadeOutMusic(msToStop);
 
-    void Music::Play(int times) {
-        if (this->music == nullptr) {
-            return;
-        }
-
-        Logger::Info("Start Playing Music");
-        auto err = Mix_PlayMusic(this->music, times);
-
-        if (err < 0) {
-            auto mix_msg = Mix_GetError();
-            throw std::runtime_error(mix_msg);
-        }
+    if (err != 1) {
+        auto mix_msg = Mix_GetError();
+        W(mix_msg);
+        throw std::runtime_error(mix_msg);
     }
+}
 
-    void Music::Stop(int msToStop) {
-        Logger::Info("Fading Out Music");
-        auto err = Mix_FadeOutMusic(msToStop);
+void Music::Open(const std::string &file) {
+    this->music = Resources::GetMusic(file);
+}
 
-        if (err != 1) {
-            auto mix_msg = Mix_GetError();
-            W(mix_msg);
-            throw std::runtime_error(mix_msg);
-        }
-    }
-
-    void Music::Open(const std::string &file) {
-        this->music = Resources::GetMusic(file);
-    }
-
-    bool Music::IsOpen() {
-        return (this->music != nullptr);
-    }
-
+bool Music::IsOpen() {
+    return (this->music != nullptr);
 }

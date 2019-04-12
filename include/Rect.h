@@ -4,44 +4,40 @@
 #include <Point.h>
 #include <tuple>
 
-namespace penguin {
+class Rect {
+    public:
 
-    class Rect {
-        public:
+    Vec2 vector;
 
-        Vec2 vector;
+    float width;
 
-        float width;
+    float height;
 
-        float height;
+    Rect();
 
-        Rect();
+    Rect(Vec2, float, float);
 
-        Rect(Vec2, float, float);
+    Rect(float, float, float, float);
 
-        Rect(float, float, float, float);
+    Point Center() const;
 
-        Point Center() const;
+    float CenterDistance(const Rect&) const;
 
-        float CenterDistance(const Rect&) const;
+    bool IsInside(const Point&) const;
 
-        bool IsInside(const Point&) const;
+    std::tuple<Point, Point> GetPoints() const;
 
-        std::tuple<Point, Point> GetPoints() const;
+    Rect operator+ (const Vec2&) const;
 
-        Rect operator+ (const Vec2&) const;
+    void operator+= (const Vec2&);
 
-        void operator+= (const Vec2&);
+    Rect operator- (const Vec2&) const;
 
-        Rect operator- (const Vec2&) const;
+    void operator-= (const Vec2&);
 
-        void operator-= (const Vec2&);
+    Rect operator* (float) const;
 
-        Rect operator* (float) const;
+    void operator*= (float);
 
-        void operator*= (float);
-
-        Rect operator= (const Rect&);
-    };
-
-}
+    Rect operator= (const Rect&);
+};

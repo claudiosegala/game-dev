@@ -4,33 +4,29 @@
 #include <Sprite.h>
 #include <string>
 
-namespace penguin {
-
-    class TileSet {
-        public:
-        
-        TileSet(GameObject&, int, int, std::string);
-        
-        void RenderTile(unsigned int, float, float);
-
-        unsigned int GetQuantityTiles() const;
+class TileSet {
+    public:
     
-        int GetTileWidth() const;
+    TileSet(GameObject&, int, int, std::string);
+    
+    void RenderTile(unsigned int, float, float);
 
-        int GetTileHeight() const;
+    unsigned int GetQuantityTiles() const;
 
-        private:
+    int GetTileWidth() const;
 
-        Sprite tileSet;
+    int GetTileHeight() const;
 
-        int rows;
+    private:
 
-        int columns;
+    Sprite tileSet;
 
-        int tileWidth;
+    int rows;
 
-        int tileHeight;
+    int columns;
 
-    };
+    int tileWidth;
 
-}
+    int tileHeight;
+
+};

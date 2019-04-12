@@ -3,29 +3,25 @@
 #include <SDL_Include.h>
 #include <string>
 
-namespace penguin {
+class Music {
+    public:
 
-    class Music {
-        public:
+    Music();
 
-        Music();
+    Music(const std::string&);
 
-        Music(const std::string&);
+    ~Music();
 
-        ~Music();
+    void Play(int times = -1);
 
-        void Play(int times = -1);
+    void Stop(int msToStop = 1500);
 
-        void Stop(int msToStop = 1500);
+    void Open(const std::string&);
 
-        void Open(const std::string&);
+    bool IsOpen();
 
-        bool IsOpen();
+    private:
 
-        private:
+    Mix_Music* music;
 
-        Mix_Music* music;
-
-    };
-
-}
+};

@@ -4,24 +4,20 @@
 #include <GameObject.h>
 #include <string>
 
-namespace penguin {
+class Face : public Component {
+    public:
 
-    class Face : public Component {
-        public:
+    Face(GameObject&);
 
-        Face(GameObject&);
+    void Damage(int);
 
-        void Damage(int);
+    void Update(float);
 
-        void Update(float);
+    void Render();
 
-        void Render();
+    bool Is(std::string);        
 
-        bool Is(std::string);        
+    private:
 
-        private:
-
-        int hitpoints;
-    };
-
-}
+    int hitpoints;
+};

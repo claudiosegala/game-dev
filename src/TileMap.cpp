@@ -4,107 +4,103 @@
 #include <fstream>
 #include <sstream>
 
-namespace penguin {
+TileMap::TileMap(GameObject& obj, std::string file, TileSet* ts) : Component(obj), tileSet(ts) {
+    Load(file);
+}
 
-    TileMap::TileMap(GameObject& obj, std::string file, TileSet* ts) : Component(obj), tileSet(ts) {
-        Load(file);
+TileMap::~TileMap () {
+    delete this->tileSet;
+}
+
+void TileMap::Load(std::string file) {
+    std::string line;
+    std::ifstream fs(file);
+
+    if (!fs.is_open()) {
+        auto msg = std::string("Could not open file created file"); 
+        throw std::runtime_error(msg);
     }
 
-    TileMap::~TileMap () {
-        delete this->tileSet;
-    }
+    
+    getline(fs, line, ',');
+    auto x = std::stoi(line);
+    getline(fs, line, ',');
+    auto y = std::stoi(line);
+    getline(fs, line, ',');
+    auto z = std::stoi(line);
 
-    void TileMap::Load(std::string file) {
-        std::string line;
-        std::ifstream fs(file);
+    auto n = static_cast<unsigned int>(x * y * z);
 
-        if (!fs.is_open()) {
-            auto msg = std::string("Could not open file created file"); 
-            throw std::runtime_error(msg);
-        }
+    this->tileMatrix.resize(n);
+    this->mapDepth = z;
+    this->mapHeight = y;
+    this->mapWidth = x;
 
-        
-        getline(fs, line, ',');
-        auto x = std::stoi(line);
-        getline(fs, line, ',');
-        auto y = std::stoi(line);
-        getline(fs, line, ',');
-        auto z = std::stoi(line);
-
-        auto n = static_cast<unsigned int>(x * y * z);
-
-        this->tileMatrix.resize(n);
-        this->mapDepth = z;
-        this->mapHeight = y;
-        this->mapWidth = x;
-
-        for (auto k = 0; k < z; k++){
-            for (auto i = 0; i < x; i++){
-                for (auto j = 0; j < y; j++){
-                    getline(fs, line, ',');
-                    auto idx = Pos(j, i, k);
-                    this->tileMatrix[idx] = std::stoi(line);
-                    this->tileMatrix[idx]--;
-                }
-            }
-        }
-        
-        fs.close();
-    }
-
-    void TileMap::SetTileSet(TileSet* ts) {
-        delete this->tileSet;
-        this->tileSet = ts;
-    }
-
-    unsigned int TileMap::Pos(int x, int y, int z) {
-        auto mapSize = (this->mapWidth * this->mapHeight);
-        auto columnSize = (this->mapWidth);
-
-        return static_cast<unsigned int>(z * mapSize + y * columnSize + x);
-    }
-
-    int& TileMap::At(int x, int y, int z) {
-        auto idx = Pos(x, y, z);
-        return this->tileMatrix[idx];
-    }
-
-    void TileMap::Update (float dt) {
-        UNUSED(dt);
-    }
-
-    void TileMap::Render() {
-        for (int k = 0; k < this->mapDepth; k++) {
-            RenderLayer(k, 0, 0);
-        }
-    }
-
-    void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
-        UNUSED(cameraX);
-        UNUSED(cameraY);
-
-        for (int i = 0; i < this->mapHeight; i++) {
-            for (int j = 0; j < this->mapWidth; j++) {
-                auto idx = (unsigned int) At(i, j, layer);
-                tileSet->RenderTile(idx, i, j);
+    for (auto k = 0; k < z; k++){
+        for (auto i = 0; i < x; i++){
+            for (auto j = 0; j < y; j++){
+                getline(fs, line, ',');
+                auto idx = Pos(j, i, k);
+                this->tileMatrix[idx] = std::stoi(line);
+                this->tileMatrix[idx]--;
             }
         }
     }
+    
+    fs.close();
+}
 
-    int TileMap::GetWidth() {
-        return this->mapWidth;
+void TileMap::SetTileSet(TileSet* ts) {
+    delete this->tileSet;
+    this->tileSet = ts;
+}
+
+unsigned int TileMap::Pos(int x, int y, int z) {
+    auto mapSize = (this->mapWidth * this->mapHeight);
+    auto columnSize = (this->mapWidth);
+
+    return static_cast<unsigned int>(z * mapSize + y * columnSize + x);
+}
+
+int& TileMap::At(int x, int y, int z) {
+    auto idx = Pos(x, y, z);
+    return this->tileMatrix[idx];
+}
+
+void TileMap::Update (float dt) {
+    UNUSED(dt);
+}
+
+void TileMap::Render() {
+    for (int k = 0; k < this->mapDepth; k++) {
+        RenderLayer(k, 0, 0);
     }
+}
 
-    int TileMap::GetHeight() {
-        return this->mapHeight;
+void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
+    UNUSED(cameraX);
+    UNUSED(cameraY);
+
+    for (int i = 0; i < this->mapHeight; i++) {
+        for (int j = 0; j < this->mapWidth; j++) {
+            auto idx = (unsigned int) At(i, j, layer);
+            tileSet->RenderTile(idx, i, j);
+        }
     }
+}
 
-    int TileMap::GetDepth() {
-        return this->mapDepth;
-    }
+int TileMap::GetWidth() {
+    return this->mapWidth;
+}
 
-    bool TileMap::Is (std::string type) {
-        return (type == "TileMap");
-    }
+int TileMap::GetHeight() {
+    return this->mapHeight;
+}
 
+int TileMap::GetDepth() {
+    return this->mapDepth;
+}
+
+bool TileMap::Is (std::string type) {
+    return (type == "TileMap");
 }

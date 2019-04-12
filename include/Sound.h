@@ -4,37 +4,33 @@
 #include <Component.h>
 #include <SDL_Include.h>
 
-namespace penguin {
+class Sound : public Component {
+    public:
 
-    class Sound : public Component {
-        public:
+    Sound(GameObject&);
 
-        Sound(GameObject&);
+    Sound(GameObject&, std::string);
 
-        Sound(GameObject&, std::string);
+    ~Sound();
 
-        ~Sound();
+    void Play(int times = 1);
 
-        void Play(int times = 1);
+    void Stop();
 
-        void Stop();
+    void Open(std::string);
 
-        void Open(std::string);
+    bool IsOpen();
 
-        bool IsOpen();
+    void Update(float);
 
-        void Update(float);
+    void Render();
 
-        void Render();
+    bool Is(std::string);
+    
+    private:
 
-        bool Is(std::string);
-        
-        private:
+    int channel;
 
-        int channel;
+    Mix_Chunk* chunk;
 
-        Mix_Chunk* chunk;
-
-    };
-
-}
+};

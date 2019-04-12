@@ -5,47 +5,43 @@
 #include <Component.h>
 #include <string>
 
-namespace penguin {
+class Sprite : public Component {
+    public:
 
-    class Sprite : public Component {
-        public:
+    Sprite(GameObject& associated);
 
-        Sprite(GameObject& associated);
+    Sprite(GameObject& associated, const std::string&);
 
-        Sprite(GameObject& associated, const std::string&);
+    ~Sprite();
 
-        ~Sprite();
+    void Open (const std::string&);
 
-        void Open (const std::string&);
+    void SetClip (int, int, int, int);
 
-        void SetClip (int, int, int, int);
+    void Update(float);
 
-        void Update(float);
+    void Render();
 
-        void Render();
+    void Render(int x, int y);
 
-        void Render(int x, int y);
+    void Render(float x, float y);
 
-        void Render(float x, float y);
+    bool Is(std::string);
 
-        bool Is(std::string);
+    int GetWidth();
 
-        int GetWidth();
+    int GetHeight();
 
-        int GetHeight();
+    bool IsOpen();
 
-        bool IsOpen();
+    private:
 
-        private:
+    int width;
 
-        int width;
+    int height;
 
-        int height;
+    SDL_Texture* texture;
 
-        SDL_Texture* texture;
+    SDL_Rect clipRect;
 
-        SDL_Rect clipRect;
-
-    };
-
-}
+};

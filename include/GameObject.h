@@ -7,38 +7,34 @@
 #include <string>
 #include <memory>
 
-namespace penguin {
+class Component;
 
-    class Component;
+class GameObject {
+    public:
 
-    class GameObject {
-        public:
+    Rect box;
 
-        Rect box;
+    GameObject();
 
-        GameObject();
+    ~GameObject();
 
-        ~GameObject();
+    void Update(float);
 
-        void Update(float);
+    void Render();
 
-        void Render();
+    bool IsDead();
 
-        bool IsDead();
+    void RequestDelete();
 
-        void RequestDelete();
+    void AddComponent(Component*);
 
-        void AddComponent(Component*);
+    void RemoveComponent(std::shared_ptr<Component>&);
 
-        void RemoveComponent(std::shared_ptr<Component>&);
+    std::shared_ptr<Component> GetComponent(std::string);
 
-        std::shared_ptr<Component> GetComponent(std::string);
+    private:
 
-        private:
+    bool isDead;
 
-        bool isDead;
-
-        std::vector<std::shared_ptr<Component>> components;
-    };
-
-}
+    std::vector<std::shared_ptr<Component>> components;
+};
