@@ -2,8 +2,8 @@
 #include <Sound.h>
 #include <Sprite.h>
 #include <Music.h>
-#include <Rectangle.h>
-#include <Vector.h>
+#include <Rect.h>
+#include <Vec2.h>
 #include <Face.h>
 #include <TileSet.h>
 #include <TileMap.h>
@@ -22,7 +22,7 @@ namespace penguin {
 
         obj->AddComponent(bg);
         obj->AddComponent(tm);
-        obj->box.vector = Vector(0, 0);
+        obj->box.vector = Vec2(0, 0);
 
         this->quitRequested = false;
         this->music.Open("assets/audio/stageState.ogg");
@@ -104,7 +104,7 @@ namespace penguin {
                     auto x = static_cast<float>(mouseX);
                     auto y = static_cast<float>(mouseY);
                     auto r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX); // 0.0 to 1.0
-                    Vector pos = Vector(200.0, 0.0).GetRotate(TAO * r) + Vector(x, y);
+                    Vec2 pos = Vec2(200.0, 0.0).GetRotate(TAO * r) + Vec2(x, y);
 
                     AddObject((int)pos.x, (int)pos.y);
                 }
@@ -135,7 +135,7 @@ namespace penguin {
         // Adjust position for the sprite
         auto x = static_cast<float>(mouseX);
         auto y = static_cast<float>(mouseY);
-        obj->box.vector = Vector(x, y) - Vector(obj->box.width/2, obj->box.height/2);
+        obj->box.vector = Vec2(x, y) - Vec2(obj->box.width/2, obj->box.height/2);
 
         // Insert
         this->objects.emplace_back(obj);

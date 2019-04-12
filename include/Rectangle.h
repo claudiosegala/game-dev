@@ -1,47 +1,47 @@
 #pragma once
 
-#include <Vector.h>
+#include <Vec2.h>
 #include <Point.h>
 #include <tuple>
 
 namespace penguin {
 
-    class Rectangle {
+    class Rect {
         public:
 
-        Vector vector;
+        Vec2 vector;
 
         float width;
 
         float height;
 
-        Rectangle();
+        Rect();
 
-        Rectangle(Vector, float, float);
+        Rect(Vec2, float, float);
 
-        Rectangle(float, float, float, float);
+        Rect(float, float, float, float);
 
         Point Center() const;
 
-        float CenterDistance(const Rectangle&) const;
+        float CenterDistance(const Rect&) const;
 
         bool IsInside(const Point&) const;
 
         std::tuple<Point, Point> GetPoints() const;
 
-        Rectangle operator+ (const Vector&) const;
+        Rect operator+ (const Vec2&) const;
 
-        void operator+= (const Vector&);
+        void operator+= (const Vec2&);
 
-        Rectangle operator- (const Vector&) const;
+        Rect operator- (const Vec2&) const;
 
-        void operator-= (const Vector&);
+        void operator-= (const Vec2&);
 
-        Rectangle operator* (float) const;
+        Rect operator* (float) const;
 
         void operator*= (float);
 
-        Rectangle operator= (const Rectangle&);
+        Rect operator= (const Rect&);
     };
 
 }

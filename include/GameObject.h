@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Component.h>
-#include <Rectangle.h>
-#include <Vector.h>
+#include <Rect.h>
+#include <Vec2.h>
 #include <vector>
 #include <string>
 #include <memory>
@@ -14,7 +14,7 @@ namespace penguin {
     class GameObject {
         public:
 
-        Rectangle box;
+        Rect box;
 
         GameObject();
 

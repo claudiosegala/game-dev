@@ -1,5 +1,5 @@
-#include <Rectangle.h>
-#include <Vector.h>
+#include <Rect.h>
+#include <Vec2.h>
 #include <Point.h>
 #include <Logger.h>
 #include <Util.h>
@@ -7,13 +7,13 @@
 
 namespace penguin {
 
-    Rectangle::Rectangle() : vector(), width(0), height(0) {}
+    Rect::Rect() : vector(), width(0), height(0) {}
 
-    Rectangle::Rectangle(Vector v, float w, float h) : vector(v), width(w), height(h) {}
+    Rect::Rect(Vec2 v, float w, float h) : vector(v), width(w), height(h) {}
 
-    Rectangle::Rectangle(float x, float y, float w, float h) : vector(x, y), width(w), height(h) {}
+    Rect::Rect(float x, float y, float w, float h) : vector(x, y), width(w), height(h) {}
 
-    Point Rectangle::Center() const {
+    Point Rect::Center() const {
         Point dl, ur;
 
         std::tie(dl, ur) = GetPoints();
@@ -21,19 +21,19 @@ namespace penguin {
         return (dl + ur) / 2;
     }
 
-    float Rectangle::CenterDistance(const Rectangle& R) const {
+    float Rect::CenterDistance(const Rect& R) const {
         auto c1 = this->Center();
         auto c2 = R.Center();
 
         return Point::Distance(c1, c2);
     }
 
-    bool Rectangle::IsInside(const Point& P) const {
+    bool Rect::IsInside(const Point& P) const {
         return (P.x >= this->vector.x && P.x <= this->vector.x + this->width)
             && (P.y >= this->vector.y && P.y <= this->vector.y + this->height);
     } 
 
-    std::tuple<Point, Point> Rectangle::GetPoints() const {
+    std::tuple<Point, Point> Rect::GetPoints() const {
         auto u = static_cast<Point>(this->vector); // down left
         auto x = (u.x + this->width);
         auto y = (u.y + this->height);
@@ -42,38 +42,38 @@ namespace penguin {
         return std::make_tuple(v, u);
     }
 
-    Rectangle Rectangle::operator+ (const Vector& V) const {
-        return Rectangle { this->vector + V, this->width, this->height };
+    Rect Rect::operator+ (const Vec2& V) const {
+        return Rect { this->vector + V, this->width, this->height };
     }
 
-    void Rectangle::operator+= (const Vector& V) {
+    void Rect::operator+= (const Vec2& V) {
         this->vector.x += V.x;
         this->vector.y += V.y;
     }
 
-    Rectangle Rectangle::operator- (const Vector& V) const {
-        return Rectangle { this->vector - V, this->width, this->height };
+    Rect Rect::operator- (const Vec2& V) const {
+        return Rect { this->vector - V, this->width, this->height };
     }
 
-    void Rectangle::operator-= (const Vector& V) {
+    void Rect::operator-= (const Vec2& V) {
         this->vector.x -= V.x;
         this->vector.y -= V.y;
     }
 
-    Rectangle Rectangle::operator* (float value) const {
+    Rect Rect::operator* (float value) const {
         auto w = this->width * value;
         auto h = this->height * value;
 
-        return Rectangle { this->vector, w, h};
+        return Rect { this->vector, w, h};
     }   
 
-    void Rectangle::operator*= (float v) {
+    void Rect::operator*= (float v) {
         this->vector.x *= v;
         this->vector.y *= v;
     }
 
-    Rectangle Rectangle::operator= (const Rectangle& R) {
-        return Rectangle { R.vector, R.width, R.height };
+    Rect Rect::operator= (const Rect& R) {
+        return Rect { R.vector, R.width, R.height };
     } 
 
 }

@@ -5,10 +5,10 @@
 
 namespace penguin {
 
-    class Vector : public Point {
+    class Vec2 : public Point {
         public:
 
-        Vector(float xv = 0, float yv = 0);
+        Vec2(float xv = 0, float yv = 0);
 
         ///> Find magnitude of vector
         float GetLength() const;
@@ -17,49 +17,49 @@ namespace penguin {
         float GetAngle() const;
 
         ///> Find angle between this vector and another
-        float GetAngle(const Vector&) const;
+        float GetAngle(const Vec2&) const;
 
         ///> Transform vector, on unit
         void Unit();
 
         ///> Get unit vector
-        Vector GetUnit() const;
+        Vec2 GetUnit() const;
 
         ///> Transform vector, rotating
         void Rotate(float);
 
         ///> Get rotated vector
-        Vector GetRotate(float) const;
+        Vec2 GetRotate(float) const;
         
         ///> Cross product
-        Vector operator* (const Vector&);
+        Vec2 operator* (const Vec2&);
         
         ///> Dot product
-        float operator^ (const Vector&) const;
+        float operator^ (const Vec2&) const;
 
-        Vector operator* (const float) const;
+        Vec2 operator* (const float) const;
 
         void operator*= (const float);
 
-        Vector operator/ (const float) const;
+        Vec2 operator/ (const float) const;
 
         void operator/= (const float);
 
-        Vector operator+(const Vector&) const;
+        Vec2 operator+(const Vec2&) const;
 
-        Vector operator+= (const Vector&);
+        Vec2 operator+= (const Vec2&);
 
-        Vector operator-(const Vector&) const;
+        Vec2 operator-(const Vec2&) const;
 
-        Vector operator-= (const Vector&);
+        Vec2 operator-= (const Vec2&);
 
-        Vector operator= (const Point&);
+        Vec2 operator= (const Point&);
 
-        Vector operator= (const Vector&);
+        Vec2 operator= (const Vec2&);
 
-        friend std::ostream& operator<<(std::ostream &os, const  Vector& n);
+        friend std::ostream& operator<<(std::ostream &os, const  Vec2& n);
 
-        friend std::istream& operator>>(std::istream &is, Vector& n);
+        friend std::istream& operator>>(std::istream &is, Vec2& n);
                 
     };
 

@@ -1,6 +1,6 @@
 #include <GameObject.h>
 #include <Component.h>
-#include <Rectangle.h>
+#include <Rect.h>
 #include <Logger.h>
 #include <vector>
 #include <string>
@@ -14,7 +14,7 @@ namespace penguin {
     }
 
     GameObject::~GameObject() {
-        this->box.~Rectangle();
+        this->box.~Rect();
         this->components.clear();
     }
 
