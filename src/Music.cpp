@@ -34,7 +34,6 @@ void Music::Stop(int msToStop) {
 
     if (err != 1) {
         auto mix_msg = Mix_GetError();
-        W(mix_msg);
         throw std::runtime_error(mix_msg);
     }
 }

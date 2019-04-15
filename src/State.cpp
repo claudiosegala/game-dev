@@ -1,4 +1,5 @@
 #include <State.h>
+#include <Camera.h>
 #include <Sound.h>
 #include <Sprite.h>
 #include <Music.h>
@@ -49,8 +50,9 @@ void State::Update (float dt) {
         return;
     }
 
+    Camera::Update(dt);
+
     if (in.KeyPress(SPACE_BAR)) {
-        W(dt);
         auto mouse = Vec2(in.GetMouseX(), in.GetMouseY());
         auto pos = mouse + Vec2(200.0, 0.0).GetRotate(TAO * RAND);
 

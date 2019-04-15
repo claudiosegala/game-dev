@@ -1,4 +1,5 @@
 #include <TileMap.h>
+#include <Camera.h>
 #include <Util.h>
 #include <iostream>
 #include <fstream>
@@ -73,7 +74,7 @@ void TileMap::Update (float dt) {
 
 void TileMap::Render() {
     for (int k = 0; k < this->mapDepth; k++) {
-        RenderLayer(k, 0, 0);
+        RenderLayer(k, (int) Camera::pos.x, (int) Camera::pos.y);
     }
 }
 
@@ -84,7 +85,10 @@ void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
     for (int i = 0; i < this->mapHeight; i++) {
         for (int j = 0; j < this->mapWidth; j++) {
             auto idx = (unsigned int) At(i, j, layer);
-            tileSet->RenderTile(idx, i, j);
+            auto x = i * this->tileSet->GetTileWidth() - cameraX;
+            auto y = j * this->tileSet->GetTileHeight() - cameraY;
+
+            tileSet->RenderTile(idx, x, y);
         }
     }
 }

@@ -17,7 +17,7 @@ void TileSet::RenderTile(unsigned int index, float x, float y) {
         auto j = static_cast<int>(index / cols);
 
         this->tileSet.SetClip(i * this->tileWidth, j * this->tileHeight, this->tileWidth, this->tileHeight);
-        this->tileSet.Render(x * this->tileWidth, y * this->tileHeight);
+        this->tileSet.Render(x, y);
     } 
 }
 
