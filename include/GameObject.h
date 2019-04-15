@@ -22,6 +22,8 @@ class GameObject {
 
     ~GameObject();
 
+    void Start();
+
     void Update(float);
 
     void Render();
@@ -37,6 +39,8 @@ class GameObject {
     std::shared_ptr<Component> GetComponent(std::string);
 
     private:
+
+    bool started;
 
     bool isDead;
 

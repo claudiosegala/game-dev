@@ -39,7 +39,7 @@ void State::Start () {
     LoadAssets();
 
     for (auto &go : this->objects) {
-       // go->Start();
+       go->Start();
     }
 
     this->started = true;
@@ -121,7 +121,7 @@ std::weak_ptr<GameObject> State::AddObject (GameObject* go) {
     this->objects.emplace_back(go);
 
     if (this->started) {
-        //go->Start();
+        go->Start();
     }
 
     return this->objects.back();
