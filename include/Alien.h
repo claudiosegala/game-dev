@@ -5,6 +5,9 @@
 #include <Util.h>
 
 #include <string>
+#include <queue>
+#include <vector>
+#include <memory>
 
 class Alien {
     public:
@@ -23,11 +26,25 @@ class Alien {
 
     private:
 
-    - Action : class (ver abaixo)
-- speed : Vec2
-- hp : int
-- taskQueue : std::queue<Action>
-- minionArray : std::vector<
-std::weak_ptr<GameObject> >
+    class Action {
+        public:
+        
+        Vec2 pos;
+
+        enum ActionType; // MOVE SHOOT
+
+        Action (ActionType, float, float);
+
+        ActionType type;
+
+    };
+
+    Vec2 speed;
+
+    int hp;
+
+    std::queue<Action> taskQueue;
+
+    std::vector<std::weak_ptr<GameObject>> minions;
 
 };
