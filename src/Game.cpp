@@ -13,6 +13,8 @@ Game::Game(const std::string &title, int width, int height) {
     }
 
     this->instance = this;
+    this->frameStart = 0.0;
+    this->dt = 0;
 
     Init_SDL();
     Init_IMG();
@@ -58,9 +60,11 @@ void Game::Run() {
     auto& in = InputManager::GetInstance();
 
     while(!this->state->QuitRequested()) {
+        CalculateDeltaTime();
+
         in.Update();
 
-        this->state->Update(1.0);
+        this->state->Update(this->dt);
         this->state->Render();
 
         SDL_RenderPresent(this->renderer);
@@ -216,4 +220,16 @@ void Game::Init_SDL () {
         auto sdl_msg = "SDLError: " + std::string(SDL_GetError()) + "\n";
         throw std::runtime_error(sdl_msg);
     }
+}
+
+// TODO: is it suppose to someone use this?
+float Game::GetDeltaTime() {
+    return this->dt;
+}
+
+void Game::CalculateDeltaTime() {
+    auto newFrameStart = SDL_GetTicks();
+
+    this->dt = (newFrameStart - this->frameStart) / (float) 1000.0;
+    this->frameStart = newFrameStart;
 }

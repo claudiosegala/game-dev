@@ -18,7 +18,13 @@ class Game {
 
     SDL_Renderer* GetRenderer();
 
+    float GetDeltaTime();
+
     private:
+
+    unsigned int frameStart;
+
+    float dt;
 
     SDL_Window* window;
 
@@ -41,5 +47,7 @@ class Game {
     void Init_RDR();
 
     void Init_STS();
+
+    void CalculateDeltaTime();
 
 };
