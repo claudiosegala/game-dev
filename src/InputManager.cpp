@@ -21,7 +21,6 @@ void InputManager::Update() {
     GetMouse();
 
     SDL_Event event;
-    // TODO: discover if it should be if or while
     while (SDL_PollEvent(&event)) {
         TreatEvent(event);
     }
@@ -45,7 +44,7 @@ void InputManager::TreatEvent(SDL_Event& event) {
         case SDL_KEYDOWN: {
             auto isRepeated = event.key.repeat == 1;
 
-            if (isRepeated) {
+            if (!isRepeated) {
                 auto key = event.key.keysym.sym;
 
                 this->keyState[key] = true;
@@ -56,7 +55,7 @@ void InputManager::TreatEvent(SDL_Event& event) {
         case SDL_KEYUP: {
             auto isRepeated = event.key.repeat == 1;
 
-            if (isRepeated) {
+            if (!isRepeated) {
                 auto key = event.key.keysym.sym;
 
                 this->keyState[key] = false;
