@@ -1,6 +1,8 @@
 #pragma once
 
 #include <GameObject.h>
+#include <Logger.h>
+#include <Util.h>
 
 #include <string>
 

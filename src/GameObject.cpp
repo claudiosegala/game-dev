@@ -1,11 +1,4 @@
 #include <GameObject.h>
-#include <Component.h>
-#include <Rect.h>
-#include <Logger.h>
-#include <vector>
-#include <string>
-#include <algorithm>
-#include <memory>
 
 GameObject::GameObject() {
     this->isDead = false;

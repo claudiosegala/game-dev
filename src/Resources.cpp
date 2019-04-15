@@ -1,7 +1,5 @@
 #include <Resources.h>
 #include <Game.h>
-#include <Logger.h>
-#include <Util.h>
 
 std::unordered_map<std::string, SDL_Texture*> Resources::imageTable;
 

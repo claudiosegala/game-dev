@@ -1,9 +1,5 @@
 #include <TileMap.h>
 #include <Camera.h>
-#include <Util.h>
-#include <iostream>
-#include <fstream>
-#include <sstream>
 
 TileMap::TileMap(GameObject& go, std::string file, TileSet* ts) : Component(go), tileSet(ts) {
     Load(file);

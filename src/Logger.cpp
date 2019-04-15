@@ -1,7 +1,4 @@
 #include <Logger.h>
-#include <Util.h>
-#include <iostream>
-#include <string>
 
 Logger* Logger::instance;
 

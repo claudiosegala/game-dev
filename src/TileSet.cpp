@@ -1,5 +1,4 @@
 #include <TileSet.h>
-#include <Util.h>
 
 TileSet::TileSet(GameObject& go, int width, int height, std::string file) : tileSet(go, file) {
     this->rows = this->tileSet.GetHeight() / height; 
