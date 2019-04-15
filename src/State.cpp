@@ -1,16 +1,18 @@
-#include <State.h>
 #include <Camera.h>
-#include <Sound.h>
-#include <Sprite.h>
+#include <CameraFollower.h>
+#include <Face.h>
+#include <InputManager.h>
+#include <Logger.h>
 #include <Music.h>
 #include <Rect.h>
-#include <Vec2.h>
-#include <Face.h>
-#include <TileSet.h>
+#include <Sound.h>
+#include <Sprite.h>
+#include <State.h>
 #include <TileMap.h>
-#include <InputManager.h>
+#include <TileSet.h>
+#include <Vec2.h>
 #include <Util.h>
-#include <Logger.h>
+
 #include <algorithm>
 #include <string>
 
@@ -19,7 +21,9 @@ State::State () {
     auto ts = new TileSet(*go, 64, 64, "assets/img/tileset.png");
     auto tm = new TileMap(*go, "assets/map/tileMap.txt", ts);
     auto bg = new Sprite(*go, "assets/img/ocean.jpg");
+    auto cf = new CameraFollower(*go);
 
+    go->AddComponent(cf);
     go->AddComponent(bg);
     go->AddComponent(tm);
     go->box.vector = Vec2(0, 0);
