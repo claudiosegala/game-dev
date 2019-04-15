@@ -1,8 +1,10 @@
-#include <Sprite.h>
-#include <Resources.h>
+#include <Camera.h>
 #include <Game.h>
 #include <Logger.h>
+#include <Resources.h>
+#include <Sprite.h>
 #include <Util.h>
+
 #include <iostream>
 
 Sprite::Sprite(GameObject& obj) : Component(obj) {
@@ -37,8 +39,8 @@ void Sprite::Update (float dt) {
 }
 
 void Sprite::Render () {
-    auto x = static_cast<int>(this->associated.box.vector.x);
-    auto y = static_cast<int>(this->associated.box.vector.y);    
+    auto x = static_cast<int>(this->associated.box.vector.x - Camera::pos.x);
+    auto y = static_cast<int>(this->associated.box.vector.y - Camera::pos.y);    
 
     Render(x, y);
 }

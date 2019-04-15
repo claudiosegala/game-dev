@@ -1,10 +1,12 @@
-#include <Face.h>
+#include <Camera.h>
 #include <Component.h>
+#include <Face.h>
 #include <GameObject.h>
 #include <InputManager.h>
+#include <Logger.h>
 #include <Sound.h>
 #include <Util.h>
-#include <Logger.h>
+
 #include <unistd.h>
 
 Face::Face(GameObject& obj) : Component(obj) {
@@ -41,8 +43,8 @@ void Face::Update (float dt) {
         return;
     }
 
-    auto x = (float) in.GetMouseX();
-    auto y = (float) in.GetMouseY();
+    auto x = (float) in.GetMouseX() + Camera::pos.x;
+    auto y = (float) in.GetMouseY() + Camera::pos.y;
 
     if (!this->associated.box.IsInside({ x, y })) {
          return;   
