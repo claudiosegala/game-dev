@@ -1,5 +1,6 @@
 #include <SDL_Include.h>
 #include <Resources.h>
+#include <InputManager.h>
 #include <Game.h>
 #include <Logger.h>
 #include <iostream>
@@ -54,7 +55,11 @@ Game::~Game() {
 void Game::Run() {
     Logger::Info("Started Game");
 
+    auto& in = InputManager::GetInstance();
+
     while(!this->state->QuitRequested()) {
+        in.Update();
+
         this->state->Update(1.0);
         this->state->Render();
 

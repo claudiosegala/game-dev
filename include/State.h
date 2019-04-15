@@ -28,8 +28,6 @@ class State {
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
-    void Input();
-
     void AddObject(int, int);
 
     void Prune();

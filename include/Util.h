@@ -11,14 +11,15 @@
 // UTIL
 /////////////
 
-#define UNUSED(x) (void)x
+#define UNUSED(x)   (void)x
 #define EQUAL(x, y) fabs(x - y) < EPS
+#define RAND        static_cast <float> (rand()) / static_cast <float> (RAND_MAX) // 0.0 to 1.0
 
 /////////////
 // MATH
 /////////////
 
-#define PI (float) 3.141592653589793
+#define PI  (float) 3.141592653589793
 #define TAO (float) 2.0 * PI
 #define EPS 0.00001
 
@@ -33,3 +34,16 @@
 #define MAGENTA        "\x1b[35m"
 #define CYAN           "\x1b[36m"
 #define RESET          "\x1b[0m"
+
+/////////////
+// SDL KEY & MOUSE
+/////////////
+
+#define LEFT_ARROW_KEY    SDLK_LEFT
+#define RIGHT_ARROW_KEY   SDLK_RIGHT
+#define UP_ARROW_KEY      SDLK_UP
+#define DOWN_ARROW_KEY    SDLK_DOWN
+#define ESCAPE_KEY        SDLK_ESCAPE
+#define SPACE_BAR         SDLK_SPACE
+
+#define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT

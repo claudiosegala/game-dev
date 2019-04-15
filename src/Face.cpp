@@ -1,6 +1,7 @@
 #include <Face.h>
 #include <Component.h>
 #include <GameObject.h>
+#include <InputManager.h>
 #include <Sound.h>
 #include <Util.h>
 #include <Logger.h>
@@ -34,6 +35,21 @@ void Face::Damage(int damage) {
 
 void Face::Update (float dt) {
     UNUSED(dt);
+    auto& in = InputManager::GetInstance();
+
+    if (!in.MousePress(LEFT_MOUSE_BUTTON)) {
+        return;
+    }
+
+    auto x = (float) in.GetMouseX();
+    auto y = (float) in.GetMouseY();
+
+    if (!this->associated.box.IsInside({ x, y })) {
+         return;   
+    }
+
+    Logger::Info("Face damaged");
+    Damage(std::rand() % 10 + 10);
 }
 
 void Face::Render() {}

@@ -7,6 +7,7 @@
 #include <Face.h>
 #include <TileSet.h>
 #include <TileMap.h>
+#include <InputManager.h>
 #include <Util.h>
 #include <Logger.h>
 #include <algorithm>
@@ -39,13 +40,21 @@ void State::LoadAssets () {
 }
 
 void State::Update (float dt) {
-    Input();
+    auto& in = InputManager::GetInstance();
 
-    this->quitRequested |= SDL_QuitRequested();
+    this->quitRequested = in.IsKeyDown(ESCAPE_KEY) | in.QuitRequested();
 
     if (this->quitRequested) {
         Logger::Info("Quitting");
         return;
+    }
+
+    if (in.KeyPress(SPACE_BAR)) {
+        W(dt);
+        auto mouse = Vec2(in.GetMouseX(), in.GetMouseY());
+        auto pos = mouse + Vec2(200.0, 0.0).GetRotate(TAO * RAND);
+
+        AddObject((int)pos.x, (int)pos.y);
     }
 
     for (auto &obj : this->objects) {
@@ -63,51 +72,6 @@ void State::Render () {
 
 bool State::QuitRequested () {
     return this->quitRequested;
-}
-
-void State::Input () {
-    SDL_Event event;
-    int mouseX, mouseY;
-
-    SDL_GetMouseState(&mouseX, &mouseY);
-
-    while (SDL_PollEvent(&event)) {
-        if(event.type == SDL_QUIT) {
-            this->quitRequested = true;
-        }
-        
-        if(event.type == SDL_MOUSEBUTTONDOWN) {
-            Logger::Info("Someone clicked");
-            // Get the newer object (the one that is on top of the vector) and deal the damage
-            for(auto it = this->objects.rbegin(); it != this->objects.rend(); ++it) {
-                auto obj = it->get();
-                
-                if(obj->box.IsInside( {(float)mouseX, (float)mouseY } ) ) {
-                    auto component = obj->GetComponent("Face"); // avoid using get
-                    
-                    if (component != nullptr) {
-                        auto face = std::static_pointer_cast<Face>(component);
-                        face->Damage(std::rand() % 10 + 10);
-                        break;
-                    }
-                }
-            }
-        }
-
-        if( event.type == SDL_KEYDOWN ) {
-            Logger::Info("Someone typed");
-            if(event.key.keysym.sym == SDLK_ESCAPE) {
-                this->quitRequested = true;
-            } else {
-                auto x = static_cast<float>(mouseX);
-                auto y = static_cast<float>(mouseY);
-                auto r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX); // 0.0 to 1.0
-                Vec2 pos = Vec2(200.0, 0.0).GetRotate(TAO * r) + Vec2(x, y);
-
-                AddObject((int)pos.x, (int)pos.y);
-            }
-        }
-    }
 }
 
 void State::Prune () {
