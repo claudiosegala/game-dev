@@ -2,6 +2,6 @@
 #include <GameObject.h>
 #include <Logger.h>
 
-Component::Component(GameObject& obj) : associated(obj) {}
+Component::Component(GameObject& go) : associated(go) {}
 
 Component::~Component() {}

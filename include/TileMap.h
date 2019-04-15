@@ -1,8 +1,9 @@
 #pragma once
 
-#include <GameObject.h>
 #include <Component.h>
+#include <GameObject.h>
 #include <TileSet.h>
+
 #include <string>
 #include <vector>
 

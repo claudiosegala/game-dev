@@ -9,9 +9,9 @@
 class Sprite : public Component {
     public:
 
-    Sprite(GameObject& associated);
+    Sprite(GameObject&);
 
-    Sprite(GameObject& associated, const std::string&);
+    Sprite(GameObject&, const std::string&);
 
     ~Sprite();
 
@@ -23,9 +23,9 @@ class Sprite : public Component {
 
     void Render();
 
-    void Render(int x, int y);
+    void Render(int, int);
 
-    void Render(float x, float y);
+    void Render(float, float);
 
     bool Is(std::string);
 

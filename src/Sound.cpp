@@ -4,11 +4,11 @@
 #include <Util.h>
 #include <SDL_Include.h>
 
-Sound::Sound (GameObject& obj) : Component(obj) {
+Sound::Sound (GameObject& go) : Component(go) {
     this->chunk = nullptr;
 }
 
-Sound::Sound (GameObject& obj, std::string name) : Component(obj) {
+Sound::Sound (GameObject& go, std::string name) : Component(go) {
     this->chunk = nullptr;
     Open(name);
 }

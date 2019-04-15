@@ -7,11 +7,11 @@
 
 #include <iostream>
 
-Sprite::Sprite(GameObject& obj) : Component(obj) {
+Sprite::Sprite(GameObject& go) : Component(go) {
     this->texture = nullptr;
 }
 
-Sprite::Sprite(GameObject& obj, const std::string &file)  : Component(obj) {
+Sprite::Sprite(GameObject& go, const std::string &file)  : Component(go) {
     this->texture = nullptr;
 
     Open(file);

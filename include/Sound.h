@@ -1,7 +1,7 @@
 #pragma once
 
-#include <GameObject.h>
 #include <Component.h>
+#include <GameObject.h>
 #include <SDL_Include.h>
 
 class Sound : public Component {

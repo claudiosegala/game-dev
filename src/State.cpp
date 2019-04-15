@@ -15,19 +15,19 @@
 #include <string>
 
 State::State () {
-    auto obj = new GameObject();
-    auto ts = new TileSet(*obj, 64, 64, "assets/img/tileset.png");
-    auto tm = new TileMap(*obj, "assets/map/tileMap.txt", ts);
-    auto bg = new Sprite(*obj, "assets/img/ocean.jpg");
+    auto go = new GameObject();
+    auto ts = new TileSet(*go, 64, 64, "assets/img/tileset.png");
+    auto tm = new TileMap(*go, "assets/map/tileMap.txt", ts);
+    auto bg = new Sprite(*go, "assets/img/ocean.jpg");
 
-    obj->AddComponent(bg);
-    obj->AddComponent(tm);
-    obj->box.vector = Vec2(0, 0);
+    go->AddComponent(bg);
+    go->AddComponent(tm);
+    go->box.vector = Vec2(0, 0);
 
     this->quitRequested = false;
     this->music.Open("assets/audio/stageState.ogg");
     this->music.Play();
-    this->objects.emplace_back(obj);
+    this->objects.emplace_back(go);
 }
 
 State::~State () {
@@ -62,16 +62,16 @@ void State::Update (float dt) {
         AddObject((int)pos.x, (int)pos.y);
     }
 
-    for (auto &obj : this->objects) {
-        obj->Update(dt);
+    for (auto &go : this->objects) {
+        go->Update(dt);
     }
     
     Prune();
 }
 
 void State::Render () {
-    for (auto &obj : this->objects) {
-        obj->Render();
+    for (auto &go : this->objects) {
+        go->Render();
     }
 }
 
@@ -89,21 +89,21 @@ void State::Prune () {
 }
 
 void State::AddObject (int mouseX, int mouseY) {
-    auto obj = new GameObject();
-    auto sound = new Sound(*obj, "assets/audio/boom.wav");
-    auto sprite = new Sprite(*obj, "assets/img/penguinface.png");
-    auto face = new Face(*obj);
+    auto go = new GameObject();
+    auto sound = new Sound(*go, "assets/audio/boom.wav");
+    auto sprite = new Sprite(*go, "assets/img/penguinface.png");
+    auto face = new Face(*go);
 
     // Add components to the object
-    obj->AddComponent(sound);
-    obj->AddComponent(sprite);
-    obj->AddComponent(face);
+    go->AddComponent(sound);
+    go->AddComponent(sprite);
+    go->AddComponent(face);
 
     // Adjust position for the sprite
     auto x = static_cast<float>(mouseX);
     auto y = static_cast<float>(mouseY);
-    obj->box.vector = Vec2(x, y) - Vec2(obj->box.width/2, obj->box.height/2);
+    go->box.vector = Vec2(x, y) - Vec2(go->box.width/2, go->box.height/2);
 
     // Insert
-    this->objects.emplace_back(obj);
+    this->objects.emplace_back(go);
 }

@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-TileMap::TileMap(GameObject& obj, std::string file, TileSet* ts) : Component(obj), tileSet(ts) {
+TileMap::TileMap(GameObject& go, std::string file, TileSet* ts) : Component(go), tileSet(ts) {
     Load(file);
 }
 

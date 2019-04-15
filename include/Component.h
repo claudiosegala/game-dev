@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GameObject.h>
+
 #include <string>
 
 class GameObject;
@@ -8,7 +9,7 @@ class GameObject;
 class Component {
     public:
 
-    Component(GameObject& associated);
+    Component(GameObject&);
 
     virtual ~Component();
 

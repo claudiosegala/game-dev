@@ -2,6 +2,7 @@
 
 #include <GameObject.h>
 #include <Sprite.h>
+
 #include <string>
 
 class TileSet {

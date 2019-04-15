@@ -9,7 +9,7 @@
 
 #include <unistd.h>
 
-Face::Face(GameObject& obj) : Component(obj) {
+Face::Face(GameObject& go) : Component(go) {
     this->hitpoints = 30; // 30HP
 
     Logger::Info("Created a face");
