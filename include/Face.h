@@ -2,6 +2,7 @@
 
 #include <Component.h>
 #include <GameObject.h>
+
 #include <string>
 
 class Face : public Component {

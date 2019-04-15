@@ -1,8 +1,9 @@
 #pragma once
 
-#include <SDL_Include.h>
-#include <GameObject.h>
 #include <Component.h>
+#include <GameObject.h>
+#include <SDL_Include.h>
+
 #include <string>
 
 class Sprite : public Component {
