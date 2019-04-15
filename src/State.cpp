@@ -1,6 +1,6 @@
 #include <Camera.h>
 #include <CameraFollower.h>
-#include <Face.h>
+//#include <Face.h> // TODO: remove
 #include <InputManager.h>
 #include <Rect.h>
 #include <Sound.h>
@@ -101,12 +101,12 @@ void State::AddObject (int mouseX, int mouseY) {
     auto go = new GameObject();
     auto sound = new Sound(*go, "assets/audio/boom.wav");
     auto sprite = new Sprite(*go, "assets/img/penguinface.png");
-    auto face = new Face(*go);
+    //auto face = new Face(*go); // TODO: remove
 
     // Add components to the object
     go->AddComponent(sound);
     go->AddComponent(sprite);
-    go->AddComponent(face);
+    //go->AddComponent(face); // TODO: remove
 
     // Adjust position for the sprite
     auto x = static_cast<float>(mouseX);
