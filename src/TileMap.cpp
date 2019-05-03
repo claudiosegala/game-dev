@@ -79,16 +79,13 @@ void TileMap::Render() {
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
-    UNUSED(cameraX);
-    UNUSED(cameraY);
-
     for (int i = 0; i < this->mapHeight; i++) {
         for (int j = 0; j < this->mapWidth; j++) {
             auto idx = (unsigned int) At(i, j, layer);
             auto x = i * this->tileSet->GetTileWidth() - cameraX;
             auto y = j * this->tileSet->GetTileHeight() - cameraY;
 
-            tileSet->RenderTile(idx, x, y);
+            tileSet->RenderTile(idx, (float) x, (float) y);
         }
     }
 }
