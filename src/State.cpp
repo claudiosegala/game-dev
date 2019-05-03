@@ -84,7 +84,6 @@ bool State::QuitRequested () {
 }
 
 void State::Prune () {
-    // Logger::Info("Prunning");
     auto it = std::remove_if(this->objects.begin(), this->objects.end(), [&] (std::shared_ptr<GameObject>& o) { 
         return o->IsDead();
     });

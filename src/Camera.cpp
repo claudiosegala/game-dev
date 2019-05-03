@@ -10,7 +10,6 @@ Vec2 Camera::speed;
 GameObject* Camera::focus;
 
 void Camera::Follow(GameObject* newFocus) {
-    // TODO: discover if I should delete
     // if (Camera::focus != nullptr) {
     //     delete Camera::focus;
     // }

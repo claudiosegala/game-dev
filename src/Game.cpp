@@ -222,7 +222,6 @@ void Game::Init_SDL () {
     }
 }
 
-// TODO: is it suppose to someone use this?
 float Game::GetDeltaTime() {
     return this->dt;
 }
