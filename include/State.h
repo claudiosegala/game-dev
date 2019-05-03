@@ -42,4 +42,8 @@ class State {
     std::vector<std::shared_ptr<GameObject>> objects;
 
     void Prune();
+
+    void CreateField();
+
+    void CreateEnemies();
 };

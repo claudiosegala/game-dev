@@ -30,18 +30,22 @@ class Alien : public Component {
     class Action {
         public:
         
-        Vec2 pos;
-
         enum class ActionType { 
             MOVE, 
             SHOOT 
         };
-
-        Action (ActionType, float, float);
+        
+        Vec2 pos;
 
         ActionType type;
 
+        Action (ActionType, float, float);
+
     };
+
+    void Move(Action, int);
+
+    void Shoot(Action);
 
     Vec2 speed;
 

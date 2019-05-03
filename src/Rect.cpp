@@ -21,6 +21,10 @@ float Rect::CenterDistance(const Rect& R) const {
     return Point::Distance(c1, c2);
 }
 
+void Rect::SetCenter (const Point& V) {
+    this->vector = Vec2(V.x - this->width/2, V.y - this->height/2);
+}
+
 bool Rect::IsInside(const Point& P) const {
     return (P.x >= this->vector.x && P.x <= this->vector.x + this->width)
         && (P.y >= this->vector.y && P.y <= this->vector.y + this->height);

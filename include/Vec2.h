@@ -12,6 +12,13 @@ class Vec2 : public Point {
 
     Vec2(float xv = 0, float yv = 0);
 
+    Vec2(Point, Point);
+
+    //> Find if the vector is (0, 0)
+    bool IsOrigin() const;
+
+    void Reset();
+
     ///> Find magnitude of vector
     float GetLength() const;
 

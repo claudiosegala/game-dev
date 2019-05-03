@@ -26,6 +26,8 @@ class Rect {
 
     float CenterDistance(const Rect&) const;
 
+    void SetCenter(const Point&);
+
     bool IsInside(const Point&) const;
 
     std::tuple<Point, Point> GetPoints() const;

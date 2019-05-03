@@ -8,24 +8,17 @@
 #include <TileMap.h>
 #include <TileSet.h>
 #include <Vec2.h>
+#include <Alien.h>
 
 State::State () {
-    auto go = new GameObject();
-    auto ts = new TileSet(*go, 64, 64, "assets/img/tileset.png");
-    auto tm = new TileMap(*go, "assets/map/tileMap.txt", ts);
-    auto bg = new Sprite(*go, "assets/img/ocean.jpg");
-    auto cf = new CameraFollower(*go);
-
-    go->AddComponent(cf);
-    go->AddComponent(bg);
-    go->AddComponent(tm);
-    go->box.vector = Vec2(0, 0);
-
+    CreateField();
+    CreateEnemies();
+    
     this->started = false;
     this->quitRequested = false;
+
     this->music.Open("assets/audio/stageState.ogg");
     this->music.Play();
-    this->objects.emplace_back(go);
 }
 
 State::~State () {
@@ -37,8 +30,8 @@ State::~State () {
 void State::Start () {
     LoadAssets();
 
-    for (auto &go : this->objects) {
-       go->Start();
+    for (auto &field : this->objects) {
+       field->Start();
     }
 
     this->started = true;
@@ -60,16 +53,16 @@ void State::Update (float dt) {
 
     Camera::Update(dt);
 
-    for (auto &go : this->objects) {
-        go->Update(dt);
+    for (auto &field : this->objects) {
+        field->Update(dt);
     }
     
     Prune();
 }
 
 void State::Render () {
-    for (auto &go : this->objects) {
-        go->Render();
+    for (auto &field : this->objects) {
+        field->Render();
     }
 }
 
@@ -85,19 +78,48 @@ void State::Prune () {
     this->objects.erase(it, this->objects.end());
 }
 
-std::weak_ptr<GameObject> State::AddObject (GameObject* go) {
-    this->objects.emplace_back(go);
+void State::CreateField () {
+    auto field = new GameObject();
+
+    auto bg = new Sprite(*field, "assets/img/ocean.jpg");
+    field->AddComponent(bg);
+
+    auto ts = new TileSet(*field, 64, 64, "assets/img/tileset.png");
+    auto tm = new TileMap(*field, "assets/map/tileMap.txt", ts);
+    field->AddComponent(tm);
+
+    auto cf = new CameraFollower(*field);
+    field->AddComponent(cf);
+
+    field->box.vector = Vec2(0, 0);
+
+    this->objects.emplace_back(field);
+}
+
+void State::CreateEnemies () {
+    auto alien = new GameObject();
+
+    auto al = new Alien(*alien, 0);
+    alien->AddComponent(al);
+
+    alien->box.vector = Vec2(512, 300);
+
+    this->objects.emplace_back(alien);
+}
+
+std::weak_ptr<GameObject> State::AddObject (GameObject* field) {
+    this->objects.emplace_back(field);
 
     if (this->started) {
-        go->Start();
+        field->Start();
     }
 
     return this->objects.back();
 }
 
-std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
+std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* field) {
     auto ptr = std::find_if(this->objects.begin(), this->objects.end(), [&](const std::shared_ptr<GameObject>& _go) {
-        return _go.get() == go;
+        return _go.get() == field;
     });
 
     return ptr != this->objects.end() 

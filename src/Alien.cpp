@@ -4,17 +4,18 @@
 #include <Sprite.h>
 
 // TODO: verify if it is ok
-Alien::Alien(GameObject& go, int qnt_minions) : Component(go) {
-    auto sp = new Sprite(go, "TODO");
+Alien::Alien(GameObject& go, int qnt_minions) : Component(go), minions(qnt_minions) {
+    auto bg = new Sprite(go, "assets/img/alien.jpg");
 
-    go.AddComponent(sp);
+    go.AddComponent(bg);
 
     this->hp = 30;
     this->speed = Vec2(0, 0);
 };
 
-// TODO: verify if I can do this
 Alien::~Alien() {
+    // I can do this cause it is the job of the shared_ptr
+    // to free the memory
     this->minions.clear();
 }
 
@@ -47,11 +48,61 @@ void Alien::Update(float dt) {
     if (this->taskQueue.empty()) {
         return;
     }
+
+    auto task = taskQueue.front();
+
+    if (task.type == Action::ActionType::MOVE) {
+        Move(task, dt);
+    } else {
+        Shoot(task);
+    }
+
+    if (this->hp <= 0) {
+        associated.RequestDelete();
+    }
 }
 
-void Alien::Render() {
+void Alien::Move (Action task, int dt) {
+    auto pos = this->associated.box.Center();
+    auto start = Point(pos.x, pos.y);
+    auto destiny = Point(task.pos.x, task.pos.y);
+    
+    if (this->speed.IsOrigin()) {
+        auto k = (float) 1000.0; // to adjust speed    
+        auto direction = Vec2(start, destiny).GetUnit();
 
+        direction *= (dt * k);
+
+        this->speed = direction;
+    }
+
+    auto point = Point(this->speed);
+    auto newPos = start + point;
+    auto totalWalk = Point::Distance(start, destiny);
+    auto walking = Point::Distance(start, newPos);
+
+    if (totalWalk > walking) {
+        // Walk the distance
+        this->associated.box.SetCenter(newPos);
+    } else {
+        // Stop on the point
+        this->associated.box.SetCenter(destiny);
+
+        // Set speed to (0, 0)
+        this->speed.Reset();
+
+        // Remove completed task
+        taskQueue.pop();
+    }
 }
+
+void Alien::Shoot (Action task) {
+    UNUSED(task);
+    // Remove completed task
+    taskQueue.pop();
+}
+
+void Alien::Render() {}
 
 bool Alien::Is(std::string type) {
     return (type == "Alien");

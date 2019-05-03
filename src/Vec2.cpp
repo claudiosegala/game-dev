@@ -2,7 +2,19 @@
 
 Vec2::Vec2(float xv, float yv) : Point(xv, yv) {}
 
-    float Vec2::GetLength() const {
+Vec2::Vec2(Point start, Point destiny)  {
+    (*this) = destiny - start;
+}
+
+bool Vec2::IsOrigin() const {
+    return this->x == 0 && this->y == 0;
+}
+
+void Vec2::Reset() {
+    this->x = this->y = 0;
+}
+
+float Vec2::GetLength() const {
     return (float) hypot(this->x, this->y);
 }
 
