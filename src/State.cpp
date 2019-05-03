@@ -60,16 +60,6 @@ void State::Update (float dt) {
 
     Camera::Update(dt);
 
-    if (in.KeyPress(SPACE_BAR)) {
-        auto x = (float) in.GetMouseX() + Camera::pos.x;
-        auto y = (float) in.GetMouseY() + Camera::pos.y;
-        auto pos = Vec2(x, y);
-        
-        pos += Vec2(200.0, 0.0).GetRotate(TAO * RAND);
-
-        AddObject((int)pos.x, (int)pos.y);
-    }
-
     for (auto &go : this->objects) {
         go->Update(dt);
     }
