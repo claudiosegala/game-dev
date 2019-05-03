@@ -2,8 +2,13 @@
 
 #include <Music.h>
 #include <GameObject.h>
+#include <Logger.h>
+#include <Util.h>
+
 #include <vector>
 #include <memory>
+#include <algorithm>
+#include <string>
 
 class State {
     public:
@@ -20,7 +25,15 @@ class State {
 
     void Render();
 
+    void Start();
+
+    std::weak_ptr<GameObject> AddObject(GameObject*);
+
+    std::weak_ptr<GameObject> GetObjectPtr(GameObject*);
+
     private:
+
+    bool started;
 
     bool quitRequested;
 

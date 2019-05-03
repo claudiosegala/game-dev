@@ -1,9 +1,14 @@
 #pragma once
 
+#include <InputManager.h>
+#include <Logger.h>
 #include <SDL_Include.h>
 #include <State.h>
+#include <Util.h>
+
 #include <string>
 #include <stdexcept>
+#include <iostream>
 
 class Game {
     public:
@@ -11,6 +16,12 @@ class Game {
     ~Game();
 
     void Run();
+
+    void Start();
+
+    void Loop(InputManager&);
+
+    void End();
 
     static Game* GetInstance();
 

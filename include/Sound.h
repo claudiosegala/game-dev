@@ -2,7 +2,9 @@
 
 #include <Component.h>
 #include <GameObject.h>
+#include <Logger.h>
 #include <SDL_Include.h>
+#include <Util.h>
 
 class Sound : public Component {
     public:

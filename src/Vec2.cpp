@@ -1,8 +1,4 @@
 #include <Vec2.h>
-#include <Point.h>
-#include <Logger.h>
-#include <Util.h>
-#include <cmath>
 
 Vec2::Vec2(float xv, float yv) : Point(xv, yv) {}
 

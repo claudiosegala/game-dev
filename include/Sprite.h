@@ -2,9 +2,12 @@
 
 #include <Component.h>
 #include <GameObject.h>
+#include <Logger.h>
 #include <SDL_Include.h>
+#include <Util.h>
 
 #include <string>
+#include <iostream>
 
 class Sprite : public Component {
     public:

@@ -1,7 +1,7 @@
 #include <SDL_Include.h>
 #include <Game.h>
-#include <Logger.h>
 #include <Util.h>
+
 #include <stdlib.h>
 #include <time.h>
 

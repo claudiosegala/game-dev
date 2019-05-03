@@ -1,6 +1,5 @@
 #include <Camera.h>
 #include <CameraFollower.h>
-#include <Util.h>
 
 CameraFollower::CameraFollower(GameObject& go) : Component(go) {
 

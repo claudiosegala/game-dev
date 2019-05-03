@@ -1,5 +1,4 @@
 #include <InputManager.h>
-#include <Util.h>
 
 InputManager& InputManager::GetInstance() {
     static InputManager instance;

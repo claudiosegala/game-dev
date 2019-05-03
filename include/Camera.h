@@ -1,7 +1,9 @@
 #pragma once
 
 #include <GameObject.h>
+#include <Logger.h>
 #include <Vec2.h>
+#include <Util.h>
 
 class Camera {
     public:

@@ -1,13 +1,9 @@
+// TODO: delete
 #include <Camera.h>
 #include <Component.h>
 #include <Face.h>
-#include <GameObject.h>
 #include <InputManager.h>
-#include <Logger.h>
 #include <Sound.h>
-#include <Util.h>
-
-#include <unistd.h>
 
 Face::Face(GameObject& go) : Component(go) {
     this->hitpoints = 30; // 30HP

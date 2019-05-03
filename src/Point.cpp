@@ -1,7 +1,4 @@
 #include <Point.h>
-#include <Logger.h>
-#include <Util.h>
-#include <cmath>
 
 Point::Point(float xv, float yv) : x(xv), y(yv) {}
 

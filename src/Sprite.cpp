@@ -1,11 +1,7 @@
 #include <Camera.h>
 #include <Game.h>
-#include <Logger.h>
 #include <Resources.h>
 #include <Sprite.h>
-#include <Util.h>
-
-#include <iostream>
 
 Sprite::Sprite(GameObject& go) : Component(go) {
     this->texture = nullptr;

@@ -1,9 +1,5 @@
-#include <SDL_Include.h>
 #include <Resources.h>
-#include <InputManager.h>
 #include <Game.h>
-#include <Logger.h>
-#include <iostream>
 
 Game* Game::instance;
 
@@ -55,10 +51,20 @@ Game::~Game() {
 }
 
 void Game::Run() {
-    Logger::Info("Started Game");
-
     auto& in = InputManager::GetInstance();
 
+    Start();
+    Loop(in);
+    End();    
+}
+
+void Game::Start() {
+    Logger::Info("Started Game");
+
+    this->state->Start();
+}
+
+void Game::Loop (InputManager& in) {
     while(!this->state->QuitRequested()) {
         CalculateDeltaTime();
 
@@ -68,9 +74,12 @@ void Game::Run() {
         this->state->Render();
 
         SDL_RenderPresent(this->renderer);
+        
         SDL_Delay(33);
     }
+}
 
+void Game::End() {
     Logger::Info("Ended Game");
 }
 

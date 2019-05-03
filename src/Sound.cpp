@@ -1,8 +1,5 @@
 #include <Sound.h>
 #include <Resources.h>
-#include <Logger.h>
-#include <Util.h>
-#include <SDL_Include.h>
 
 Sound::Sound (GameObject& go) : Component(go) {
     this->chunk = nullptr;

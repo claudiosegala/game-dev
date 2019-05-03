@@ -1,9 +1,4 @@
 #include <Rect.h>
-#include <Vec2.h>
-#include <Point.h>
-#include <Logger.h>
-#include <Util.h>
-#include <tuple>
 
 Rect::Rect() : vector(), width(0), height(0) {}
 
