@@ -1,19 +1,21 @@
 #include <GameObject.h>
-#include <Component.h>
-#include <Rect.h>
-#include <Logger.h>
-#include <vector>
-#include <string>
-#include <algorithm>
-#include <memory>
 
 GameObject::GameObject() {
+    this->started = false;
     this->isDead = false;
 }
 
 GameObject::~GameObject() {
     this->box.~Rect();
     this->components.clear();
+}
+
+void GameObject::Start () {
+    for (auto &component : this->components) {
+        component->Start();
+    }
+
+    this->started = true;
 }
 
 void GameObject::Update(float dt) {
@@ -38,6 +40,10 @@ void GameObject::RequestDelete() {
 
 void GameObject::AddComponent(Component* component) {
     this->components.emplace_back(component);
+
+    if (this->started) {
+        component->Start();
+    }
 }
 
 void GameObject::RemoveComponent(std::shared_ptr<Component>& component) {

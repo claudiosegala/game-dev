@@ -1,6 +1,9 @@
 #pragma once
 
+#include <Logger.h>
 #include <SDL_Include.h>
+#include <Util.h>
+
 #include <unordered_map>
 #include <tuple>
 

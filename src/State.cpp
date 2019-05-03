@@ -1,9 +1,7 @@
 #include <Camera.h>
 #include <CameraFollower.h>
-#include <Face.h>
+//#include <Face.h> // TODO: remove
 #include <InputManager.h>
-#include <Logger.h>
-#include <Music.h>
 #include <Rect.h>
 #include <Sound.h>
 #include <Sprite.h>
@@ -11,10 +9,6 @@
 #include <TileMap.h>
 #include <TileSet.h>
 #include <Vec2.h>
-#include <Util.h>
-
-#include <algorithm>
-#include <string>
 
 State::State () {
     auto go = new GameObject();
@@ -28,6 +22,7 @@ State::State () {
     go->AddComponent(tm);
     go->box.vector = Vec2(0, 0);
 
+    this->started = false;
     this->quitRequested = false;
     this->music.Open("assets/audio/stageState.ogg");
     this->music.Play();
@@ -38,6 +33,16 @@ State::~State () {
     Logger::Info("Destroying State");
     this->music.Stop();
     this->objects.clear();
+}
+
+void State::Start () {
+    LoadAssets();
+
+    for (auto &go : this->objects) {
+       go->Start();
+    }
+
+    this->started = true;
 }
 
 void State::LoadAssets () {
@@ -95,12 +100,12 @@ void State::AddObject (int mouseX, int mouseY) {
     auto go = new GameObject();
     auto sound = new Sound(*go, "assets/audio/boom.wav");
     auto sprite = new Sprite(*go, "assets/img/penguinface.png");
-    auto face = new Face(*go);
+    //auto face = new Face(*go); // TODO: remove
 
     // Add components to the object
     go->AddComponent(sound);
     go->AddComponent(sprite);
-    go->AddComponent(face);
+    //go->AddComponent(face); // TODO: remove
 
     // Adjust position for the sprite
     auto x = static_cast<float>(mouseX);
@@ -109,4 +114,24 @@ void State::AddObject (int mouseX, int mouseY) {
 
     // Insert
     this->objects.emplace_back(go);
+}
+
+std::weak_ptr<GameObject> State::AddObject (GameObject* go) {
+    this->objects.emplace_back(go);
+
+    if (this->started) {
+        go->Start();
+    }
+
+    return this->objects.back();
+}
+
+std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
+    auto ptr = std::find_if(this->objects.begin(), this->objects.end(), [&](const std::shared_ptr<GameObject>& _go) {
+        return _go.get() == go;
+    });
+
+    return ptr != this->objects.end() 
+        ? std::weak_ptr<GameObject>(*ptr)
+        : std::weak_ptr<GameObject>();
 }

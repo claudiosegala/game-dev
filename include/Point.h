@@ -1,5 +1,10 @@
 #pragma once
 
+#include <Logger.h>
+#include <Util.h>
+
+#include <cmath>
+
 class Point {
     public:
 

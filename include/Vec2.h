@@ -1,7 +1,11 @@
 #pragma once
 
 #include <Point.h>
+#include <Logger.h>
+#include <Util.h>
+
 #include <iostream>
+#include <cmath>
 
 class Vec2 : public Point {
     public:

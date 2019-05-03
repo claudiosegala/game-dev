@@ -1,7 +1,6 @@
 #include <Camera.h>
 #include <Game.h>
 #include <InputManager.h>
-#include <Util.h>
 
 Vec2 Camera::pos;
 

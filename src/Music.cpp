@@ -1,8 +1,5 @@
 #include <Music.h>
 #include <Resources.h>
-#include <Logger.h>
-#include <Util.h>
-#include <iostream>
 
 Music::Music() {
     this->music = nullptr;

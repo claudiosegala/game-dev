@@ -1,7 +1,10 @@
 #pragma once
 
-#include <Vec2.h>
+#include <Logger.h>
 #include <Point.h>
+#include <Util.h>
+#include <Vec2.h>
+
 #include <tuple>
 
 class Rect {

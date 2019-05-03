@@ -1,6 +1,8 @@
 #pragma once
 
 #include <GameObject.h>
+#include <Logger.h>
+#include <Util.h>
 
 #include <string>
 
@@ -12,6 +14,8 @@ class Component {
     Component(GameObject&);
 
     virtual ~Component();
+
+    virtual void Start();
 
     virtual void Update(float dt) = 0;
 
