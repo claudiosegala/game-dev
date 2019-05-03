@@ -1,6 +1,5 @@
 #include <Camera.h>
 #include <CameraFollower.h>
-//#include <Face.h> // TODO: remove
 #include <InputManager.h>
 #include <Rect.h>
 #include <Sound.h>
@@ -94,26 +93,6 @@ void State::Prune () {
     });
 
     this->objects.erase(it, this->objects.end());
-}
-
-void State::AddObject (int mouseX, int mouseY) {
-    auto go = new GameObject();
-    auto sound = new Sound(*go, "assets/audio/boom.wav");
-    auto sprite = new Sprite(*go, "assets/img/penguinface.png");
-    //auto face = new Face(*go); // TODO: remove
-
-    // Add components to the object
-    go->AddComponent(sound);
-    go->AddComponent(sprite);
-    //go->AddComponent(face); // TODO: remove
-
-    // Adjust position for the sprite
-    auto x = static_cast<float>(mouseX);
-    auto y = static_cast<float>(mouseY);
-    go->box.vector = Vec2(x, y) - Vec2(go->box.width/2, go->box.height/2);
-
-    // Insert
-    this->objects.emplace_back(go);
 }
 
 std::weak_ptr<GameObject> State::AddObject (GameObject* go) {

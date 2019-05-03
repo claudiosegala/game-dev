@@ -41,7 +41,5 @@ class State {
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
-    void AddObject(int, int);
-
     void Prune();
 };
