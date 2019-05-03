@@ -5,7 +5,7 @@
 
 // TODO: verify if it is ok
 Alien::Alien(GameObject& go, int qnt_minions) : Component(go), minions(qnt_minions) {
-    auto bg = new Sprite(go, "assets/img/alien.jpg");
+    auto bg = new Sprite(go, "assets/img/alien.png");
 
     go.AddComponent(bg);
 
@@ -52,6 +52,7 @@ void Alien::Update(float dt) {
     auto task = taskQueue.front();
 
     if (task.type == Action::ActionType::MOVE) {
+        W(dt);
         Move(task, dt);
     } else {
         Shoot(task);
@@ -62,13 +63,13 @@ void Alien::Update(float dt) {
     }
 }
 
-void Alien::Move (Action task, int dt) {
+void Alien::Move (Action task, float dt) {
     auto pos = this->associated.box.Center();
     auto start = Point(pos.x, pos.y);
     auto destiny = Point(task.pos.x, task.pos.y);
     
     if (this->speed.IsOrigin()) {
-        auto k = (float) 1000.0; // to adjust speed    
+        auto k = (float) 200.0; // to adjust speed    
         auto direction = Vec2(start, destiny).GetUnit();
 
         direction *= (dt * k);
@@ -76,8 +77,8 @@ void Alien::Move (Action task, int dt) {
         this->speed = direction;
     }
 
-    auto point = Point(this->speed);
-    auto newPos = start + point;
+    auto newPos = start + this->speed;
+    
     auto totalWalk = Point::Distance(start, destiny);
     auto walking = Point::Distance(start, newPos);
 

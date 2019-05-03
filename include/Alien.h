@@ -43,7 +43,7 @@ class Alien : public Component {
 
     };
 
-    void Move(Action, int);
+    void Move(Action, float);
 
     void Shoot(Action);
 
