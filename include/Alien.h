@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Component>
+#include <Component.h>
 #include <GameObject.h>
 #include <Logger.h>
 #include <Util.h>
@@ -32,7 +32,7 @@ class Alien : public Component {
         
         Vec2 pos;
 
-        enum ActionType { 
+        enum class ActionType { 
             MOVE, 
             SHOOT 
         };
