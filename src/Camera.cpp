@@ -42,8 +42,8 @@ Vec2 Camera::GetMovement() {
     auto u = in.IsKeyDown(UP_ARROW_KEY);
     auto d = in.IsKeyDown(DOWN_ARROW_KEY);
 
-    auto x = r ? 1 : (l ? -1 : 0);
-    auto y = d ? 1 : (u ? -1 : 0);
+    float x = r ? 1 : (l ? -1 : 0);
+    float y = d ? 1 : (u ? -1 : 0);
 
     return Vec2(x, y);
 }

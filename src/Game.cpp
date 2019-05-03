@@ -229,6 +229,6 @@ float Game::GetDeltaTime() {
 void Game::CalculateDeltaTime() {
     auto newFrameStart = SDL_GetTicks();
 
-    this->dt = (newFrameStart - this->frameStart) / (float) 1000.0;
+    this->dt = (newFrameStart - this->frameStart) / 1000.0f;
     this->frameStart = newFrameStart;
 }
