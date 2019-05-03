@@ -18,19 +18,27 @@ class Point {
 
     Point operator+= (const Point&);
 
-    Point operator+ (const Point&);
+    Point operator+ (const Point&) const;
 
     Point operator-= (const Point&);
 
-    Point operator- (const Point&);
+    Point operator- (const Point&) const;
 
-    Point operator* (float);
+    Point operator*= (const float);
 
-    Point operator/ (float);
+    Point operator* (const float) const;
+
+    Point operator/= (const float);
+
+    Point operator/ (const float) const;
 
     Point operator= (const Point&);
 
     bool operator==(const Point&);
 
     bool operator<(const Point&);
+
+    friend std::ostream& operator<<(std::ostream &os, const  Point& n);
+
+    friend std::istream& operator>>(std::istream &is, Point& n);
 };

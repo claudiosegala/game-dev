@@ -118,12 +118,11 @@ Vec2 Vec2::operator-= (const Vec2 &V) {
 }
 
 std::ostream& operator<<(std::ostream &out, const Vec2& V) {
-    out << "Vec2: { " << V.x << ", " << V.y << " }";
+    out << "vector: { x:" << V.x << ", y:" << V.y << " }";
     return out;
 }
 
 std::istream&  operator>>(std::istream &in, Vec2& V) {
     in >> V.x >> V.y;
     return in;
-
 }

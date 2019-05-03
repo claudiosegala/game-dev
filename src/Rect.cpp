@@ -22,7 +22,8 @@ float Rect::CenterDistance(const Rect& R) const {
 }
 
 void Rect::SetCenter (const Point& V) {
-    this->vector = Vec2(V.x - this->width/2, V.y - this->height/2);
+    this->vector.x = V.x - this->width/2;
+    this->vector.y = V.y - this->height/2;
 }
 
 bool Rect::IsInside(const Point& P) const {
@@ -71,4 +72,14 @@ void Rect::operator*= (float v) {
 
 Rect Rect::operator= (const Rect& R) {
     return Rect { R.vector, R.width, R.height };
+}
+
+std::ostream& operator<<(std::ostream &out, const Rect& R) {
+    out << "Rect: {\n\twidth:" << R.width << ",\n\theight:" << R.height << ",\n\t" << R.vector << " }";
+    return out;
+}
+
+std::istream&  operator>>(std::istream &in, Rect& R) {
+    in >> R.width >> R.height >> R.vector;
+    return in;
 }
