@@ -45,5 +45,7 @@ class State {
 
     void CreateField();
 
+    void CreateMainCharacter();
+
     void CreateEnemies();
 };

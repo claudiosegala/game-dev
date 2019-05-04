@@ -82,8 +82,8 @@ void Alien::Update(float dt) {
 
 void Alien::Move (Action task, float dt) {
     auto pos = this->associated.box.Center();
-    auto start = Point(pos.x, pos.y);
-    auto destiny = Point(task.pos.x, task.pos.y);
+    auto start = Vec2(pos.x, pos.y);
+    auto destiny = Vec2(task.pos.x, task.pos.y);
     
     if (this->speed.IsOrigin()) {
         auto k = (float) 200.0; // to adjust speed    
@@ -94,8 +94,8 @@ void Alien::Move (Action task, float dt) {
 
     auto newPos = start + this->speed;
     
-    auto totalWalk = Point::Distance(start, destiny);
-    auto walking = Point::Distance(start, newPos);
+    auto totalWalk = Vec2::Distance(start, destiny);
+    auto walking = Vec2::Distance(start, newPos);
 
     if (totalWalk > walking) {
         // Walk the distance
@@ -116,11 +116,10 @@ void Alien::Shoot (Action task) {
     // Choose closest minion
     auto idx = 0;
     auto m = 1e9f;
-    auto P = Point(task.pos.x, task.pos.y);
 
     for (int i = 0; i < (int) this->minions.size(); i++) {
         auto go = this->minions[i].lock();
-        auto dist = Point::Distance(go->box.Center(), P);
+        auto dist = Vec2::Distance(go->box.Center(), task.pos);
 
         if (go != nullptr && m >= dist) {
             m = dist;

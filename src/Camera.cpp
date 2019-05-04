@@ -9,10 +9,6 @@ Vec2 Camera::speed;
 GameObject* Camera::focus;
 
 void Camera::Follow(GameObject* newFocus) {
-    // if (Camera::focus != nullptr) {
-    //     delete Camera::focus;
-    // }
-
     Camera::focus = newFocus;
 }
 
@@ -22,7 +18,8 @@ void Camera::Unfollow() {
 
 void Camera::Update(float dt) {
     if (focus != nullptr) {
-        Camera::pos = Camera::focus->box.Center();
+        // TODO: make this better
+        Camera::pos = Camera::focus->box.Center() + Vec2(1024/2, 600/2);
         return;
     }
 

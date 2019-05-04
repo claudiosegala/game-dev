@@ -9,9 +9,12 @@
 #include <TileSet.h>
 #include <Vec2.h>
 #include <Alien.h>
+#include <PenguinBody.h>
+#include <PenguinCannon.h>
 
 State::State () {
     CreateField();
+    CreateMainCharacter();
     CreateEnemies();
     
     this->started = false;
@@ -94,6 +97,19 @@ void State::CreateField () {
     field->box.vector = Vec2(0, 0);
 
     this->objects.emplace_back(field);
+}
+
+void State::CreateMainCharacter () {
+    auto mainChar = new GameObject();
+
+    auto pd = new PenguinBody(*mainChar);
+    mainChar->AddComponent(pd);
+
+    mainChar->box.vector = Vec2(704, 640);
+
+    this->objects.emplace_back(mainChar);
+
+   // Camera::Follow(mainChar);
 }
 
 void State::CreateEnemies () {
