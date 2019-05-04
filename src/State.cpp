@@ -84,6 +84,7 @@ void State::CreateField () {
     auto bg = new Sprite(*field, "assets/img/ocean.jpg");
     field->AddComponent(bg);
 
+    // TODO: make alien being rendered before clouds
     auto ts = new TileSet(*field, 64, 64, "assets/img/tileset.png");
     auto tm = new TileMap(*field, "assets/map/tileMap.txt", ts);
     field->AddComponent(tm);
