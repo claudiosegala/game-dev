@@ -106,6 +106,13 @@ Vec2 Vec2::operator+= (const Vec2 &V) {
     return (*this);
 }
 
+Vec2 Vec2::operator+= (const Point &P) {
+    this->x += P.x;
+    this->y += P.y;
+
+    return (*this);
+}
+
 Vec2 Vec2::operator-(const Vec2 &V) const {
     return { this->x - V.x, this->y - V.y };
 }

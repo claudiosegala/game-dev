@@ -99,7 +99,7 @@ void State::CreateField () {
 void State::CreateEnemies () {
     auto alien = new GameObject();
 
-    auto al = new Alien(*alien, 0);
+    auto al = new Alien(*alien, 5);
     alien->AddComponent(al);
 
     alien->box.vector = Vec2(512, 300);

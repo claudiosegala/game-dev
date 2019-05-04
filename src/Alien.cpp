@@ -1,6 +1,9 @@
 #include <Alien.h>
+#include <Game.h>
+#include <State.h>
 #include <InputManager.h>
 #include <Camera.h>
+#include <Minion.h>
 #include <Sprite.h>
 
 // TODO: verify if it is ok
@@ -20,7 +23,20 @@ Alien::~Alien() {
 }
 
 void Alien::Start() {
-    // TODO: populate monions
+    auto game = Game::GetInstance();
+    auto state = game->GetState();
+    auto ownGo = state->GetObjectPtr(&this->associated);
+
+    auto n = (int) this->minions.size();
+    auto arc = 2 * PI / n;
+
+    for (int i = 0; i < n; i++) {
+        auto go = new GameObject();
+
+        go->AddComponent(new Minion(*go, ownGo, arc * i));
+
+        minions[i] = state->AddObject(go);
+    }
 }
 
 void Alien::Update(float dt) {
@@ -52,14 +68,13 @@ void Alien::Update(float dt) {
     auto task = taskQueue.front();
 
     if (task.type == Action::ActionType::MOVE) {
-        W(dt);
         Move(task, dt);
     } else {
         Shoot(task);
     }
 
     if (this->hp <= 0) {
-        associated.RequestDelete();
+        this->associated.RequestDelete();
     }
 }
 

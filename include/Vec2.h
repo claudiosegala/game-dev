@@ -58,6 +58,8 @@ class Vec2 : public Point {
 
     Vec2 operator+= (const Vec2&);
 
+    Vec2 operator+= (const Point&);
+
     Vec2 operator-(const Vec2&) const;
 
     Vec2 operator-= (const Vec2&);
