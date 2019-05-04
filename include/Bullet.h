@@ -7,7 +7,7 @@
 class Bullet : public Component {
     public:
     
-    void Bullet(GameObject&, float, float, int, float, std::string);
+    Bullet(GameObject&, float, float, int, float, std::string);
 
     void Update(float);
 
@@ -24,4 +24,4 @@ class Bullet : public Component {
     float distanceLeft;
 
     int damage;
-}
+};

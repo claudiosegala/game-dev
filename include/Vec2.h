@@ -10,7 +10,7 @@
 class Vec2 : public Point {
     public:
 
-    Vec2(float xv = 0, float yv = 0);
+    explicit Vec2(float xv = 0, float yv = 0);
 
     Vec2(Point, Point);
 
@@ -62,7 +62,11 @@ class Vec2 : public Point {
 
     Vec2 operator-(const Vec2&) const;
 
+    Vec2 operator-(const Point&) const;
+
     Vec2 operator-= (const Vec2&);
+
+    Vec2 operator-= (const Point&);
 
     Vec2 operator= (const Point&);
 

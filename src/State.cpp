@@ -53,8 +53,8 @@ void State::Update (float dt) {
 
     Camera::Update(dt);
 
-    for (auto &field : this->objects) {
-        field->Update(dt);
+    for (int i = 0; i < (int) this->objects.size(); i++) {
+        this->objects[i]->Update(dt);
     }
     
     Prune();

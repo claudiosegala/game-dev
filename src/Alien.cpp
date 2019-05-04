@@ -82,20 +82,29 @@ void Alien::Move (Action task, float dt) {
     auto pos = this->associated.box.Center();
     auto start = Point(pos.x, pos.y);
     auto destiny = Point(task.pos.x, task.pos.y);
+
+    if (start == destiny) {
+        // Remove completed task
+        taskQueue.pop();
+
+        return;
+    }
     
     if (this->speed.IsOrigin()) {
         auto k = (float) 200.0; // to adjust speed    
         auto direction = Vec2(start, destiny).GetUnit();
+        W(direction);
 
-        direction *= (dt * k);
-
-        this->speed = direction;
+        this->speed = direction * dt * k;
     }
 
     auto newPos = start + this->speed;
     
     auto totalWalk = Point::Distance(start, destiny);
     auto walking = Point::Distance(start, newPos);
+
+    W(totalWalk);
+    W(walking);
 
     if (totalWalk > walking) {
         // Walk the distance
@@ -113,7 +122,20 @@ void Alien::Move (Action task, float dt) {
 }
 
 void Alien::Shoot (Action task) {
-    UNUSED(task);
+    // Choose random minion
+    auto idx = rand() % this->minions.size();
+    auto go = this->minions[idx].lock();
+
+    if (go != nullptr) {
+        auto component = go->GetComponent("Minion");
+        // TODO: treat empty component
+
+        auto minion = std::static_pointer_cast<Minion>(component);
+
+        // Make it shoot
+        minion->Shoot(task.pos);
+    }
+    
     // Remove completed task
     taskQueue.pop();
 }

@@ -1,5 +1,8 @@
 #include <Minion.h>
 #include <Sprite.h>
+#include <Bullet.h>
+#include <Game.h>
+#include <State.h>
 
 Minion::Minion (GameObject& go, std::weak_ptr<GameObject> alienCenter, float arcOffset) : Component(go) {
     this->alienCenter = alienCenter;
@@ -40,6 +43,17 @@ void Minion::SetPosition(float dt) {
     this->arc += 0.3 * dt;
 }
 
-void Minion::Shoot(Vec2) {
-    // TODO: later
+void Minion::Shoot(Vec2 pos) {
+    auto ang = (pos - this->associated.box.Center()).GetAngle();
+
+    auto game = Game::GetInstance();
+    auto state = game->GetState();
+
+    auto go = new GameObject();
+    auto bullet = new Bullet(*go, ang, 100, 10, 10000.0, "assets/img/minionbullet1.png");
+
+    go->box.SetCenter(this->associated.box.Center());
+
+    go->AddComponent(bullet);
+    state->AddObject(go);
 }

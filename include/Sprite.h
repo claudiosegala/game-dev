@@ -22,6 +22,10 @@ class Sprite : public Component {
 
     void SetClip (int, int, int, int);
 
+    void SetScaleX (float, float);
+
+    Vec2 GetScale();
+
     void Update(float);
 
     void Render();
@@ -43,6 +47,8 @@ class Sprite : public Component {
     int width;
 
     int height;
+
+    Vec2 scale;
 
     SDL_Texture* texture;
 

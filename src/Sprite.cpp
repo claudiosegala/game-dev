@@ -30,6 +30,14 @@ void Sprite::SetClip (int x, int y, int w, int h) {
     this->clipRect = {x, y, w, h};
 }
 
+void SetScaleX (float, float) {
+    
+}
+
+Vec2 GetScale() {
+    
+}
+
 void Sprite::Update (float dt) {
     UNUSED(dt);
 }

@@ -28,8 +28,7 @@ void Camera::Update(float dt) {
 
     auto k = (float) 1500.0; // to adjust speed
 
-    Camera::speed = Camera::GetMovement();
-    Camera::speed *= dt * k;
+    Camera::speed = Camera::GetMovement() * dt * k;
     Camera::pos += Camera::speed;
 }
 

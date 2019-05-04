@@ -19,7 +19,7 @@ float Vec2::GetLength() const {
 }
 
 float Vec2::GetAngle() const {
-    return (float) atan(this->y / this->x) + (this->x < 0 ? PI : 0);
+    return (float) atan2(this->y, this->x);
 }
 
 float Vec2::GetAngle(const Vec2& V) const {
@@ -46,10 +46,10 @@ void Vec2::Rotate(float angle) {
 }
 
 Vec2 Vec2::GetRotate(float angle) const {
-    return {
+    return Vec2(
         static_cast<float>(cos(angle) * this->x - sin(angle) * this->y),
         static_cast<float>(sin(angle) * this->x + cos(angle) * this->y)
-    };
+    );
 }
 
 Vec2 Vec2::operator= (const Vec2& V) {
@@ -78,7 +78,7 @@ float Vec2::operator^ (const Vec2& V) const {
 }
 
 Vec2 Vec2::operator* (const float v) const {
-    return { this->x * v, this->y * v };
+    return Vec2(this->x * v, this->y * v);
 }
 
 void Vec2::operator*= (const float v) {
@@ -87,7 +87,7 @@ void Vec2::operator*= (const float v) {
 }
 
 Vec2 Vec2::operator/ (const float v) const {
-    return { this->x / v, this->y / v };
+    return Vec2(this->x / v, this->y / v);
 }
 
 void Vec2::operator/= (const float v) {
@@ -96,7 +96,7 @@ void Vec2::operator/= (const float v) {
 }
 
 Vec2 Vec2::operator+(const Vec2 &V) const {
-    return { this->x + V.x, this->y + V.y };
+    return Vec2(this->x + V.x, this->y + V.y);
 }
 
 Vec2 Vec2::operator+= (const Vec2 &V) {
@@ -114,12 +114,23 @@ Vec2 Vec2::operator+= (const Point &P) {
 }
 
 Vec2 Vec2::operator-(const Vec2 &V) const {
-    return { this->x - V.x, this->y - V.y };
+    return Vec2(this->x - V.x, this->y - V.y);
+}
+
+Vec2 Vec2::operator-(const Point &P) const {
+    return Vec2(this->x - P.x, this->y - P.y);
 }
 
 Vec2 Vec2::operator-= (const Vec2 &V) {
     this->x -= V.x;
     this->y -= V.y;
+
+    return (*this);
+}
+
+Vec2 Vec2::operator-= (const Point &P) {
+    this->x -= P.x;
+    this->y -= P.y;
 
     return (*this);
 }
