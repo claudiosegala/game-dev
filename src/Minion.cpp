@@ -48,7 +48,8 @@ void Minion::SetPosition(float dt) {
 }
 
 void Minion::Shoot(Vec2 pos) {
-    auto dir = (pos - this->associated.box.Center()) * -1;
+    auto center = this->associated.box.Center();
+    auto dir = (pos - center) * -1;
     auto ang = dir.GetAngle();
 
     auto game = Game::GetInstance();
@@ -57,7 +58,7 @@ void Minion::Shoot(Vec2 pos) {
     auto go = new GameObject();
     auto bullet = new Bullet(*go, ang, 100, 10, 10000.0, "assets/img/minionbullet2.png", 3, 0.2);
 
-    go->box.SetCenter(this->associated.box.Center());
+    go->box.SetCenter(center);
     go->angle = PI + ang;
 
     go->AddComponent(bullet);

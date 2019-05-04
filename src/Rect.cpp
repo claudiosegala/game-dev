@@ -6,19 +6,19 @@ Rect::Rect(Vec2 v, float w, float h) : vector(v), width(w), height(h) {}
 
 Rect::Rect(float x, float y, float w, float h) : vector(x, y), width(w), height(h) {}
 
-Point Rect::Center() const {
+Vec2 Rect::Center() const {
     Point dl, ur;
 
     std::tie(dl, ur) = GetPoints();
 
-    return (dl + ur) / 2;
+    return Vec2((dl + ur) / 2);
 }
 
 float Rect::CenterDistance(const Rect& R) const {
     auto c1 = this->Center();
     auto c2 = R.Center();
 
-    return Vec2::Distance(Vec2(c1.x, c1.y), Vec2(c2.x, c2.y));
+    return Vec2::Distance(c1, c2);
 }
 
 void Rect::SetCenter (const Point& V) {
@@ -33,9 +33,7 @@ bool Rect::IsInside(const Point& P) const {
 
 std::tuple<Point, Point> Rect::GetPoints() const {
     auto u = static_cast<Point>(this->vector); // down left
-    auto x = (u.x + this->width);
-    auto y = (u.y + this->height);
-    auto v = Point(x, y); // upper right
+    auto v = u + Point(this->width, this->height); // upper right
 
     return std::make_tuple(v, u);
 }

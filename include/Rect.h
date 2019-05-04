@@ -22,7 +22,7 @@ class Rect {
 
     Rect(float, float, float, float);
 
-    Point Center() const;
+    Vec2 Center() const;
 
     float CenterDistance(const Rect&) const;
 
