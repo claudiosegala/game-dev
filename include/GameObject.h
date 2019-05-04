@@ -18,6 +18,8 @@ class GameObject {
 
     Rect box;
 
+    float angle;
+
     GameObject();
 
     ~GameObject();

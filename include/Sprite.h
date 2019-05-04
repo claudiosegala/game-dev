@@ -22,7 +22,7 @@ class Sprite : public Component {
 
     void SetClip (int, int, int, int);
 
-    void SetScaleX (float, float);
+    void SetScale (float, float);
 
     Vec2 GetScale();
 

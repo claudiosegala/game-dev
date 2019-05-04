@@ -5,10 +5,16 @@
 
 Sprite::Sprite(GameObject& go) : Component(go) {
     this->texture = nullptr;
+    this->scale = Vec2(1, 1);
+
+    go.angle = 0.0f;
 }
 
 Sprite::Sprite(GameObject& go, const std::string &file)  : Component(go) {
     this->texture = nullptr;
+    this->scale = Vec2(1, 1);
+
+    go.angle = 0.0f;
 
     Open(file);
 }
@@ -30,12 +36,20 @@ void Sprite::SetClip (int x, int y, int w, int h) {
     this->clipRect = {x, y, w, h};
 }
 
-void SetScaleX (float, float) {
-    
+void Sprite::SetScale (float x, float y) {
+    x = EQUAL(x, 0) ? this->scale.x : x;
+    y = EQUAL(y, 0) ? this->scale.y : y;
+
+    this->scale = Vec2(x, y);
+
+    this->associated.box.width = static_cast<float>(GetWidth());
+    this->associated.box.height = static_cast<float>(GetHeight());
+
+    SetClip(this->clipRect.x, this->clipRect.y, GetWidth(), GetHeight());
 }
 
-Vec2 GetScale() {
-    
+Vec2 Sprite::GetScale() {
+    return this->scale;
 }
 
 void Sprite::Update (float dt) {
@@ -60,9 +74,10 @@ void Sprite::Render (int x, int y) {
     auto g = Game::GetInstance();
     auto srcRect = this->clipRect;
 
+    // TODO: discover what I should do here to adjust to zoom
     SDL_Rect dstRect{ x, y, this->clipRect.w, this->clipRect.h };
 
-    SDL_RenderCopy(g->GetRenderer(), this->texture, &srcRect, &dstRect);
+    SDL_RenderCopyEx(g->GetRenderer(), this->texture, &srcRect, &dstRect, (this->associated.angle * 180) / PI, nullptr, SDL_FLIP_NONE);
 }
 
 bool Sprite::Is (std::string type) {
@@ -70,11 +85,11 @@ bool Sprite::Is (std::string type) {
 }
 
 int Sprite::GetWidth() {
-    return this->width;
+    return this->width * this->scale.x;
 }
 
 int Sprite::GetHeight() {
-    return this->height;
+    return this->height * this->scale.y;
 }
 
 bool Sprite::IsOpen() {

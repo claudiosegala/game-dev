@@ -8,9 +8,12 @@ Minion::Minion (GameObject& go, std::weak_ptr<GameObject> alienCenter, float arc
     this->alienCenter = alienCenter;
     this->arc = arcOffset;
 
-    auto bg = new Sprite(go, "assets/img/minion.png");
+    auto k = 1 + RAND/2;
+    auto bg = new Sprite(this->associated, "assets/img/minion.png");
 
-    go.AddComponent(bg);
+    bg->SetScale(k, k);
+
+    this->associated.AddComponent(bg);
 
     SetPosition(0);
 }
@@ -40,11 +43,13 @@ void Minion::SetPosition(float dt) {
     distAlien += alienPos;
 
     this->associated.box.SetCenter(distAlien);
+    this->associated.angle = this->arc;
     this->arc += 0.3 * dt;
 }
 
 void Minion::Shoot(Vec2 pos) {
-    auto ang = (pos - this->associated.box.Center()).GetAngle();
+    auto dir = (pos - this->associated.box.Center()) * -1;
+    auto ang = dir.GetAngle();
 
     auto game = Game::GetInstance();
     auto state = game->GetState();
@@ -53,6 +58,7 @@ void Minion::Shoot(Vec2 pos) {
     auto bullet = new Bullet(*go, ang, 100, 10, 10000.0, "assets/img/minionbullet1.png");
 
     go->box.SetCenter(this->associated.box.Center());
+    go->angle = PI + ang;
 
     go->AddComponent(bullet);
     state->AddObject(go);

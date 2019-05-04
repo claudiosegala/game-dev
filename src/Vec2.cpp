@@ -34,7 +34,7 @@ void Vec2::Unit () {
 }
 
 Vec2 Vec2::GetUnit () const {
-    return (*this) / this->GetLength();
+    return this->GetLength() ? (*this) / this->GetLength() : Vec2(0, 0);
 }
 
 void Vec2::Rotate(float angle) {

@@ -40,6 +40,8 @@ void Alien::Start() {
 }
 
 void Alien::Update(float dt) {
+    this->associated.angle -= 0.01;
+
     auto &in = InputManager::GetInstance();
     auto right_click = in.MousePress(RIGHT_MOUSE_BUTTON);
     auto left_click = in.MousePress(LEFT_MOUSE_BUTTON);
@@ -82,18 +84,10 @@ void Alien::Move (Action task, float dt) {
     auto pos = this->associated.box.Center();
     auto start = Point(pos.x, pos.y);
     auto destiny = Point(task.pos.x, task.pos.y);
-
-    if (start == destiny) {
-        // Remove completed task
-        taskQueue.pop();
-
-        return;
-    }
     
     if (this->speed.IsOrigin()) {
         auto k = (float) 200.0; // to adjust speed    
         auto direction = Vec2(start, destiny).GetUnit();
-        W(direction);
 
         this->speed = direction * dt * k;
     }
@@ -102,9 +96,6 @@ void Alien::Move (Action task, float dt) {
     
     auto totalWalk = Point::Distance(start, destiny);
     auto walking = Point::Distance(start, newPos);
-
-    W(totalWalk);
-    W(walking);
 
     if (totalWalk > walking) {
         // Walk the distance
@@ -122,8 +113,21 @@ void Alien::Move (Action task, float dt) {
 }
 
 void Alien::Shoot (Action task) {
-    // Choose random minion
-    auto idx = rand() % this->minions.size();
+    // Choose closest minion
+    auto idx = 0;
+    auto m = 1e9f;
+    auto P = Point(task.pos.x, task.pos.y);
+
+    for (int i = 0; i < (int) this->minions.size(); i++) {
+        auto go = this->minions[i].lock();
+        auto dist = Point::Distance(go->box.Center(), P);
+
+        if (go != nullptr && m >= dist) {
+            m = dist;
+            idx = i;    
+        }
+    }
+
     auto go = this->minions[idx].lock();
 
     if (go != nullptr) {
