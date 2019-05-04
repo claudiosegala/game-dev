@@ -3,16 +3,20 @@
 #include <Resources.h>
 #include <Sprite.h>
 
-Sprite::Sprite(GameObject& go) : Component(go) {
+// Sprite::Sprite(GameObject& go) : Component(go) {
+//     this->texture = nullptr;
+//     this->scale = Vec2(1, 1);
+
+//     go.angle = 0.0f;
+// }
+
+Sprite::Sprite(GameObject& go, const std::string &file, int frameCount, float frameTime)  : Component(go) {
     this->texture = nullptr;
     this->scale = Vec2(1, 1);
-
-    go.angle = 0.0f;
-}
-
-Sprite::Sprite(GameObject& go, const std::string &file)  : Component(go) {
-    this->texture = nullptr;
-    this->scale = Vec2(1, 1);
+    this->frameCount = frameCount;
+    this->currentFrame = 0;
+    this->timeElapsed = 0.0;
+    this->frameTime = frameTime;
 
     go.angle = 0.0f;
 
@@ -26,14 +30,27 @@ void Sprite::Open (const std::string &file) {
     
     std::tie(this->width, this->height) = Resources::QueryImage(this->texture);
 
-    SetClip(0, 0, this->width, this->height);
-    
-    this->associated.box.width = static_cast<float>(this->width);
-    this->associated.box.height = static_cast<float>(this->height);
+    SetClip();
+    SetBox();
 }
 
 void Sprite::SetClip (int x, int y, int w, int h) {
     this->clipRect = {x, y, w, h};
+}
+
+void Sprite::SetClip () {
+    auto frameWidth = GetWidth();
+    auto frameHeight = GetHeight();
+
+    SetClip(frameWidth * this->currentFrame, 0, frameWidth, frameHeight);
+}
+
+void Sprite::SetBox () {
+    auto frameWidth = GetWidth();
+    auto frameHeight = GetHeight();
+
+    this->associated.box.width = static_cast<float>(frameWidth);
+    this->associated.box.height = static_cast<float>(frameHeight);
 }
 
 void Sprite::SetScale (float x, float y) {
@@ -42,18 +59,41 @@ void Sprite::SetScale (float x, float y) {
 
     this->scale = Vec2(x, y);
 
-    this->associated.box.width = static_cast<float>(GetWidth());
-    this->associated.box.height = static_cast<float>(GetHeight());
-
-    SetClip(this->clipRect.x, this->clipRect.y, GetWidth(), GetHeight());
+    SetClip();
+    SetBox();
 }
 
 Vec2 Sprite::GetScale() {
     return this->scale;
 }
 
+void Sprite::SetFrame(int frame) {
+    this->currentFrame = frame;
+
+    SetClip();    
+}
+
+void Sprite::SetFrameCount(int frameCount) {
+    this->currentFrame = 0;
+    this->frameCount = frameCount;
+
+    SetClip();
+    SetBox();
+}
+
+void Sprite::SetFrameTime(float frameTime) {
+    this->frameTime = frameTime;
+}
+
 void Sprite::Update (float dt) {
-    UNUSED(dt);
+    this->timeElapsed += dt;
+
+    if (this->timeElapsed > this->frameTime) {
+        this->timeElapsed -= this->frameTime;
+        this->currentFrame = (this->currentFrame+1) % this->frameCount;
+        
+        SetClip();
+    }
 }
 
 void Sprite::Render () {
@@ -85,7 +125,7 @@ bool Sprite::Is (std::string type) {
 }
 
 int Sprite::GetWidth() {
-    return this->width * this->scale.x;
+    return this->width * this->scale.x / this->frameCount;
 }
 
 int Sprite::GetHeight() {

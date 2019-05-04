@@ -4,8 +4,8 @@
 #include <Sprite.h>
 #include <Point.h>
 
-Bullet::Bullet(GameObject& go, float angle, float speed, int damage, float maxDistance, std::string sprite) : Component(go) {
-    auto bg = new Sprite(go, sprite);
+Bullet::Bullet(GameObject& go, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime) : Component(go) {
+    auto bg = new Sprite(go, sprite, frameCount, frameTime);
 
     go.AddComponent(bg);
 

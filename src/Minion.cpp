@@ -55,7 +55,7 @@ void Minion::Shoot(Vec2 pos) {
     auto state = game->GetState();
 
     auto go = new GameObject();
-    auto bullet = new Bullet(*go, ang, 100, 10, 10000.0, "assets/img/minionbullet1.png");
+    auto bullet = new Bullet(*go, ang, 100, 10, 10000.0, "assets/img/minionbullet2.png", 3, 0.2);
 
     go->box.SetCenter(this->associated.box.Center());
     go->angle = PI + ang;

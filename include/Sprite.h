@@ -12,9 +12,9 @@
 class Sprite : public Component {
     public:
 
-    Sprite(GameObject&);
+    // Sprite(GameObject&);
 
-    Sprite(GameObject&, const std::string&);
+    Sprite(GameObject&, const std::string&, int frameCount = 1, float frameTime = 1.0f);
 
     ~Sprite();
 
@@ -22,9 +22,19 @@ class Sprite : public Component {
 
     void SetClip (int, int, int, int);
 
+    void SetClip ();
+
+    void SetBox ();
+
     void SetScale (float, float);
 
     Vec2 GetScale();
+
+    void SetFrame(int);
+
+    void SetFrameCount(int);
+
+    void SetFrameTime(float);
 
     void Update(float);
 
@@ -49,6 +59,14 @@ class Sprite : public Component {
     int height;
 
     Vec2 scale;
+
+    int frameCount;
+
+    int currentFrame;
+
+    float timeElapsed;
+
+    float frameTime;
 
     SDL_Texture* texture;
 

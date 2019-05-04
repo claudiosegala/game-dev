@@ -7,7 +7,7 @@
 class Bullet : public Component {
     public:
     
-    Bullet(GameObject&, float, float, int, float, std::string);
+    Bullet(GameObject&, float, float, int, float, std::string, int frameCount = 1, float frameTime = 1.0f);
 
     void Update(float);
 
