@@ -18,7 +18,7 @@ float Rect::CenterDistance(const Rect& R) const {
     auto c1 = this->Center();
     auto c2 = R.Center();
 
-    return Point::Distance(c1, c2);
+    return Vec2::Distance(Vec2(c1.x, c1.y), Vec2(c2.x, c2.y));
 }
 
 void Rect::SetCenter (const Point& V) {

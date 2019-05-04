@@ -12,11 +12,14 @@ class Vec2 : public Point {
 
     explicit Vec2(float xv = 0, float yv = 0);
 
+    Vec2(Point);
+
     Vec2(Point, Point);
 
     //> Find if the vector is (0, 0)
     bool IsOrigin() const;
 
+    //> Set to (0, 0)
     void Reset();
 
     ///> Find magnitude of vector
@@ -39,6 +42,9 @@ class Vec2 : public Point {
 
     ///> Get rotated vector
     Vec2 GetRotate(float) const;
+
+    //> Distance between Vec2
+    static float Distance(const Vec2&, const Vec2&);
     
     ///> Cross product
     Vec2 operator* (const Vec2&);

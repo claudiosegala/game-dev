@@ -2,6 +2,10 @@
 
 Vec2::Vec2(float xv, float yv) : Point(xv, yv) {}
 
+Vec2::Vec2(Point P)  {
+    (*this) = P;
+}
+
 Vec2::Vec2(Point start, Point destiny)  {
     (*this) = destiny - start;
 }
@@ -50,6 +54,10 @@ Vec2 Vec2::GetRotate(float angle) const {
         static_cast<float>(cos(angle) * this->x - sin(angle) * this->y),
         static_cast<float>(sin(angle) * this->x + cos(angle) * this->y)
     );
+}
+
+float Vec2::Distance(const Vec2& V, const Vec2& U) {
+    return (float) hypot(V.x - U.x, V.y - U.y);
 }
 
 Vec2 Vec2::operator= (const Vec2& V) {

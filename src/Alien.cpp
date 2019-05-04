@@ -83,7 +83,7 @@ void Alien::Update(float dt) {
 void Alien::Move (Action task, float dt) {
     auto pos = this->associated.box.Center();
     auto start = Vec2(pos.x, pos.y);
-    auto destiny = Vec2(task.pos.x, task.pos.y);
+    auto destiny = task.pos;
     
     if (this->speed.IsOrigin()) {
         auto k = (float) 200.0; // to adjust speed    
@@ -119,7 +119,8 @@ void Alien::Shoot (Action task) {
 
     for (int i = 0; i < (int) this->minions.size(); i++) {
         auto go = this->minions[i].lock();
-        auto dist = Vec2::Distance(go->box.Center(), task.pos);
+        auto P = go->box.Center();
+        auto dist = Vec2::Distance(Vec2(P.x, P.y), task.pos);
 
         if (go != nullptr && m >= dist) {
             m = dist;

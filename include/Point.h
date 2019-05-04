@@ -14,8 +14,6 @@ class Point {
 
     Point(float xv = 0.0, float yv = 0.0);
 
-    static float Distance(const Point&, const Point&);
-
     Point operator+= (const Point&);
 
     Point operator+ (const Point&) const;
