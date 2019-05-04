@@ -5,8 +5,10 @@
 
 Bullet::Bullet(GameObject& go, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime) : Component(go) {
     auto bg = new Sprite(go, sprite, frameCount, frameTime);
+    auto co = new Collider(go);
 
     go.AddComponent(bg);
+    go.AddComponent(co);
 
     this->distanceLeft = maxDistance;
     this->damage = damage;

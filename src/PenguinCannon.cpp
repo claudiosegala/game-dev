@@ -7,8 +7,10 @@
 
 PenguinCannon::PenguinCannon(GameObject& go, std::weak_ptr<GameObject> penguinBody) : Component(go) {
     auto bg = new Sprite(go, "assets/img/cubngun.png");
+    auto co = new Collider(go);
 
     go.AddComponent(bg);
+    go.AddComponent(co);
 
     this->pbody = penguinBody;
     this->angle = 0.0f;

@@ -13,7 +13,11 @@ Minion::Minion (GameObject& go, std::weak_ptr<GameObject> alienCenter, float arc
 
     bg->SetScale(k, k);
 
-    this->associated.AddComponent(bg);
+    auto co = new Collider(go);
+
+    go.AddComponent(bg);
+    go.AddComponent(co);
+
 
     SetPosition(0);
 }

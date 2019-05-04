@@ -9,8 +9,10 @@
 // TODO: verify if it is ok
 Alien::Alien(GameObject& go, int qnt_minions) : Component(go), minions(qnt_minions) {
     auto bg = new Sprite(go, "assets/img/alien.png");
+    auto co = new Collider(go);
 
     go.AddComponent(bg);
+    go.AddComponent(co);
 
     this->hp = 30;
     this->speed = Vec2(0, 0);

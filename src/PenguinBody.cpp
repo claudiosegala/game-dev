@@ -8,8 +8,10 @@ PenguinBody* PenguinBody::player;
 
 PenguinBody::PenguinBody (GameObject& go) : Component(go) {
     auto bg = new Sprite(go, "assets/img/penguin.png");
+    auto co = new Collider(go);
 
     go.AddComponent(bg);
+    go.AddComponent(co);
 
     this->hp = 50;
     this->angle = 0.0f;
