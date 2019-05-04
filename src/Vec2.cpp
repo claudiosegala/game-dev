@@ -1,5 +1,7 @@
 #include <Vec2.h>
 
+Vec2::Vec2() : Point(0, 0) {}
+
 Vec2::Vec2(float xv, float yv) : Point(xv, yv) {}
 
 Vec2::Vec2(Point P)  {

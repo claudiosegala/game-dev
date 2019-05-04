@@ -10,7 +10,9 @@
 class Vec2 : public Point {
     public:
 
-    explicit Vec2(float xv = 0, float yv = 0);
+    Vec2();
+
+    Vec2(float xv, float yv);
 
     Vec2(Point);
 
