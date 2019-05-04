@@ -109,7 +109,7 @@ void State::CreateMainCharacter () {
 
     this->objects.emplace_back(mainChar);
 
-   // Camera::Follow(mainChar);
+    Camera::Follow(mainChar);
 }
 
 void State::CreateEnemies () {

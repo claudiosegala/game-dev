@@ -19,7 +19,7 @@ void Camera::Unfollow() {
 void Camera::Update(float dt) {
     if (focus != nullptr) {
         // TODO: make this better
-        Camera::pos = Camera::focus->box.Center() + Vec2(1024/2, 600/2);
+        Camera::pos = Camera::focus->box.Center() + Vec2(-1024/2, -600/2);
         return;
     }
 
