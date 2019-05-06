@@ -5,13 +5,14 @@
 #include <Collider.h>
 #include <PenguinBody.h>
 
-Bullet::Bullet(GameObject& go, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime) : Component(go) {
+Bullet::Bullet(GameObject& go, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime, bool targetPlayer) : Component(go) {
     auto bg = new Sprite(go, sprite, frameCount, frameTime);
     auto co = new Collider(go);
 
     go.AddComponent(bg);
     go.AddComponent(co);
 
+    this->targetPlayer = targetPlayer;
     this->distanceLeft = maxDistance;
     this->damage = damage;
     this->speed = Vec2(1, 0).GetRotate(angle) * speed;

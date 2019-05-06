@@ -82,15 +82,12 @@ void State::MakeUpdate(float dt) {
 void State::CheckCollision () {
     std::vector<int> objs;
 
-    W(this->objects.size());
-
     for (int i = 0; i < (int) this->objects.size(); i++) {
         if (this->objects[i]->GetComponent("Collider") != nullptr) {
             objs.push_back(i);
         }
     }
 
-    W(objs.size());
 
     for (int i = 0; i < (int) objs.size(); i++) {
         for (int j = i+1; j < (int) objs.size(); j++) {

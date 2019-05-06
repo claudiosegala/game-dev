@@ -148,7 +148,17 @@ void Alien::Shoot (Action task) {
 void Alien::Render() {}
 
 void Alien::NotifyCollision(GameObject &other) {
-    // TODO: implemente
+    auto component = other.GetComponent("Bullet");
+    
+    if (component != nullptr) {
+        W(this->hp);
+        
+        auto bullet = std::static_pointer_cast<Bullet>(component);
+
+        if (!bullet->targetPlayer) {
+            this->hp -= bullet->GetDamage();
+        }
+    }
 }
 
 bool Alien::Is(std::string type) {

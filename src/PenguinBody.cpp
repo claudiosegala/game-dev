@@ -1,10 +1,10 @@
 #include <PenguinBody.h>
 #include <Sprite.h>
-#include <Bullet.h>
 #include <PenguinCannon.h>
 #include <Game.h>
 #include <State.h>
 #include <Collider.h>
+#include <Bullet.h>
 
 PenguinBody* PenguinBody::player;
 
@@ -76,15 +76,18 @@ void PenguinBody::Render() {}
 
 void PenguinBody::NotifyCollision(GameObject &other) {
     auto component = other.GetComponent("Bullet");
-
+    
     if (component != nullptr) {
         W(this->hp);
+        
         auto bullet = std::static_pointer_cast<Bullet>(component);
 
-        this->hp -= bullet->GetDamage();
+        if (bullet->targetPlayer) {
+            this->hp -= bullet->GetDamage();
 
-        // TODO: make camera unfollow
-        // Camera::Unfollow();
+            // TODO: make camera unfollow
+            // Camera::Unfollow();
+        }
     }
 }
 

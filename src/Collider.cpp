@@ -35,22 +35,18 @@ void Collider::Render() {
 
 	points[0] = {(int)point.x, (int)point.y};
 	points[4] = {(int)point.x, (int)point.y};
-	W(point);
 	
 	point = (Vec2(box.vector.x + box.width, box.vector.y) - center).GetRotate(associated.angle) + center - Camera::pos;
 
 	points[1] = {(int)point.x, (int)point.y};
-	W(point);
 	
 	point = (Vec2(box.vector.x + box.width, box.vector.y + box.height) - center).GetRotate(associated.angle) + center - Camera::pos;
 
 	points[2] = {(int)point.x, (int)point.y};
-	W(point);
 	
 	point = (Vec2(box.vector.x, box.vector.y + box.height) - center).GetRotate(associated.angle) + center - Camera::pos;
 
 	points[3] = {(int)point.x, (int)point.y};
-	W(point);
 
 	SDL_SetRenderDrawColor(Game::GetInstance()->GetRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
 	SDL_RenderDrawLines(Game::GetInstance()->GetRenderer(), points, 5);
