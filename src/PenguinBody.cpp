@@ -86,6 +86,22 @@ void PenguinBody::NotifyCollision(GameObject &other) {
             this->hp -= bullet->GetDamage();
 
             Camera::Unfollow();
+
+            if (this->hp <= 0) {
+                auto gm = Game::GetInstance();
+                auto st = gm->GetState();
+
+                auto go = new GameObject();
+                auto bg = new Sprite(*go, "assets/img/penguindeath.png", 5, 0.05, 0.25);
+                auto sd = new Sound(*go, "assets/img/penguindeath.png");
+
+                go->box = this->associated.box;
+                go->AddComponent(bg);
+                go->AddComponent(sd);
+                st->AddObject(go);
+                // TODO: should I play it here?
+                sd->Play();
+            }
         }
     }
 }

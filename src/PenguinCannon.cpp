@@ -44,7 +44,7 @@ void PenguinCannon::Update(float dt) {
     this->associated.angle = this->angle = dir.GetAngle();
 
     auto left_click = in.MousePress(LEFT_MOUSE_BUTTON);
-    auto isInCoolDown = t != nullptr && t->Get() < 2.0f;
+    auto isInCoolDown = t != nullptr && t->Get() < 1.0f;
 
     if (left_click && !isInCoolDown) {
         if (t == nullptr) {

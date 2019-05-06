@@ -158,6 +158,22 @@ void Alien::NotifyCollision(GameObject &other) {
 
         if (bullet->targetPlayer) {
             this->hp -= bullet->GetDamage();
+
+            if (this->hp <= 0) {
+                auto gm = Game::GetInstance();
+                auto st = gm->GetState();
+
+                auto go = new GameObject();
+                auto bg = new Sprite(*go, "assets/img/aliendeath.png", 4, 0.05, 0.2);
+                auto sd = new Sound(*go, "assets/img/penguindeath.png");
+
+                go->box = this->associated.box;
+                go->AddComponent(bg);
+                go->AddComponent(sd);
+                st->AddObject(go);
+                // TODO: should I play it here?
+                sd->Play();
+            }
         }
     }
 }
