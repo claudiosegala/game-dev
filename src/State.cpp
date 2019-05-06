@@ -58,27 +58,46 @@ void State::Update (float dt) {
 
     Camera::Update(dt);
 
+    MakeUpdate(dt);
+    CheckCollision();
+    Prune();
+}
+
+void State::Render () {
+    for (auto &field : this->objects) {
+        field->Render();
+    }
+}
+
+bool State::QuitRequested () {
+    return this->quitRequested;
+}
+
+void State::MakeUpdate(float dt) {
     for (int i = 0; i < (int) this->objects.size(); i++) {
         this->objects[i]->Update(dt);
     }
+}
+
+void State::CheckCollision () {
+    std::vector<int> objs;
+
+    W(this->objects.size());
 
     for (int i = 0; i < (int) this->objects.size(); i++) {
-        auto obj1 = this->objects[i];
-
-        if (!obj1->GetComponent("Collider")) {
-            continue;
+        if (this->objects[i]->GetComponent("Collider") != nullptr) {
+            objs.push_back(i);
         }
+    }
 
-        for (int j = i+1; j < (int) this->objects.size(); j++) {
-            auto obj2 = this->objects[j];
+    W(objs.size());
 
-            if (!obj2->GetComponent("Collider")) {
-                continue;
-            }
+    for (int i = 0; i < (int) objs.size(); i++) {
+        for (int j = i+1; j < (int) objs.size(); j++) {
+            auto obj1 = this->objects[objs[i]];
+            auto obj2 = this->objects[objs[j]];
 
             if (Collision::IsColliding(obj1->box, obj2->box, obj1->angle, obj2->angle)) {
-                auto component = obj1->GetComponent("Bullet");
-                
                 auto obj1_ptr = obj1.get();
                 auto obj2_ptr = obj2.get();
 
@@ -92,18 +111,6 @@ void State::Update (float dt) {
             }
         }
     }
-    
-    Prune();
-}
-
-void State::Render () {
-    for (auto &field : this->objects) {
-        field->Render();
-    }
-}
-
-bool State::QuitRequested () {
-    return this->quitRequested;
 }
 
 void State::Prune () {

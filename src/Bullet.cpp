@@ -33,10 +33,8 @@ void Bullet::Update(float dt) {
 void Bullet::Render() {}
 
 void Bullet::NotifyCollision(GameObject &other) {
-    auto component = other.GetComponent("PenguinBody");
-
-    if (component != nullptr) {
-        auto penguin = std::static_pointer_cast<PenguinBody>(component);
+    // TODO: discover why is not hitting
+    if (other.GetComponent("PenguinBody") != nullptr || other.GetComponent("Alien") != nullptr) {
         this->associated.RequestDelete();
     }
 }

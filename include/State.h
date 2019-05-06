@@ -41,6 +41,10 @@ class State {
 
     std::vector<std::shared_ptr<GameObject>> objects;
 
+    void MakeUpdate(float);
+
+    void CheckCollision();
+
     void Prune();
 
     void CreateField();

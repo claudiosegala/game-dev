@@ -44,8 +44,6 @@ class Rect {
 
     void operator*= (float);
 
-    Rect operator= (const Rect&);
-
     friend std::ostream& operator<<(std::ostream &os, const  Rect& n);
 
     friend std::istream& operator>>(std::istream &is, Rect& n);

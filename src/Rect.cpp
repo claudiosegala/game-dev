@@ -1,4 +1,5 @@
 #include <Rect.h>
+#include <Util.h>
 
 Rect::Rect() : vector(), width(0), height(0) {}
 
@@ -66,10 +67,6 @@ Rect Rect::operator* (float value) const {
 void Rect::operator*= (float v) {
     this->vector.x *= v;
     this->vector.y *= v;
-}
-
-Rect Rect::operator= (const Rect& R) {
-    return Rect { R.vector, R.width, R.height };
 }
 
 std::ostream& operator<<(std::ostream &out, const Rect& R) {

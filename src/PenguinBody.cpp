@@ -82,6 +82,9 @@ void PenguinBody::NotifyCollision(GameObject &other) {
         auto bullet = std::static_pointer_cast<Bullet>(component);
 
         this->hp -= bullet->GetDamage();
+
+        // TODO: make camera unfollow
+        // Camera::Unfollow();
     }
 }
 
