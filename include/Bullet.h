@@ -9,7 +9,7 @@ class Bullet : public Component {
 
     bool targetPlayer;
     
-    Bullet(GameObject&, float, float, int, float, std::string, int frameCount = 1, float frameTime = 1.0f, bool);
+    Bullet(GameObject&, float, float, int, float, std::string, int frameCount = 1, float frameTime = 1.0f, bool targetPlayer = false);
 
     void Update(float);
 

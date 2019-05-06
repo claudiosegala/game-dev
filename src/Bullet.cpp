@@ -34,7 +34,6 @@ void Bullet::Update(float dt) {
 void Bullet::Render() {}
 
 void Bullet::NotifyCollision(GameObject &other) {
-    // TODO: discover why is not hitting
     if (other.GetComponent("PenguinBody") != nullptr || other.GetComponent("Alien") != nullptr) {
         this->associated.RequestDelete();
     }

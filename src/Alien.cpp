@@ -3,6 +3,7 @@
 #include <State.h>
 #include <InputManager.h>
 #include <Camera.h>
+#include <Bullet.h>
 #include <Minion.h>
 #include <Sprite.h>
 #include <Collider.h>
@@ -151,8 +152,6 @@ void Alien::NotifyCollision(GameObject &other) {
     auto component = other.GetComponent("Bullet");
     
     if (component != nullptr) {
-        W(this->hp);
-        
         auto bullet = std::static_pointer_cast<Bullet>(component);
 
         if (!bullet->targetPlayer) {
