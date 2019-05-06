@@ -63,7 +63,8 @@ void State::Update (float dt) {
     }
 
     for (int i = 0; i < (int) this->objects.size(); i++) {
-        if (!this->objects[i]->GetComponent("Collider")) {
+        auto obj = this->objects[i];
+        if (!obj->GetComponent("Collider")) {
             continue;
         }
 
@@ -72,11 +73,13 @@ void State::Update (float dt) {
                 continue;
             }
 
-            if (Collision::IsColliding(this->objects[i]->box, this->objects[j]->box, this->objects[i]->angle, this->objects[j]->angle)) {
+            W(i); W(j);
 
-            }
+            // if (Collision::IsColliding(obj->box, this->objects[j]->box, obj->angle, this->objects[j]->angle)) {
 
-            this->objects[i]->Update(dt);
+            // }
+
+            // obj->Update(dt);
         }
     }
     

@@ -43,7 +43,7 @@ void Alien::Start() {
 }
 
 void Alien::Update(float dt) {
-    this->associated.angle -= 0.01;
+    this->associated.angle -= 0.001;
 
     auto &in = InputManager::GetInstance();
     auto right_click = in.MousePress(RIGHT_MOUSE_BUTTON);

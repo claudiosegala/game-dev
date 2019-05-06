@@ -58,6 +58,7 @@ void PenguinCannon::Shoot() {
     auto state = game->GetState();
 
     auto go = new GameObject();
+    // TODO: should I change to another sprite?
     auto bullet = new Bullet(*go, PI + this->angle, 100, 10, 10000.0, "assets/img/minionbullet2.png", 3, 0.2);
     go->box.SetCenter(Vec2(54, 0).GetRotate(this->angle) + this->associated.box.Center());
     go->angle = this->angle;

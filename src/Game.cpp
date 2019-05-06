@@ -74,8 +74,6 @@ void Game::Loop (InputManager& in) {
         this->state->Render();
 
         SDL_RenderPresent(this->renderer);
-        
-        SDL_Delay(33);
     }
 }
 
