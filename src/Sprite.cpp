@@ -10,13 +10,14 @@
 //     go.angle = 0.0f;
 // }
 
-Sprite::Sprite(GameObject& go, const std::string &file, int frameCount, float frameTime)  : Component(go) {
+Sprite::Sprite(GameObject& go, const std::string &file, int frameCount, float frameTime, float secondsToSelfDestruct)  : Component(go), selfDestructCount() {
     this->texture = nullptr;
     this->scale = Vec2(1, 1);
     this->frameCount = frameCount;
     this->currentFrame = 0;
     this->timeElapsed = 0.0;
     this->frameTime = frameTime;
+    this->secondsToSelfDestruct = secondsToSelfDestruct;
 
     go.angle = 0.0f;
 
@@ -86,6 +87,15 @@ void Sprite::SetFrameTime(float frameTime) {
 }
 
 void Sprite::Update (float dt) {
+    if (secondsToSelfDestruct > 0) {
+        this->selfDestructCount.Update(dt);
+
+        if (this->selfDestructCount.Get() >= secondsToSelfDestruct) {
+            this->associated.RequestDelete();
+            return;
+        }
+    }
+
     this->timeElapsed += dt;
 
     if (this->timeElapsed > this->frameTime) {
@@ -111,7 +121,7 @@ void Sprite::Render (float _x, float _y) {
 }
 
 void Sprite::NotifyCollision(GameObject &other) {
-    // TODO: implemente
+    UNUSED(other);
 }
 
 void Sprite::Render (int x, int y) {

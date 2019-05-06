@@ -36,6 +36,7 @@ void Bullet::Render() {}
 void Bullet::NotifyCollision(GameObject &other) {
     if (other.GetComponent("PenguinBody") != nullptr || other.GetComponent("Alien") != nullptr) {
         this->associated.RequestDelete();
+        return;
     }
 }
 

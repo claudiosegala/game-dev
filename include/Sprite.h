@@ -5,6 +5,7 @@
 #include <Logger.h>
 #include <SDL_Include.h>
 #include <Util.h>
+#include <Timer.h>
 
 #include <string>
 #include <iostream>
@@ -14,7 +15,7 @@ class Sprite : public Component {
 
     // Sprite(GameObject&);
 
-    Sprite(GameObject&, const std::string&, int frameCount = 1, float frameTime = 1.0f);
+    Sprite(GameObject&, const std::string&, int frameCount = 1, float frameTime = 1.0f, float secondsToSelfDestruct = 0);
 
     ~Sprite();
 
@@ -69,6 +70,10 @@ class Sprite : public Component {
     float timeElapsed;
 
     float frameTime;
+
+    float secondsToSelfDestruct;
+
+    Timer selfDestructCount;
 
     SDL_Texture* texture;
 

@@ -14,7 +14,7 @@ void CameraFollower::Update(float dt) {
 void CameraFollower::Render() {}
 
 void CameraFollower::NotifyCollision(GameObject &other) {
-    // TODO: implemente
+    UNUSED(other);
 }
 
 bool CameraFollower::Is(std::string type) {

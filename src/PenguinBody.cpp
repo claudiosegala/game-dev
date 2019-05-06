@@ -46,6 +46,7 @@ void PenguinBody::Start() {
 void PenguinBody::Update(float dt) {
     if (this->hp <= 0) {
         this->associated.RequestDelete();
+        return;
     }
 
     auto& in  = InputManager::GetInstance();
@@ -84,7 +85,6 @@ void PenguinBody::NotifyCollision(GameObject &other) {
         if (!bullet->targetPlayer) {
             this->hp -= bullet->GetDamage();
 
-            // TODO: still dying on me even with unfollow
             Camera::Unfollow();
         }
     }

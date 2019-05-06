@@ -46,6 +46,7 @@ void Alien::Start() {
 void Alien::Update(float dt) {
     if (this->hp <= 0) {
         this->associated.RequestDelete();
+        return;
     }
 
     this->associated.angle -= 0.001;
@@ -148,6 +149,7 @@ void Alien::Shoot (Action task) {
 
 void Alien::Render() {}
 
+// TODO: verify if I should do on the others
 void Alien::NotifyCollision(GameObject &other) {
     auto component = other.GetComponent("Bullet");
     

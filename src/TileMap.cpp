@@ -75,7 +75,7 @@ void TileMap::Render() {
 }
 
 void TileMap::NotifyCollision(GameObject &other) {
-    // TODO: implemente
+    UNUSED(other);
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {

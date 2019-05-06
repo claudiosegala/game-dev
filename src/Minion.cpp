@@ -30,7 +30,7 @@ void Minion::Update(float dt) {
 void Minion::Render() {}
 
 void Minion::NotifyCollision(GameObject &other) {
-    // TODO: implemente
+    UNUSED(other);
 }
 
 bool Minion::Is(std::string type) {

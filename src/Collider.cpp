@@ -1,5 +1,7 @@
 #include <Collider.h>
 #include <Vec2.h>
+#include <Util.h>
+
 #ifdef DEBUG
 #include "Camera.h"
 #include "Game.h"
@@ -54,7 +56,7 @@ void Collider::Render() {
 }
 
 void Collider::NotifyCollision(GameObject &other) {
-    // TODO: implemente
+    UNUSED(other);
 }
 
 bool Collider::Is(std::string type) {

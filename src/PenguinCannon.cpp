@@ -29,6 +29,7 @@ void PenguinCannon::Update(float dt) {
 
     if (go == nullptr) {
         this->associated.RequestDelete();
+        return;
     }
 
     // Set position
@@ -59,7 +60,7 @@ void PenguinCannon::Update(float dt) {
 void PenguinCannon::Render() {}
 
 void PenguinCannon::NotifyCollision(GameObject &other) {
-    // TODO: implemente
+    UNUSED(other);
 }
 
 bool PenguinCannon::Is(std::string type) {
