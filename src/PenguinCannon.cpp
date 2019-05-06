@@ -5,6 +5,7 @@
 #include <Sprite.h>
 #include <Bullet.h>
 #include <Collider.h>
+#include <Timer.h>
 
 PenguinCannon::PenguinCannon(GameObject& go, std::weak_ptr<GameObject> penguinBody) : Component(go) {
     auto bg = new Sprite(go, "assets/img/cubngun.png");
@@ -17,7 +18,13 @@ PenguinCannon::PenguinCannon(GameObject& go, std::weak_ptr<GameObject> penguinBo
     this->angle = 0.0f;
 }
 
-void PenguinCannon::Update(float) {
+void PenguinCannon::Update(float dt) {
+    static Timer *t = nullptr;
+
+    if (t != nullptr) {
+        t->Update(dt);
+    }
+
     auto go = this->pbody.lock();
 
     if (go == nullptr) {
@@ -35,10 +42,16 @@ void PenguinCannon::Update(float) {
 
     this->associated.angle = this->angle = dir.GetAngle();
 
-    // Verify if it should shoot
     auto left_click = in.MousePress(LEFT_MOUSE_BUTTON);
+    auto isInCoolDown = t != nullptr && t->Get() < 2.0f;
 
-    if (left_click) {
+    if (left_click && !isInCoolDown) {
+        if (t == nullptr) {
+            t = new Timer();
+        } else {
+            t->Restart();
+        }
+        
         Shoot();
     }
 }

@@ -5,6 +5,7 @@
 #include <State.h>
 #include <Collider.h>
 #include <Bullet.h>
+#include <Camera.h>
 
 PenguinBody* PenguinBody::player;
 
@@ -43,6 +44,10 @@ void PenguinBody::Start() {
 }
 
 void PenguinBody::Update(float dt) {
+    if (this->hp <= 0) {
+        this->associated.RequestDelete();
+    }
+
     auto& in  = InputManager::GetInstance();
 
     auto a = in.IsKeyDown(A_KEY);
@@ -66,10 +71,6 @@ void PenguinBody::Update(float dt) {
     this->speed = Vec2(1, 0).GetRotate(this->angle) * linearSpeed;
     this->associated.angle = this->angle;
     this->associated.box.vector += this->speed;
-
-    if (this->hp <= 0) {
-        this->associated.RequestDelete();
-    }
 }
 
 void PenguinBody::Render() {}
@@ -80,11 +81,11 @@ void PenguinBody::NotifyCollision(GameObject &other) {
     if (component != nullptr) {
         auto bullet = std::static_pointer_cast<Bullet>(component);
 
-        if (bullet->targetPlayer) {
+        if (!bullet->targetPlayer) {
             this->hp -= bullet->GetDamage();
 
-            // TODO: make camera unfollow
-            // Camera::Unfollow();
+            // TODO: still dying on me even with unfollow
+            Camera::Unfollow();
         }
     }
 }
