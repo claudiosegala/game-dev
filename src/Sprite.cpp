@@ -39,8 +39,8 @@ void Sprite::SetClip (int x, int y, int w, int h) {
 }
 
 void Sprite::SetClip () {
-    auto frameWidth = GetWidth();
-    auto frameHeight = GetHeight();
+    auto frameWidth = this->width / this->frameCount;
+    auto frameHeight = this->height;
 
     SetClip(frameWidth * this->currentFrame, 0, frameWidth, frameHeight);
 }
@@ -119,7 +119,12 @@ void Sprite::Render (int x, int y) {
     auto srcRect = this->clipRect;
 
     // TODO: discover what I should do here to adjust to zoom
-    SDL_Rect dstRect{ x, y, this->clipRect.w, this->clipRect.h };
+    SDL_Rect dstRect{ 
+        x, 
+        y, 
+        static_cast<int>(srcRect.w * this->scale.x), 
+        static_cast<int>(srcRect.h * this->scale.y)
+    };
 
     SDL_RenderCopyEx(g->GetRenderer(), this->texture, &srcRect, &dstRect, (this->associated.angle * 180) / PI, nullptr, SDL_FLIP_NONE);
 }

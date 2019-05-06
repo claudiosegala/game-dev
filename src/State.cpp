@@ -63,23 +63,33 @@ void State::Update (float dt) {
     }
 
     for (int i = 0; i < (int) this->objects.size(); i++) {
-        auto obj = this->objects[i];
-        if (!obj->GetComponent("Collider")) {
+        auto obj1 = this->objects[i];
+
+        if (!obj1->GetComponent("Collider")) {
             continue;
         }
 
         for (int j = i+1; j < (int) this->objects.size(); j++) {
-            if (!this->objects[j]->GetComponent("Collider")) {
+            auto obj2 = this->objects[j];
+
+            if (!obj2->GetComponent("Collider")) {
                 continue;
             }
 
-            W(i); W(j);
+            if (Collision::IsColliding(obj1->box, obj2->box, obj1->angle, obj2->angle)) {
+                auto component = obj1->GetComponent("Bullet");
+                
+                auto obj1_ptr = obj1.get();
+                auto obj2_ptr = obj2.get();
 
-            // if (Collision::IsColliding(obj->box, this->objects[j]->box, obj->angle, this->objects[j]->angle)) {
+                if (obj1_ptr) {
+                    obj2->NotifyCollision(*obj1_ptr);
+                }
 
-            // }
-
-            // obj->Update(dt);
+                if (obj2_ptr) {
+                    obj1->NotifyCollision(*obj2_ptr);
+                }
+            }
         }
     }
     

@@ -3,6 +3,7 @@
 #include <Vec2.h>
 #include <Sprite.h>
 #include <Collider.h>
+#include <PenguinBody.h>
 
 Bullet::Bullet(GameObject& go, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime) : Component(go) {
     auto bg = new Sprite(go, sprite, frameCount, frameTime);
@@ -32,7 +33,12 @@ void Bullet::Update(float dt) {
 void Bullet::Render() {}
 
 void Bullet::NotifyCollision(GameObject &other) {
-    // TODO: implemente
+    auto component = other.GetComponent("PenguinBody");
+
+    if (component != nullptr) {
+        auto penguin = std::static_pointer_cast<PenguinBody>(component);
+        this->associated.RequestDelete();
+    }
 }
 
 bool Bullet::Is(std::string type) {

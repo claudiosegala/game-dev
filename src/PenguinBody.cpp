@@ -1,5 +1,6 @@
 #include <PenguinBody.h>
 #include <Sprite.h>
+#include <Bullet.h>
 #include <PenguinCannon.h>
 #include <Game.h>
 #include <State.h>
@@ -74,7 +75,14 @@ void PenguinBody::Update(float dt) {
 void PenguinBody::Render() {}
 
 void PenguinBody::NotifyCollision(GameObject &other) {
-    // TODO: implemente
+    auto component = other.GetComponent("Bullet");
+
+    if (component != nullptr) {
+        W(this->hp);
+        auto bullet = std::static_pointer_cast<Bullet>(component);
+
+        this->hp -= bullet->GetDamage();
+    }
 }
 
 bool PenguinBody::Is(std::string type) {
