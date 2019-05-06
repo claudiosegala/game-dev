@@ -2,6 +2,7 @@
 #include <GameObject.h>
 #include <Vec2.h>
 #include <Sprite.h>
+#include <Collider.h>
 
 Bullet::Bullet(GameObject& go, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime) : Component(go) {
     auto bg = new Sprite(go, sprite, frameCount, frameTime);
@@ -29,6 +30,10 @@ void Bullet::Update(float dt) {
 }
 
 void Bullet::Render() {}
+
+void Bullet::NotifyCollision(GameObject &other) {
+    // TODO: implemente
+}
 
 bool Bullet::Is(std::string type) {
     return (type == "Bullet");

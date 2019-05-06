@@ -3,6 +3,7 @@
 #include <PenguinCannon.h>
 #include <Game.h>
 #include <State.h>
+#include <Collider.h>
 
 PenguinBody* PenguinBody::player;
 
@@ -71,6 +72,10 @@ void PenguinBody::Update(float dt) {
 }
 
 void PenguinBody::Render() {}
+
+void PenguinBody::NotifyCollision(GameObject &other) {
+    // TODO: implemente
+}
 
 bool PenguinBody::Is(std::string type) {
     return (type == "PenguinBody");

@@ -17,6 +17,10 @@ void Collider::Update(float dt) {
 
 void Collider::Render() {}
 
+void Collider::NotifyCollision(GameObject &other) {
+    // TODO: implemente
+}
+
 bool Collider::Is(std::string type) {
     return (type == "Collider");
 }

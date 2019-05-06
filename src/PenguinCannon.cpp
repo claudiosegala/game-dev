@@ -4,6 +4,7 @@
 #include <Camera.h>
 #include <Sprite.h>
 #include <Bullet.h>
+#include <Collider.h>
 
 PenguinCannon::PenguinCannon(GameObject& go, std::weak_ptr<GameObject> penguinBody) : Component(go) {
     auto bg = new Sprite(go, "assets/img/cubngun.png");
@@ -43,6 +44,10 @@ void PenguinCannon::Update(float) {
 }
 
 void PenguinCannon::Render() {}
+
+void PenguinCannon::NotifyCollision(GameObject &other) {
+    // TODO: implemente
+}
 
 bool PenguinCannon::Is(std::string type) {
     return (type == "PenguinCannon");

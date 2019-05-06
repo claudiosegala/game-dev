@@ -5,6 +5,7 @@
 #include <Camera.h>
 #include <Minion.h>
 #include <Sprite.h>
+#include <Collider.h>
 
 // TODO: verify if it is ok
 Alien::Alien(GameObject& go, int qnt_minions) : Component(go), minions(qnt_minions) {
@@ -145,6 +146,10 @@ void Alien::Shoot (Action task) {
 }
 
 void Alien::Render() {}
+
+void Alien::NotifyCollision(GameObject &other) {
+    // TODO: implemente
+}
 
 bool Alien::Is(std::string type) {
     return (type == "Alien");

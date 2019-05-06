@@ -13,6 +13,8 @@ class Bullet : public Component {
 
     void Render();
 
+    void NotifyCollision(GameObject&);
+
     bool Is(std::string);
 
     int GetDamage();

@@ -31,6 +31,8 @@ class TileMap : public Component {
 
     void Render();
 
+    void NotifyCollision(GameObject&);
+
     void RenderLayer(int, int cameraX = 0, int cameraY = 0);
 
     int GetWidth();

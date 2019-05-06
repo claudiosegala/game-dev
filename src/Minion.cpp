@@ -1,6 +1,7 @@
 #include <Minion.h>
 #include <Sprite.h>
 #include <Bullet.h>
+#include <Collider.h>
 #include <Game.h>
 #include <State.h>
 
@@ -27,6 +28,10 @@ void Minion::Update(float dt) {
 }
 
 void Minion::Render() {}
+
+void Minion::NotifyCollision(GameObject &other) {
+    // TODO: implemente
+}
 
 bool Minion::Is(std::string type) {
     return (type == "Minion");

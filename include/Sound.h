@@ -27,6 +27,8 @@ class Sound : public Component {
 
     void Render();
 
+    void NotifyCollision(GameObject&);
+
     bool Is(std::string);
     
     private:

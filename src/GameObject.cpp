@@ -66,3 +66,10 @@ std::shared_ptr<Component> GameObject::GetComponent(std::string type) {
         return nullptr;
     }
 }
+
+void GameObject::NotifyCollision(GameObject& other) {
+    for (int i = 0; i < (int) other.components.size(); i++) {
+        auto component = other.components[i];
+        component->NotifyCollision(other);
+    }
+}

@@ -11,6 +11,8 @@
 #include <Alien.h>
 #include <PenguinBody.h>
 #include <PenguinCannon.h>
+#include <Collider.h>
+#include <Collision.h>
 
 State::State () {
     CreateField();
@@ -58,6 +60,24 @@ void State::Update (float dt) {
 
     for (int i = 0; i < (int) this->objects.size(); i++) {
         this->objects[i]->Update(dt);
+    }
+
+    for (int i = 0; i < (int) this->objects.size(); i++) {
+        if (!this->objects[i]->GetComponent("Collider")) {
+            continue;
+        }
+
+        for (int j = i+1; j < (int) this->objects.size(); j++) {
+            if (!this->objects[j]->GetComponent("Collider")) {
+                continue;
+            }
+
+            if (Collision::IsColliding(this->objects[i]->box, this->objects[j]->box, this->objects[i]->angle, this->objects[j]->angle)) {
+
+            }
+
+            this->objects[i]->Update(dt);
+        }
     }
     
     Prune();

@@ -40,6 +40,8 @@ class GameObject {
 
     std::shared_ptr<Component> GetComponent(std::string);
 
+    void NotifyCollision(GameObject&);
+
     private:
 
     bool started;

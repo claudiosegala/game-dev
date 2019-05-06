@@ -44,6 +44,8 @@ class Sprite : public Component {
 
     void Render(float, float);
 
+    void NotifyCollision(GameObject&);
+
     bool Is(std::string);
 
     int GetWidth();

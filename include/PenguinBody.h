@@ -17,6 +17,8 @@ class PenguinBody : public Component{
     void Update(float);
 
     void Render();
+    
+    void NotifyCollision(GameObject&);
 
     bool Is(std::string);
 

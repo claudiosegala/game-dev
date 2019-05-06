@@ -11,8 +11,10 @@ void CameraFollower::Update(float dt) {
     this->associated.box.vector = Camera::pos;
 }
 
-void CameraFollower::Render() {
+void CameraFollower::Render() {}
 
+void CameraFollower::NotifyCollision(GameObject &other) {
+    // TODO: implemente
 }
 
 bool CameraFollower::Is(std::string type) {

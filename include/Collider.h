@@ -18,6 +18,8 @@ class Collider : public Component {
 
     void Render();
 
+    void NotifyCollision(GameObject&);
+
     bool Is(std::string);
 
     void SetScale(Vec2);

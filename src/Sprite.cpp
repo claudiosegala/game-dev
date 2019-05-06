@@ -110,6 +110,10 @@ void Sprite::Render (float _x, float _y) {
     Render(x, y);
 }
 
+void Sprite::NotifyCollision(GameObject &other) {
+    // TODO: implemente
+}
+
 void Sprite::Render (int x, int y) {
     auto g = Game::GetInstance();
     auto srcRect = this->clipRect;
