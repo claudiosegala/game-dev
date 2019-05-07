@@ -3,14 +3,8 @@
 #include <Resources.h>
 #include <Sprite.h>
 
-// Sprite::Sprite(GameObject& go) : Component(go) {
-//     this->texture = nullptr;
-//     this->scale = Vec2(1, 1);
-
-//     go.angle = 0.0f;
-// }
-
-Sprite::Sprite(GameObject& go, const std::string &file, int frameCount, float frameTime, float secondsToSelfDestruct)  : Component(go), selfDestructCount() {
+Sprite::Sprite(GameObject& associated, const std::string &file, int frameCount, float frameTime, float secondsToSelfDestruct)  : Component(associated), selfDestructCount() {
+    // Initing variables
     this->texture = nullptr;
     this->scale = Vec2(1, 1);
     this->frameCount = frameCount;
@@ -18,8 +12,7 @@ Sprite::Sprite(GameObject& go, const std::string &file, int frameCount, float fr
     this->timeElapsed = 0.0;
     this->frameTime = frameTime;
     this->secondsToSelfDestruct = secondsToSelfDestruct;
-
-    go.angle = 0.0f;
+    this->associated.angle = 0.0f;
 
     Open(file);
 }
@@ -118,10 +111,6 @@ void Sprite::Render (float _x, float _y) {
     auto y = static_cast<int>(_y);    
 
     Render(x, y);
-}
-
-void Sprite::NotifyCollision(GameObject &other) {
-    UNUSED(other);
 }
 
 void Sprite::Render (int x, int y) {

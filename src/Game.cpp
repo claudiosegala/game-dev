@@ -1,6 +1,12 @@
 #include <Resources.h>
 #include <Game.h>
 
+int const Game::windowWidth = 1024;
+
+int const Game::windowHeight = 640;
+
+std::string const Game::windowName = "ClaudioSegala_150032552";
+
 Game* Game::instance;
 
 Game::Game(const std::string &title, int width, int height) {
@@ -51,10 +57,8 @@ Game::~Game() {
 }
 
 void Game::Run() {
-    auto& in = InputManager::GetInstance();
-
     Start();
-    Loop(in);
+    Loop();
     End();    
 }
 
@@ -64,7 +68,9 @@ void Game::Start() {
     this->state->Start();
 }
 
-void Game::Loop (InputManager& in) {
+void Game::Loop () {
+    auto& in = InputManager::GetInstance();
+
     while(!this->state->QuitRequested()) {
         CalculateDeltaTime();
 
@@ -86,7 +92,7 @@ Game* Game::GetInstance () {
         return Game::instance;
     }
     
-    return Game::instance = new Game("ClaudioSegala_150032552", 1024, 600);
+    return Game::instance = new Game(Game::windowName, Game::windowWidth, Game::windowHeight);
 }
 
 State* Game::GetState () {

@@ -6,22 +6,21 @@
 
 class PenguinCannon : public Component {
     public:
-    PenguinCannon(GameObject&, std::weak_ptr<GameObject>);
 
-    void Update(float);
+        PenguinCannon(GameObject&, std::weak_ptr<GameObject>);
 
-    void Render();
+        void Update(float);
 
-    void NotifyCollision(GameObject&);
+        void Render();
 
-    bool Is(std::string);
+        bool Is(std::string);
 
-    void Shoot();
+        void Shoot();
 
     private:
 
-    std::weak_ptr<GameObject> pbody;
+        float angle;
 
-    float angle;
+        std::weak_ptr<GameObject> pbody;
 
 };

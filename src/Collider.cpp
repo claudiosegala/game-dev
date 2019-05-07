@@ -55,10 +55,6 @@ void Collider::Render() {
 #endif // DEBUG
 }
 
-void Collider::NotifyCollision(GameObject &other) {
-    UNUSED(other);
-}
-
 bool Collider::Is(std::string type) {
     return (type == "Collider");
 }

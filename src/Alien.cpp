@@ -12,161 +12,200 @@
 
 int Alien::alienCount = 0;
 
-// TODO: verify if it is ok
-Alien::Alien(GameObject& go, int qnt_minions) : Component(go), minions(qnt_minions), restTimer(), destination(0, 0) {
-    auto bg = new Sprite(go, "assets/img/alien.png");
-    auto co = new Collider(go);
+int const Alien::life = 50;
 
-    go.AddComponent(bg);
-    go.AddComponent(co);
+int const Alien::restCoolDown = 5;
 
-    this->hp = 30;
-    this->speed = Vec2(0, 0);
-    this->state = AlienState::RESTING;
+float const Alien::pace = 200.0;
 
+float const Alien::spinPace = 0.001;
+
+Alien::Alien(GameObject& associated, int qnt_minions) : Component(associated), restTimer(), minions(qnt_minions) {
+    // Adding Image
+    auto image = new Sprite(this->associated, "assets/img/alien.png");
+    this->associated.AddComponent(image);
+
+    // Adding Collider
+    auto collider = new Collider(this->associated);
+    this->associated.AddComponent(collider);
+
+    // Initialize variables
     Alien::alienCount++;
+
+    this->hp = Alien::life;
+    this->speed = Vec2(0, 0);
+    this->destination = Vec2(0, 0);
+    this->state = AlienState::RESTING;
 };
 
+// TODO: verify if it is ok
 Alien::~Alien() {
-    // I can do this cause it is the job of the shared_ptr
-    // to free the memory
+    // Clear minions
+    // I can do this cause it is the job of the shared_ptr to free the memory
     this->minions.clear();
 
+    // Reduce the quantity of aliens alive
     Alien::alienCount--;
 }
 
 void Alien::Start() {
+    // Init minions
     auto game = Game::GetInstance();
     auto state = game->GetState();
-    auto ownGo = state->GetObjectPtr(&this->associated);
+    auto associated_ptr = state->GetObjectPtr(&this->associated);
 
     auto n = (int) this->minions.size();
     auto arc = 2 * PI / n;
 
     for (int i = 0; i < n; i++) {
-        auto go = new GameObject();
+        auto gameObject = new GameObject();
+        auto minion = new Minion(*gameObject, associated_ptr, arc * i);
 
-        go->AddComponent(new Minion(*go, ownGo, arc * i));
+        gameObject->AddComponent(minion);
 
-        minions[i] = state->AddObject(go);
+        minions[i] = state->AddObject(gameObject);
     }
 }
 
 void Alien::Update(float dt) {
-    auto &in = InputManager::GetInstance();
-    auto x = static_cast<float>(in.GetMouseX()) + Camera::pos.x;
-    auto y = static_cast<float>(in.GetMouseY()) + Camera::pos.y;
-
-    if (this->state == AlienState::RESTING) {
-        auto coolDown = 5;
-        this->restTimer.Update(dt);
-
-        if (this->restTimer.Get() > coolDown) {
-            this->destination = Vec2(x, y);
-
-            auto k = (float) 200.0; // to adjust speed    
-            auto direction = Vec2(this->associated.box.Center(), this->destination).GetUnit();
-
-            this->speed = direction * dt * k;
-
-            this->state = AlienState::MOVING;
-        }
-    } else if (this->state == AlienState::MOVING) {
-        auto start = this->associated.box.Center();
-        auto destiny = this->destination;
-        auto newPos = this->associated.box.Center() + this->speed;
-        auto totalWalk = Vec2::Distance(start, destiny);
-        auto walking = Vec2::Distance(start, newPos);
-
-        if (totalWalk > walking) {
-            // Walk the distance
-            this->associated.box.SetCenter(newPos);
-        } else {
-            // Stop on the point
-            this->associated.box.SetCenter(destiny);
-
-            // Set speed to (0, 0)
-            this->speed.Reset();
-
-            // Change state
-            this->state = AlienState::RESTING;
-
-            // Init again the Timer
-            this->restTimer.Restart();
-
-            auto pg = PenguinBody::player;
-
-            if (pg != nullptr) {
-                Shoot(pg->GetPosition());
-            } else {
-                this->state = AlienState::NOP;
-            }
-        }
+    switch (this->state) {
+        case AlienState::RESTING:
+            Rest(dt);
+            break;
+        case AlienState::MOVING:
+            Move();
+            break;
+        case AlienState::NOP:
+            break;
     }
 
-    this->associated.angle -= 0.001;
+    this->associated.angle -= Alien::spinPace;
+}
+
+void Alien::Rest (float dt) {
+    auto &in = InputManager::GetInstance();
+    auto pos = in.GetMouse(Camera::pos);
+    
+    // Update Timer
+    this->restTimer.Update(dt);
+
+    if (this->restTimer.Get() <= Alien::restCoolDown) return;
+
+    // Start Moving
+    auto u = this->associated.box.Center();
+    auto v = this->destination = pos;
+    auto direction = Vec2(u, v).GetUnit();
+
+    this->speed = direction * dt * Alien::pace;
+    this->state = AlienState::MOVING;
+}
+
+void Alien::Move () {
+    auto u = this->associated.box.Center();
+    auto v1 = this->destination; // destination
+    auto v2 = u + this->speed; // where I am going
+
+    // Get distance that should make and distance that will make
+    auto totalDist = Vec2::Distance(u, v1);
+    auto dist = Vec2::Distance(u, v2);
+
+    if (totalDist > dist) {
+        // Walk the distance
+        this->associated.box.SetCenter(v2);
+    } else {
+        // Stop on the point
+        this->associated.box.SetCenter(v1);
+
+        // Change state
+        this->state = AlienState::RESTING;
+        this->restTimer.Restart();
+        this->speed.Reset();
+
+        // Try to Shoot
+        auto pg = PenguinBody::player;
+
+        if (pg != nullptr) {
+            Shoot(pg->GetPosition());
+        } else {
+            // 'Dies'
+            this->state = AlienState::NOP;
+        }
+    }
 }
 
 void Alien::Shoot (Vec2 pos) {
     // Choose closest minion
+    auto idx = GetClosestMinion(pos);
+    auto gameObject = this->minions[idx].lock();
+
+    if (gameObject == nullptr) return;
+
+    auto component = gameObject->GetComponent("Minion");
+
+    if (component == nullptr) return;
+
+    auto minion = std::static_pointer_cast<Minion>(component);
+            
+    minion->Shoot(pos);
+}
+
+int Alien::GetClosestMinion (Vec2 pos) {
     auto idx = 0;
-    auto m = 1e9f;
+    auto min_dist = 1e9f;
 
     for (int i = 0; i < (int) this->minions.size(); i++) {
-        auto go = this->minions[i].lock();
-        auto dist = Vec2::Distance(go->box.Center(), pos);
+        auto gameObject = this->minions[i].lock();
+        auto dist = Vec2::Distance(gameObject->box.Center(), pos);
 
-        if (go != nullptr && m >= dist) {
-            m = dist;
+        if (gameObject != nullptr && min_dist >= dist) {
+            min_dist = dist;
             idx = i;    
         }
     }
 
-    auto go = this->minions[idx].lock();
-
-    if (go != nullptr) {
-        auto component = go->GetComponent("Minion");
-
-        if (component != nullptr) {
-            auto minion = std::static_pointer_cast<Minion>(component);
-
-            // Make it shoot
-            minion->Shoot(pos);
-        }
-    }
+    return idx;
 }
 
 void Alien::Render() {}
 
-// TODO: verify if I should do on the others
 void Alien::NotifyCollision(GameObject &other) {
     auto component = other.GetComponent("Bullet");
+
+    if (component == nullptr) return;
     
-    if (component != nullptr) {
-        auto bullet = std::static_pointer_cast<Bullet>(component);
+    auto bullet = std::static_pointer_cast<Bullet>(component);
 
-        if (bullet->targetPlayer) {
-            this->hp -= bullet->GetDamage();
+    // Check if bullet was launch by me
+    if (!bullet->targetPlayer) return;
 
-            if (this->hp <= 0) {
-                this->associated.RequestDelete();
-                
-                auto gm = Game::GetInstance();
-                auto st = gm->GetState();
+    // Alien loses life
+    this->hp -= bullet->GetDamage();
 
-                auto go = new GameObject();
-                auto bg = new Sprite(*go, "assets/img/aliendeath.png", 4, 0.05, 0.2);
-                auto sd = new Sound(*go, "assets/img/penguindeath.png");
+    // Check if has died
+    if (this->hp > 0) return;
 
-                go->box = this->associated.box;
-                go->AddComponent(bg);
-                go->AddComponent(sd);
-                st->AddObject(go);
-                // TODO: should I play it here?
-                sd->Play();
-            }
-        }
-    }
+    // 'Dies'
+    this->associated.RequestDelete();
+
+    // Start adding Animation of death
+    auto gameObject = new GameObject();
+    
+    // Adding explosion image
+    // TODO: make this const
+    auto image = new Sprite(*gameObject, "assets/img/aliendeath.png", 4, 0.05, 0.2);
+    gameObject->box = this->associated.box;
+    gameObject->AddComponent(image);
+
+    // Adding sound of explosion
+    // TODO: make this const
+    auto sound = new Sound(*gameObject, "assets/img/penguindeath.png");
+    gameObject->AddComponent(sound);
+    sound->Play(); // TODO: should I play it here?
+
+    // Adding to state
+    auto game = Game::GetInstance();
+    auto state = game->GetState();
+    state->AddObject(gameObject);
 }
 
 bool Alien::Is(std::string type) {

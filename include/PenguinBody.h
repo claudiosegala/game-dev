@@ -8,34 +8,41 @@
 class PenguinBody : public Component{
     public:
 
-    PenguinBody (GameObject&);
+        static int const life;
 
-    ~PenguinBody();
+        static float const spinPace;
 
-    void Start();
+        static float const pace;
 
-    void Update(float);
+        static float const maxSpeed;
 
-    void Render();
-    
-    void NotifyCollision(GameObject&);
+        static PenguinBody* player;
 
-    bool Is(std::string);
+        PenguinBody (GameObject&);
 
-    Vec2 GetPosition();
+        ~PenguinBody();
 
-    static PenguinBody* player;
+        void Start();
+
+        void Update(float);
+
+        void Render();
+        
+        void NotifyCollision(GameObject&);
+
+        bool Is(std::string);
+
+        Vec2 GetPosition();
 
     private:
 
-    std::weak_ptr<GameObject> pcannon;
+        int hp;
 
-    Vec2 speed;
+        float angle;
+        
+        float linearSpeed;
+        
+        Vec2 speed;
 
-    float linearSpeed;
-
-    float angle;
-
-    int hp;
-
+        std::weak_ptr<GameObject> pcannon;
 };

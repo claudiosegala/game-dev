@@ -16,37 +16,45 @@ class Component;
 class GameObject {
     public:
 
-    Rect box;
+        Rect box;
 
-    float angle;
+        float angle;
 
-    GameObject();
+        GameObject();
 
-    ~GameObject();
+        ~GameObject();
 
-    void Start();
+        void Start();
 
-    void Update(float);
+        void Update(float);
 
-    void Render();
+        void Render();
 
-    bool IsDead();
+        bool IsDead();
 
-    void RequestDelete();
+        void RequestDelete();
 
-    void AddComponent(Component*);
+        void AddComponent(Component*);
 
-    void RemoveComponent(std::shared_ptr<Component>&);
+        void RemoveComponent(std::shared_ptr<Component>&);
 
-    std::shared_ptr<Component> GetComponent(std::string);
+        std::shared_ptr<Component> GetComponent(std::string);
 
-    void NotifyCollision(GameObject&);
+        std::shared_ptr<Component> GetPenguinBody();
+
+        std::shared_ptr<Component> GetPenguinCannon();
+
+        std::shared_ptr<Component> GetBullet();
+
+        std::shared_ptr<Component> GetAlien();
+
+        void NotifyCollision(GameObject&);
 
     private:
 
-    bool started;
+        bool started;
 
-    bool isDead;
+        bool isDead;
 
-    std::vector<std::shared_ptr<Component>> components;
+        std::vector<std::shared_ptr<Component>> components;
 };

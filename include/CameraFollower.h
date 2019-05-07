@@ -10,13 +10,11 @@
 class CameraFollower : public Component {
     public:
     
-    CameraFollower (GameObject&);
+        CameraFollower (GameObject&);
 
-    void Update(float);
+        void Update(float);
 
-    void Render();
-
-    void NotifyCollision(GameObject&);
-    
-    bool Is(std::string);
+        void Render();
+        
+        bool Is(std::string);
 };

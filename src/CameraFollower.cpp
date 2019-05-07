@@ -1,9 +1,7 @@
 #include <Camera.h>
 #include <CameraFollower.h>
 
-CameraFollower::CameraFollower(GameObject& go) : Component(go) {
-
-}
+CameraFollower::CameraFollower(GameObject& go) : Component(go) {}
 
 void CameraFollower::Update(float dt) {
     UNUSED(dt);
@@ -12,10 +10,6 @@ void CameraFollower::Update(float dt) {
 }
 
 void CameraFollower::Render() {}
-
-void CameraFollower::NotifyCollision(GameObject &other) {
-    UNUSED(other);
-}
 
 bool CameraFollower::Is(std::string type) {
     return (type == "CameraFollower");

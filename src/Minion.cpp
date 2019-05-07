@@ -5,20 +5,22 @@
 #include <Game.h>
 #include <State.h>
 
+float const Minion::alienDistance = 200.0f;
+
 Minion::Minion (GameObject& go, std::weak_ptr<GameObject> alienCenter, float arcOffset) : Component(go) {
+    // Adding image
+    auto k = 1 + RAND/2;
+    auto image = new Sprite(this->associated, "assets/img/minion.png");
+    image->SetScale(k, k);
+    go.AddComponent(image);
+
+    // Adding Collider
+    auto collider = new Collider(go);
+    go.AddComponent(collider);
+
+    // Initializing variables
     this->alienCenter = alienCenter;
     this->arc = arcOffset;
-
-    auto k = 1 + RAND/2;
-    auto bg = new Sprite(this->associated, "assets/img/minion.png");
-
-    bg->SetScale(k, k);
-
-    auto co = new Collider(go);
-
-    go.AddComponent(bg);
-    go.AddComponent(co);
-
 
     SetPosition(0);
 }
@@ -28,10 +30,6 @@ void Minion::Update(float dt) {
 }
 
 void Minion::Render() {}
-
-void Minion::NotifyCollision(GameObject &other) {
-    UNUSED(other);
-}
 
 bool Minion::Is(std::string type) {
     return (type == "Minion");
@@ -45,13 +43,10 @@ void Minion::SetPosition(float dt) {
         return;
     }
     
-    auto distAlien = Vec2(200, 0);
     auto alienPos = alien->box.Center();
+    auto pos = Vec2(Minion::alienDistance, 0).GetRotate(this->arc) + alienPos;
 
-    distAlien.Rotate(this->arc);
-    distAlien += alienPos;
-
-    this->associated.box.SetCenter(distAlien);
+    this->associated.box.SetCenter(pos);
     this->associated.angle = this->arc;
     this->arc += 0.3 * dt;
 }
@@ -65,6 +60,7 @@ void Minion::Shoot(Vec2 pos) {
     auto state = game->GetState();
 
     auto go = new GameObject();
+    // TODO: make constants out of this
     auto bullet = new Bullet(*go, ang, 100, 10, 10000.0, "assets/img/minionbullet2.png", 3, 0.2, false);
 
     go->box.SetCenter(center);

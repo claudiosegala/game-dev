@@ -3,6 +3,7 @@
 #include <Logger.h>
 #include <SDL_Include.h>
 #include <Util.h>
+#include <Vec2.h>
 
 #include <unordered_map>
 #include <tuple>
@@ -10,54 +11,56 @@
 class InputManager {
     public:
 
-    static InputManager& GetInstance();
+        static InputManager& GetInstance();
 
-    void Update();
+        void Update();
 
-    void Setup();
+        bool KeyPress(int);
 
-    void GetMouse();
+        bool KeyRelease(int);
 
-    void TreatEvent(SDL_Event& event);
+        bool IsKeyDown(int);
 
-    bool KeyPress(int);
+        bool MousePress(int);
 
-    bool KeyRelease(int);
+        bool MouseRelease(int);
 
-    bool IsKeyDown(int);
+        bool IsMouseDown(int);
 
-    bool MousePress(int);
+        Vec2 GetMouse(Vec2 relative);
 
-    bool MouseRelease(int);
+        int GetMouseX();
 
-    bool IsMouseDown(int);
+        int GetMouseY();
 
-    int GetMouseX();
-
-    int GetMouseY();
-
-    bool QuitRequested ();
+        bool QuitRequested();
 
     private:
 
-    InputManager();
+        int mouseX;
 
-    ~InputManager();
+        int mouseY;
 
-    bool mouseState[6];
+        int updateCounter;
 
-    int mouseUpdate[6];
+        bool quitRequested;
 
-    std::unordered_map<int, bool> keyState;
+        bool mouseState[6];
 
-    std::unordered_map<int, int> keyUpdate;
+        int mouseUpdate[6];
 
-    bool quitRequested;
+        std::unordered_map<int, bool> keyState;
 
-    int updateCounter;
+        std::unordered_map<int, int> keyUpdate;
 
-    int mouseX;
+        InputManager();
 
-    int mouseY;
+        ~InputManager() = default;
+
+        void Setup();
+
+        void RetrieveMouse();
+
+        void TreatEvent(SDL_Event& event);
 
 };

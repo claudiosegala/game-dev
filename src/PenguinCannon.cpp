@@ -7,13 +7,16 @@
 #include <Collider.h>
 #include <Timer.h>
 
-PenguinCannon::PenguinCannon(GameObject& go, std::weak_ptr<GameObject> penguinBody) : Component(go) {
-    auto bg = new Sprite(go, "assets/img/cubngun.png");
-    auto co = new Collider(go);
+PenguinCannon::PenguinCannon(GameObject& associated, std::weak_ptr<GameObject> penguinBody) : Component(associated) {
+    // Adding image
+    auto image = new Sprite(this->associated, "assets/img/cubngun.png");
+    this->associated.AddComponent(image);
 
-    go.AddComponent(bg);
-    go.AddComponent(co);
+    // Adding Collider
+    auto collider = new Collider(this->associated);
+    this->associated.AddComponent(collider);
 
+    // Initing variables
     this->pbody = penguinBody;
     this->angle = 0.0f;
 }
@@ -25,25 +28,24 @@ void PenguinCannon::Update(float dt) {
         t->Update(dt);
     }
 
-    auto go = this->pbody.lock();
+    auto penguinBody = this->pbody.lock();
 
-    if (go == nullptr) {
+    if (penguinBody == nullptr) {
         this->associated.RequestDelete();
         return;
     }
 
     // Set position
-    this->associated.box.SetCenter(go->box.Center());
+    this->associated.box.SetCenter(penguinBody->box.Center());
 
     // Adjust Cannon
     auto &in = InputManager::GetInstance();
-    auto x = static_cast<float>(in.GetMouseX()) + Camera::pos.x;
-    auto y = static_cast<float>(in.GetMouseY()) + Camera::pos.y;
-    auto dir = Vec2(x, y) - this->associated.box.Center();
+    auto dir = in.GetMouse(Camera::pos) - this->associated.box.Center();
 
     this->associated.angle = this->angle = dir.GetAngle();
 
     auto left_click = in.MousePress(LEFT_MOUSE_BUTTON);
+    // TODO: make a constant
     auto isInCoolDown = t != nullptr && t->Get() < 1.0f;
 
     if (left_click && !isInCoolDown) {
@@ -59,10 +61,6 @@ void PenguinCannon::Update(float dt) {
 
 void PenguinCannon::Render() {}
 
-void PenguinCannon::NotifyCollision(GameObject &other) {
-    UNUSED(other);
-}
-
 bool PenguinCannon::Is(std::string type) {
     return (type == "PenguinCannon");
 }
@@ -71,12 +69,14 @@ void PenguinCannon::Shoot() {
     auto game = Game::GetInstance();
     auto state = game->GetState();
 
-    auto go = new GameObject();
+    auto gameObject = new GameObject();
     // TODO: should I change to another sprite?
-    auto bullet = new Bullet(*go, PI + this->angle, 100, 10, 1000.0, "assets/img/minionbullet2.png", 3, 0.2, true);
-    go->box.SetCenter(Vec2(54, 0).GetRotate(this->angle) + this->associated.box.Center());
-    go->angle = this->angle;
+    // TODO: make this constant
+    auto bullet = new Bullet(*gameObject, PI + this->angle, 100, 10, 1000.0, "assets/img/minionbullet2.png", 3, 0.2, true);
+    // TODO: make this constant
+    gameObject->box.SetCenter(Vec2(54, 0).GetRotate(this->angle) + this->associated.box.Center());
+    gameObject->angle = this->angle;
 
-    go->AddComponent(bullet);
-    state->AddObject(go);
+    gameObject->AddComponent(bullet);
+    state->AddObject(gameObject);
 }

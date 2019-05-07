@@ -5,15 +5,15 @@
 class Timer {
     public:
 
-    Timer();
+        Timer();
 
-    void Update(float);
+        void Update(float);
 
-    void Restart();
+        void Restart();
 
-    float Get();
+        float Get();
 
     private:
 
-    float time;
+        float time;
 };

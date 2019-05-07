@@ -6,12 +6,15 @@
 #include <PenguinBody.h>
 
 Bullet::Bullet(GameObject& go, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime, bool targetPlayer) : Component(go) {
-    auto bg = new Sprite(go, sprite, frameCount, frameTime);
-    auto co = new Collider(go);
+    // Adding Image
+    auto image = new Sprite(this->associated, sprite, frameCount, frameTime);
+    this->associated.AddComponent(image);
 
-    go.AddComponent(bg);
-    go.AddComponent(co);
+    // Adding Collider
+    auto collider = new Collider(this->associated);
+    this->associated.AddComponent(collider);
 
+    // Initialization of variables
     this->targetPlayer = targetPlayer;
     this->distanceLeft = maxDistance;
     this->damage = damage;
@@ -19,23 +22,27 @@ Bullet::Bullet(GameObject& go, float angle, float speed, int damage, float maxDi
 }
 
 void Bullet::Update(float dt) {
-    auto diff = this->speed * dt;
+    // Reduce the distance left
+    auto dist = this->speed * dt;
 
-    this->distanceLeft -= diff.GetLength();
+    this->distanceLeft -= dist.GetLength();
 
+    // Destroy if hit the maximum distance
     if (this->distanceLeft <= 0) {
         this->associated.RequestDelete();
         return;
     }
 
-    this->associated.box.vector -= diff;
+    // Change position
+    this->associated.box.vector -= dist;
 }
 
 void Bullet::Render() {}
 
+// TODO: verify if the bullet is hitting far from the object and if I should reduce the size of the colision box
 void Bullet::NotifyCollision(GameObject &other) {
-    // TODO: verify if the bullet is hitting far from the object and if I should reduce the size of the colision box
-    if (other.GetComponent("PenguinBody") != nullptr || other.GetComponent("Alien") != nullptr) {
+    // If hit an penguin body or alien, it should destroy itself
+    if (other.GetPenguinBody() != nullptr || other.GetAlien() != nullptr) {
         this->associated.RequestDelete();
         return;
     }

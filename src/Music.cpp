@@ -12,9 +12,7 @@ Music::Music(const std::string &file) {
 Music::~Music() {}
 
 void Music::Play(int times) {
-    if (this->music == nullptr) {
-        return;
-    }
+    if (this->music == nullptr) return;
 
     Logger::Info("Start Playing Music");
     auto err = Mix_PlayMusic(this->music, times);

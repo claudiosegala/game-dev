@@ -15,42 +15,56 @@
 class Alien : public Component {
     public:
 
-    static int alienCount;
+        static int alienCount;
 
-    Alien(GameObject&, int);
+        Alien(GameObject&, int);
 
-    ~Alien();
+        ~Alien();
 
-    void Start();
+        void Start();
 
-    void Update(float);
+        void Update(float);
 
-    void Render();
+        void Render();
 
-    void NotifyCollision(GameObject&);
+        void NotifyCollision(GameObject&);
 
-    bool Is(std::string);
+        bool Is(std::string);
 
     private:
 
-    void Shoot(Vec2);
+        static int const life;
 
-    Vec2 speed;
+        static int const restCoolDown;
 
-    int hp;
+        static float const pace;
 
-    std::vector<std::weak_ptr<GameObject>> minions;
+        static float const spinPace;
 
-    enum class AlienState { 
-        MOVING, 
-        RESTING,
-        NOP
-    };
+        enum class AlienState { 
+            MOVING, 
+            RESTING,
+            NOP
+        };
 
-    AlienState state;
+        int hp;
 
-    Timer restTimer;
+        Vec2 speed;
 
-    Vec2 destination;
+        Vec2 destination;
+        
+        Timer restTimer;
+
+        AlienState state;
+
+        std::vector<std::weak_ptr<GameObject>> minions;
+
+        void Rest(float);
+
+        void Move();
+
+        void Shoot(Vec2);
+
+        int GetClosestMinion(Vec2);
 
 };

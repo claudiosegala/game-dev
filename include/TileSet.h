@@ -10,26 +10,26 @@
 class TileSet {
     public:
     
-    TileSet(GameObject&, int, int, std::string);
-    
-    void RenderTile(unsigned int, float, float);
+        TileSet(GameObject&, int, int, std::string);
+        
+        void RenderTile(unsigned int, float, float);
 
-    unsigned int GetQuantityTiles() const;
+        unsigned int GetQuantityTiles() const;
 
-    int GetTileWidth() const;
+        int GetTileWidth() const;
 
-    int GetTileHeight() const;
+        int GetTileHeight() const;
 
     private:
 
-    Sprite tileSet;
+        Sprite tileSet;
 
-    int rows;
+        int rows;
 
-    int columns;
+        int columns;
 
-    int tileWidth;
+        int tileWidth;
 
-    int tileHeight;
+        int tileHeight;
 
 };

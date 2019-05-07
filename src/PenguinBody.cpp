@@ -8,21 +8,30 @@
 #include <Bullet.h>
 #include <Camera.h>
 
+int const PenguinBody::life = 50;
+
+float const PenguinBody::spinPace = 2.5f;
+
+float const PenguinBody::pace = 1.5f;
+
+float const PenguinBody::maxSpeed = 6.0f;
+
 PenguinBody* PenguinBody::player;
 
-PenguinBody::PenguinBody (GameObject& go) : Component(go) {
-    auto bg = new Sprite(go, "assets/img/penguin.png");
-    auto co = new Collider(go);
+PenguinBody::PenguinBody (GameObject& associated) : Component(associated), pcannon() {
+    // Adding image
+    auto image = new Sprite(this->associated, "assets/img/penguin.png");
+    this->associated.AddComponent(image);
 
-    go.AddComponent(bg);
-    go.AddComponent(co);
+    // Adding collider
+    auto collider = new Collider(this->associated);
+    this->associated.AddComponent(collider);
 
-    this->hp = 50;
+    // Initing variables
+    this->hp = PenguinBody::life;
     this->angle = 0.0f;
     this->linearSpeed = 0.0f;
     this->speed = Vec2(0, 0);
-    // TODO: should I initialize?
-    // this->pcannon = std::weak_ptr<PenguinCannon>();
 
     PenguinBody::player = this;
 }
@@ -47,22 +56,18 @@ void PenguinBody::Start() {
 void PenguinBody::Update(float dt) {
     auto& in  = InputManager::GetInstance();
 
-    auto a = in.IsKeyDown(A_KEY);
-    auto d = in.IsKeyDown(D_KEY);
-    auto w = in.IsKeyDown(W_KEY);
-    auto s = in.IsKeyDown(S_KEY);
+    auto keyA = in.IsKeyDown(A_KEY);
+    auto keyD = in.IsKeyDown(D_KEY);
+    auto keyW = in.IsKeyDown(W_KEY);
+    auto keyS = in.IsKeyDown(S_KEY);
 
-    if (w || s) {
-        auto k = 5;
-        auto ls = this->linearSpeed + (w ? 1 : -1) * k * dt;
-        auto maxVelocity = 10;
-
-        this->linearSpeed = ls > 0 ? fmin(ls, maxVelocity) : fmax(ls, -maxVelocity);
+    if (keyW || keyS) {
+        this->linearSpeed += (keyW ? 1 : -1) * PenguinBody::pace * dt;
+        this->linearSpeed = this->linearSpeed > 0 ? fmin(this->linearSpeed, PenguinBody::maxSpeed) : fmax(this->linearSpeed, -PenguinBody::maxSpeed);
     }
 
-    if (a || d) {
-        auto k = 5;
-        this->angle += (a ? 1 : -1) * k * dt;
+    if (keyA || keyD) {
+        this->angle += (keyA ? 1 : -1) * PenguinBody::spinPace * dt;
     }
 
     this->speed = Vec2(1, 0).GetRotate(this->angle) * linearSpeed;

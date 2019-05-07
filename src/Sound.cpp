@@ -48,7 +48,3 @@ void Sound::Update (float dt) {
 }
 
 void Sound::Render () {}
-
-void Sound::NotifyCollision(GameObject &other) {
-    UNUSED(other);
-}

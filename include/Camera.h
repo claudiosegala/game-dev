@@ -8,19 +8,21 @@
 class Camera {
     public:
 
-    static Vec2 pos;
+        static Vec2 pos;
 
-    static Vec2 speed;
+        static Vec2 speed;
 
-    static void Follow(GameObject*);
+        static void Follow(GameObject*);
 
-    static void Unfollow();
+        static void Unfollow();
 
-    static void Update(float);
+        static void Update(float);
 
     private:
 
-    static GameObject* focus;
+        static float const pace;
 
-    static Vec2 GetMovement();
+        static GameObject* focus;
+
+        static Vec2 GetMovement();
 };

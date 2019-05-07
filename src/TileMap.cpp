@@ -74,10 +74,6 @@ void TileMap::Render() {
     }
 }
 
-void TileMap::NotifyCollision(GameObject &other) {
-    UNUSED(other);
-}
-
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
     for (int i = 0; i < this->mapHeight; i++) {
         for (int j = 0; j < this->mapWidth; j++) {
