@@ -1,5 +1,6 @@
 #include <PenguinBody.h>
 #include <Sprite.h>
+#include <Sound.h>
 #include <PenguinCannon.h>
 #include <Game.h>
 #include <State.h>
@@ -108,4 +109,8 @@ void PenguinBody::NotifyCollision(GameObject &other) {
 
 bool PenguinBody::Is(std::string type) {
     return (type == "PenguinBody");
+}
+
+Vec2 PenguinBody::GetPosition() {
+    return this->associated.box.Center();
 }

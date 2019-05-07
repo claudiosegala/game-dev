@@ -22,6 +22,8 @@ class PenguinBody : public Component{
 
     bool Is(std::string);
 
+    Vec2 GetPosition();
+
     static PenguinBody* player;
 
     private:

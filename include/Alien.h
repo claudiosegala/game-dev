@@ -3,6 +3,8 @@
 #include <Component.h>
 #include <GameObject.h>
 #include <Logger.h>
+#include <Timer.h>
+#include <Vec2.h>
 #include <Util.h>
 
 #include <string>
@@ -12,6 +14,8 @@
 
 class Alien : public Component {
     public:
+
+    static int alienCount;
 
     Alien(GameObject&, int);
 
@@ -29,32 +33,24 @@ class Alien : public Component {
 
     private:
 
-    class Action {
-        public:
-        
-        enum class ActionType { 
-            MOVE, 
-            SHOOT 
-        };
-        
-        Vec2 pos;
-
-        ActionType type;
-
-        Action (ActionType, float, float);
-
-    };
-
-    void Move(Action, float);
-
-    void Shoot(Action);
+    void Shoot(Vec2);
 
     Vec2 speed;
 
     int hp;
 
-    std::queue<Action> taskQueue;
-
     std::vector<std::weak_ptr<GameObject>> minions;
+
+    enum class AlienState { 
+        MOVING, 
+        RESTING,
+        NOP
+    };
+
+    AlienState state;
+
+    Timer restTimer;
+
+    Vec2 destination;
 
 };
