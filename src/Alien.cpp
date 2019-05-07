@@ -53,11 +53,6 @@ void Alien::Start() {
 }
 
 void Alien::Update(float dt) {
-    if (this->hp <= 0) {
-        this->associated.RequestDelete();
-        return;
-    }
-
     auto &in = InputManager::GetInstance();
     auto x = static_cast<float>(in.GetMouseX()) + Camera::pos.x;
     auto y = static_cast<float>(in.GetMouseY()) + Camera::pos.y;
@@ -154,6 +149,8 @@ void Alien::NotifyCollision(GameObject &other) {
             this->hp -= bullet->GetDamage();
 
             if (this->hp <= 0) {
+                this->associated.RequestDelete();
+                
                 auto gm = Game::GetInstance();
                 auto st = gm->GetState();
 

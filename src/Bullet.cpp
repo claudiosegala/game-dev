@@ -34,6 +34,7 @@ void Bullet::Update(float dt) {
 void Bullet::Render() {}
 
 void Bullet::NotifyCollision(GameObject &other) {
+    // TODO: verify if the bullet is hitting far from the object and if I should reduce the size of the colision box
     if (other.GetComponent("PenguinBody") != nullptr || other.GetComponent("Alien") != nullptr) {
         this->associated.RequestDelete();
         return;

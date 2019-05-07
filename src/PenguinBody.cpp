@@ -45,11 +45,6 @@ void PenguinBody::Start() {
 }
 
 void PenguinBody::Update(float dt) {
-    if (this->hp <= 0) {
-        this->associated.RequestDelete();
-        return;
-    }
-
     auto& in  = InputManager::GetInstance();
 
     auto a = in.IsKeyDown(A_KEY);
@@ -89,6 +84,8 @@ void PenguinBody::NotifyCollision(GameObject &other) {
             Camera::Unfollow();
 
             if (this->hp <= 0) {
+                this->associated.RequestDelete();
+                
                 auto gm = Game::GetInstance();
                 auto st = gm->GetState();
 
