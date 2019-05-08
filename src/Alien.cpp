@@ -48,14 +48,14 @@ void Alien::Update(float dt) {
     auto x = static_cast<float>(in.GetMouseX()) + Camera::pos.x;
     auto y = static_cast<float>(in.GetMouseY()) + Camera::pos.y;
 
-    if (left_click) {
+    if (right_click) {
         auto type = Action::ActionType::MOVE;
         auto action = Action(type, x, y);
 
         this->taskQueue.push(action);
     }
 
-    if (right_click) {
+    if (left_click) {
         auto type = Action::ActionType::SHOOT;
         auto action = Action(type, x, y);
         
