@@ -38,7 +38,6 @@ Alien::Alien(GameObject& associated, int qnt_minions) : Component(associated), r
     this->state = AlienState::RESTING;
 };
 
-// TODO: verify if it is ok
 Alien::~Alien() {
     // Clear minions
     // I can do this cause it is the job of the shared_ptr to free the memory
@@ -191,14 +190,12 @@ void Alien::NotifyCollision(GameObject &other) {
     auto gameObject = new GameObject();
     
     // Adding explosion image
-    // TODO: make this const
     auto image = new Sprite(*gameObject, "assets/img/aliendeath.png", 4, 0.05, 0.2);
     gameObject->box = this->associated.box;
     gameObject->AddComponent(image);
 
     // Adding sound of explosion
-    // TODO: make this const
-    auto sound = new Sound(*gameObject, "assets/img/penguindeath.png");
+    auto sound = new Sound(*gameObject, "assets/audio/boom.wav");
     gameObject->AddComponent(sound);
     sound->Play(); // TODO: should I play it here?
 

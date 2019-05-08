@@ -8,6 +8,7 @@
 
 class Collision {
 	public:
+	
 		// Observação: IsColliding espera ângulos em radianos!
 		// Para usar graus, forneça a sua própria implementação de Rotate,
 		// ou transforme os ângulos no corpo de IsColliding.
