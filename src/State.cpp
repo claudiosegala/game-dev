@@ -82,7 +82,6 @@ void State::MakeUpdate(float dt) {
     }
 }
 
-// TODO: check if this is correct
 void State::CheckCollision () {
     std::vector<int> objs;
 
@@ -128,7 +127,6 @@ void State::CreateField () {
     auto bg = new Sprite(*field, "assets/img/ocean.jpg");
     field->AddComponent(bg);
 
-    // TODO: add constants
     auto ts = new TileSet(*field, 64, 64, "assets/img/tileset.png");
     auto tm = new TileMap(*field, "assets/map/tileMap.txt", ts);
     field->AddComponent(tm);
@@ -147,7 +145,6 @@ void State::CreateMainCharacter () {
     auto pd = new PenguinBody(*mainChar);
     mainChar->AddComponent(pd);
 
-    // TODO: Add constant
     mainChar->box.vector = Vec2(704, 640);
 
     this->objects.emplace_back(mainChar);
@@ -161,7 +158,6 @@ void State::CreateEnemies () {
     auto al = new Alien(*alien, 5);
     alien->AddComponent(al);
 
-    // TODO: add constant
     alien->box.vector = Vec2(512, 300);
 
     this->objects.emplace_back(alien);

@@ -117,7 +117,6 @@ void Sprite::Render (int x, int y) {
     auto g = Game::GetInstance();
     auto srcRect = this->clipRect;
 
-    // TODO: discover what I should do here to adjust to zoom
     SDL_Rect dstRect{ 
         x, 
         y, 

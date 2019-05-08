@@ -45,7 +45,6 @@ void Bullet::Update(float dt) {
 
 void Bullet::Render() {}
 
-// TODO: verify if the bullet is hitting far from the object and if I should reduce the size of the colision box
 void Bullet::NotifyCollision(GameObject &other) {
     // If hit an penguin body or alien, it should destroy itself
     if ((other.GetPenguinBody() != nullptr && !targetPlayer) || (other.GetAlien() != nullptr && targetPlayer)) {

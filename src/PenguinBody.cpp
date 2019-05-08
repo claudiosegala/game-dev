@@ -110,7 +110,7 @@ void PenguinBody::NotifyCollision(GameObject &other) {
     // Adding sound of explosion
     auto sound = new Sound(*gameObject, "assets/audio/boom.wav");
     gameObject->AddComponent(sound);
-    sound->Play(); // TODO: should I play it here?
+    sound->Play();
 
     // Adding to state
     auto game = Game::GetInstance();
