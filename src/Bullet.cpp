@@ -5,6 +5,12 @@
 #include <Collider.h>
 #include <PenguinBody.h>
 
+float const Bullet::defaultSpeed = 100.0f;
+
+float const Bullet::defaultDamage = 10.0f;
+
+float const Bullet::defaultMaxDistance = 1000.0f;
+
 Bullet::Bullet(GameObject& go, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime, bool targetPlayer) : Component(go) {
     // Adding Image
     auto image = new Sprite(this->associated, sprite, frameCount, frameTime);
@@ -42,7 +48,7 @@ void Bullet::Render() {}
 // TODO: verify if the bullet is hitting far from the object and if I should reduce the size of the colision box
 void Bullet::NotifyCollision(GameObject &other) {
     // If hit an penguin body or alien, it should destroy itself
-    if (other.GetPenguinBody() != nullptr || other.GetAlien() != nullptr) {
+    if ((other.GetPenguinBody() != nullptr && !targetPlayer) || (other.GetAlien() != nullptr && targetPlayer)) {
         this->associated.RequestDelete();
         return;
     }

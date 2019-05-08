@@ -60,8 +60,7 @@ void Minion::Shoot(Vec2 pos) {
     auto state = game->GetState();
 
     auto go = new GameObject();
-    // TODO: make constants out of this
-    auto bullet = new Bullet(*go, ang, 100, 10, 10000.0, "assets/img/minionbullet2.png", 3, 0.2, false);
+    auto bullet = new Bullet(*go, ang, Bullet::defaultSpeed, Bullet::defaultDamage, Bullet::defaultMaxDistance, "assets/img/minionbullet2.png", 3, 0.2, false);
 
     go->box.SetCenter(center);
     go->angle = PI + ang;

@@ -7,7 +7,9 @@
 #include <Collider.h>
 #include <Timer.h>
 
-PenguinCannon::PenguinCannon(GameObject& associated, std::weak_ptr<GameObject> penguinBody) : Component(associated) {
+float const PenguinCannon::restCoolDown = 1.0f;
+
+PenguinCannon::PenguinCannon(GameObject& associated, std::weak_ptr<GameObject> penguinBody) : Component(associated), coolDownTime() {
     // Adding image
     auto image = new Sprite(this->associated, "assets/img/cubngun.png");
     this->associated.AddComponent(image);
@@ -22,11 +24,7 @@ PenguinCannon::PenguinCannon(GameObject& associated, std::weak_ptr<GameObject> p
 }
 
 void PenguinCannon::Update(float dt) {
-    static Timer *t = nullptr;
-
-    if (t != nullptr) {
-        t->Update(dt);
-    }
+    this->coolDownTime.Update(dt);
 
     auto penguinBody = this->pbody.lock();
 
@@ -45,17 +43,12 @@ void PenguinCannon::Update(float dt) {
     this->associated.angle = this->angle = dir.GetAngle();
 
     auto left_click = in.MousePress(LEFT_MOUSE_BUTTON);
-    // TODO: make a constant
-    auto isInCoolDown = t != nullptr && t->Get() < 1.0f;
+    auto ready = this->coolDownTime.Get() > PenguinCannon::restCoolDown;
 
-    if (left_click && !isInCoolDown) {
-        if (t == nullptr) {
-            t = new Timer();
-        } else {
-            t->Restart();
-        }
-        
+    // Shoot if it is not cooling down and pressed the left button
+    if (left_click && ready) {
         Shoot();
+        this->coolDownTime.Restart();
     }
 }
 
@@ -66,17 +59,14 @@ bool PenguinCannon::Is(std::string type) {
 }
 
 void PenguinCannon::Shoot() {
-    auto game = Game::GetInstance();
-    auto state = game->GetState();
-
     auto gameObject = new GameObject();
-    // TODO: should I change to another sprite?
-    // TODO: make this constant
-    auto bullet = new Bullet(*gameObject, PI + this->angle, 100, 10, 1000.0, "assets/img/minionbullet2.png", 3, 0.2, true);
-    // TODO: make this constant
+
+    auto bullet = new Bullet(*gameObject, PI + this->angle, Bullet::defaultSpeed, Bullet::defaultDamage, Bullet::defaultMaxDistance, "assets/img/penguinbullet.png", 4, 1, true);
     gameObject->box.SetCenter(Vec2(54, 0).GetRotate(this->angle) + this->associated.box.Center());
     gameObject->angle = this->angle;
-
     gameObject->AddComponent(bullet);
+
+    auto game = Game::GetInstance();
+    auto state = game->GetState();
     state->AddObject(gameObject);
 }

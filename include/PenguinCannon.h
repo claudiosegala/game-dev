@@ -3,6 +3,7 @@
 #include <Util.h>
 #include <Component.h>
 #include <GameObject.h>
+#include <Timer.h>
 
 class PenguinCannon : public Component {
     public:
@@ -19,7 +20,11 @@ class PenguinCannon : public Component {
 
     private:
 
+        static float const restCoolDown;
+
         float angle;
+
+        Timer coolDownTime;
 
         std::weak_ptr<GameObject> pbody;
 

@@ -10,11 +10,11 @@
 
 int const PenguinBody::life = 50;
 
-float const PenguinBody::spinPace = 2.5f;
+float const PenguinBody::spinPace = 1.5f;
 
-float const PenguinBody::pace = 1.5f;
+float const PenguinBody::pace = 0.5f;
 
-float const PenguinBody::maxSpeed = 6.0f;
+float const PenguinBody::maxSpeed = 1.0f;
 
 PenguinBody* PenguinBody::player;
 
@@ -67,7 +67,7 @@ void PenguinBody::Update(float dt) {
     }
 
     if (keyA || keyD) {
-        this->angle += (keyA ? 1 : -1) * PenguinBody::spinPace * dt;
+        this->angle += (keyA ? -1 : 1) * PenguinBody::spinPace * dt;
     }
 
     this->speed = Vec2(1, 0).GetRotate(this->angle) * linearSpeed;
@@ -79,34 +79,43 @@ void PenguinBody::Render() {}
 
 void PenguinBody::NotifyCollision(GameObject &other) {
     auto component = other.GetComponent("Bullet");
+
+    if (component == nullptr) return;    
     
-    if (component != nullptr) {
-        auto bullet = std::static_pointer_cast<Bullet>(component);
+    auto bullet = std::static_pointer_cast<Bullet>(component);
 
-        if (!bullet->targetPlayer) {
-            this->hp -= bullet->GetDamage();
+    // Check if bullet was launch by me
+    if (bullet->targetPlayer) return;
 
-            Camera::Unfollow();
+    // Alien loses life
+    this->hp -= bullet->GetDamage();
 
-            if (this->hp <= 0) {
-                this->associated.RequestDelete();
-                
-                auto gm = Game::GetInstance();
-                auto st = gm->GetState();
+    // Check if has died
+    if (this->hp > 0) return;
 
-                auto go = new GameObject();
-                auto bg = new Sprite(*go, "assets/img/penguindeath.png", 5, 0.05, 0.25);
-                auto sd = new Sound(*go, "assets/img/penguindeath.png");
+    // Unfollow to avoid erros
+    Camera::Unfollow();
 
-                go->box = this->associated.box;
-                go->AddComponent(bg);
-                go->AddComponent(sd);
-                st->AddObject(go);
-                // TODO: should I play it here?
-                sd->Play();
-            }
-        }
-    }
+    // 'Dies'
+    this->associated.RequestDelete();
+
+    // Start adding Animation of death
+    auto gameObject = new GameObject();
+    
+    // Adding explosion image
+    auto image = new Sprite(*gameObject, "assets/img/penguindeath.png", 5, 0.05, 0.25);
+    gameObject->box = this->associated.box;
+    gameObject->AddComponent(image);
+
+    // Adding sound of explosion
+    auto sound = new Sound(*gameObject, "assets/audio/boom.wav");
+    gameObject->AddComponent(sound);
+    sound->Play(); // TODO: should I play it here?
+
+    // Adding to state
+    auto game = Game::GetInstance();
+    auto state = game->GetState();
+    state->AddObject(gameObject);
 }
 
 bool PenguinBody::Is(std::string type) {
