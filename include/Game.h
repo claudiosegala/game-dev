@@ -3,7 +3,7 @@
 #include <InputManager.h>
 #include <Logger.h>
 #include <SDL_Include.h>
-#include <State.h>
+#include <StageState.h>
 #include <Util.h>
 
 #include <string>
@@ -25,7 +25,7 @@ class Game {
 
         static Game* GetInstance();
 
-        State* GetState();
+        StageState* GetState();
 
         SDL_Renderer* GetRenderer();
 
@@ -39,7 +39,7 @@ class Game {
 
         unsigned int frameStart;
 
-        State* state;
+        StageState* state;
 
         SDL_Window* window;
 

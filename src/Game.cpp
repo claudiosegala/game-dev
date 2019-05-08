@@ -95,7 +95,7 @@ Game* Game::GetInstance () {
     return Game::instance = new Game(Game::windowName, Game::windowWidth, Game::windowHeight);
 }
 
-State* Game::GetState () {
+StageState* Game::GetState () {
     return this->state;
 }
 
@@ -104,7 +104,7 @@ SDL_Renderer* Game::GetRenderer () {
 }
 
 void Game::Init_STS () {
-    this->state = new State();
+    this->state = new StageState();
 }
 
 void Game::Init_RDR () {

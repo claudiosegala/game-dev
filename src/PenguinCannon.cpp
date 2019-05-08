@@ -1,6 +1,6 @@
 #include <PenguinCannon.h>
 #include <Game.h>
-#include <State.h>
+#include <StageState.h>
 #include <Camera.h>
 #include <Sprite.h>
 #include <Bullet.h>

@@ -4,7 +4,7 @@
 #include <Rect.h>
 #include <Sound.h>
 #include <Sprite.h>
-#include <State.h>
+#include <StageState.h>
 #include <TileMap.h>
 #include <TileSet.h>
 #include <Vec2.h>
@@ -14,7 +14,7 @@
 #include <Collider.h>
 #include <Collision.h>
 
-State::State () {
+StageState::StageState () {
     CreateField();
     CreateMainCharacter();
     CreateEnemies();
@@ -26,24 +26,24 @@ State::State () {
     this->music.Play();
 }
 
-State::~State () {
-    Logger::Info("Destroying State");
+StageState::~StageState () {
+    Logger::Info("Destroying StageState");
     this->music.Stop();
     this->objects.clear();
 }
 
-void State::Start () {
+void StageState::Start () {
     LoadAssets();
     Init();
 
     this->started = true;
 }
 
-void State::LoadAssets () {
+void StageState::LoadAssets () {
     // For now, nothing
 }
 
-void State::Update (float dt) {
+void StageState::Update (float dt) {
     auto& in = InputManager::GetInstance();
 
     this->quitRequested = in.IsKeyDown(ESCAPE_KEY) | in.QuitRequested();
@@ -60,13 +60,13 @@ void State::Update (float dt) {
     Prune();
 }
 
-void State::Init () {
+void StageState::Init () {
     for (auto &field : this->objects) {
        field->Start();
     }
 }
 
-void State::Render () {
+void StageState::Render () {
     for (auto &field : this->objects) {
         field->Render();
     }
@@ -82,17 +82,17 @@ void State::Render () {
     }
 }
 
-bool State::QuitRequested () {
+bool StageState::QuitRequested () {
     return this->quitRequested;
 }
 
-void State::MakeUpdate(float dt) {
+void StageState::MakeUpdate(float dt) {
     for (int i = 0; i < (int) this->objects.size(); i++) {
         this->objects[i]->Update(dt);
     }
 }
 
-void State::CheckCollision () {
+void StageState::CheckCollision () {
     std::vector<int> objs;
 
     for (int i = 0; i < (int) this->objects.size(); i++) {
@@ -123,7 +123,7 @@ void State::CheckCollision () {
     }
 }
 
-void State::Prune () {
+void StageState::Prune () {
     auto it = std::remove_if(this->objects.begin(), this->objects.end(), [&] (std::shared_ptr<GameObject>& o) { 
         return o->IsDead();
     });
@@ -131,7 +131,7 @@ void State::Prune () {
     this->objects.erase(it, this->objects.end());
 }
 
-void State::CreateField () {
+void StageState::CreateField () {
     auto field = new GameObject();
 
     auto bg = new Sprite(*field, "assets/img/ocean.jpg");
@@ -149,7 +149,7 @@ void State::CreateField () {
     this->objects.emplace_back(field);
 }
 
-void State::CreateMainCharacter () {
+void StageState::CreateMainCharacter () {
     auto mainChar = new GameObject();
 
     auto pd = new PenguinBody(*mainChar);
@@ -162,7 +162,7 @@ void State::CreateMainCharacter () {
     Camera::Follow(mainChar);
 }
 
-void State::CreateEnemies () {
+void StageState::CreateEnemies () {
     auto alien = new GameObject();
 
     auto al = new Alien(*alien, 5);
@@ -173,7 +173,7 @@ void State::CreateEnemies () {
     this->objects.emplace_back(alien);
 }
 
-std::weak_ptr<GameObject> State::AddObject (GameObject* field) {
+std::weak_ptr<GameObject> StageState::AddObject (GameObject* field) {
     this->objects.emplace_back(field);
 
     if (this->started) {
@@ -183,7 +183,7 @@ std::weak_ptr<GameObject> State::AddObject (GameObject* field) {
     return this->objects.back();
 }
 
-std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* field) {
+std::weak_ptr<GameObject> StageState::GetObjectPtr(GameObject* field) {
     auto ptr = std::find_if(this->objects.begin(), this->objects.end(), [&](const std::shared_ptr<GameObject>& _go) {
         return _go.get() == field;
     });

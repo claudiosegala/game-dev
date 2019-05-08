@@ -1,6 +1,6 @@
 #include <Alien.h>
 #include <Game.h>
-#include <State.h>
+#include <StageState.h>
 #include <InputManager.h>
 #include <PenguinBody.h>
 #include <Camera.h>

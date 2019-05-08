@@ -3,7 +3,7 @@
 #include <Sound.h>
 #include <PenguinCannon.h>
 #include <Game.h>
-#include <State.h>
+#include <StageState.h>
 #include <Collider.h>
 #include <Bullet.h>
 #include <Camera.h>
