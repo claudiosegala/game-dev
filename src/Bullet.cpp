@@ -9,7 +9,7 @@ float const Bullet::defaultSpeed = 100.0f;
 
 float const Bullet::defaultDamage = 10.0f;
 
-float const Bullet::defaultMaxDistance = 1000.0f;
+float const Bullet::defaultMaxDistance = 400.0f;
 
 Bullet::Bullet(GameObject& go, float angle, float speed, int damage, float maxDistance, std::string sprite, int frameCount, float frameTime, bool targetPlayer) : Component(go) {
     // Adding Image
