@@ -3,7 +3,7 @@
 
 int const Game::windowWidth = 1024;
 
-int const Game::windowHeight = 640;
+int const Game::windowHeight = 600;
 
 std::string const Game::windowName = "ClaudioSegala_150032552";
 
