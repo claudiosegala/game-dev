@@ -8,33 +8,32 @@ Rect::Rect(Vec2 v, float w, float h) : vector(v), width(w), height(h) {}
 Rect::Rect(float x, float y, float w, float h) : vector(x, y), width(w), height(h) {}
 
 Vec2 Rect::Center() const {
-    Point dl, ur;
+    Vec2 dl, ur;
 
     std::tie(dl, ur) = GetPoints();
 
-    return Vec2((dl + ur) / 2);
+    return (dl + ur) / 2;
 }
 
-float Rect::CenterDistance(const Rect& R) const {
+float Rect::CenterDistance (const Rect& R) const {
     auto c1 = this->Center();
     auto c2 = R.Center();
 
     return Vec2::Distance(c1, c2);
 }
 
-void Rect::SetCenter (const Point& V) {
-    this->vector.x = V.x - this->width/2;
-    this->vector.y = V.y - this->height/2;
+void Rect::SetCenter (const Vec2& V) {
+    this->vector = V - Vec2(this->width/2, this->height/2);
 }
 
-bool Rect::IsInside(const Point& P) const {
-    return (P.x >= this->vector.x && P.x <= this->vector.x + this->width)
-        && (P.y >= this->vector.y && P.y <= this->vector.y + this->height);
+bool Rect::IsInside (const Vec2& V) const {
+    return (V.x >= this->vector.x && V.x <= this->vector.x + this->width)
+        && (V.y >= this->vector.y && V.y <= this->vector.y + this->height);
 } 
 
-std::tuple<Point, Point> Rect::GetPoints() const {
-    auto u = static_cast<Point>(this->vector); // down left
-    auto v = u + Point(this->width, this->height); // upper right
+std::tuple<Vec2, Vec2> Rect::GetPoints () const {
+    auto u = this->vector; // down left
+    auto v = u + Vec2(this->width, this->height); // upper right
 
     return std::make_tuple(v, u);
 }
@@ -69,7 +68,7 @@ void Rect::operator*= (float v) {
     this->vector.y *= v;
 }
 
-std::ostream& operator<<(std::ostream &out, const Rect& R) {
+std::ostream& operator<< (std::ostream &out, const Rect& R) {
     out << "Rect: {\n\twidth:" << R.width << ",\n\theight:" << R.height << ",\n\t" << R.vector << " }";
     return out;
 }

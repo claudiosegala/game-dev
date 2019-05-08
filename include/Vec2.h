@@ -1,22 +1,23 @@
 #pragma once
 
-#include <Point.h>
 #include <Logger.h>
 #include <Util.h>
 
 #include <iostream>
 #include <cmath>
 
-class Vec2 : public Point {
+class Vec2 {
     public:
+
+        float x;
+
+        float y;
 
         Vec2();
 
         Vec2(float xv, float yv);
 
-        Vec2(Point);
-
-        Vec2(Point, Point);
+        Vec2(Vec2&, Vec2&);
 
         //> Find if the vector is (0, 0)
         bool IsOrigin() const;
@@ -66,17 +67,9 @@ class Vec2 : public Point {
 
         Vec2 operator+= (const Vec2&);
 
-        Vec2 operator+= (const Point&);
-
         Vec2 operator-(const Vec2&) const;
 
-        Vec2 operator-(const Point&) const;
-
         Vec2 operator-= (const Vec2&);
-
-        Vec2 operator-= (const Point&);
-
-        Vec2 operator= (const Point&);
 
         Vec2 operator= (const Vec2&);
 

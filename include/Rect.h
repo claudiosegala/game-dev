@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Logger.h>
-#include <Point.h>
 #include <Util.h>
 #include <Vec2.h>
 
@@ -26,11 +25,11 @@ class Rect {
 
         float CenterDistance(const Rect&) const;
 
-        void SetCenter(const Point&);
+        void SetCenter(const Vec2&);
 
-        bool IsInside(const Point&) const;
+        bool IsInside(const Vec2&) const;
 
-        std::tuple<Point, Point> GetPoints() const;
+        std::tuple<Vec2, Vec2> GetPoints() const;
 
         Rect operator+ (const Vec2&) const;
 
