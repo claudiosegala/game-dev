@@ -64,6 +64,16 @@ void State::Render () {
     for (auto &field : this->objects) {
         field->Render();
     }
+
+    for (auto &field : this->objects) {
+        auto component = field->GetComponent("TileMap");
+
+        if (component == nullptr) continue;
+
+        auto tileMap = std::static_pointer_cast<TileMap>(component);
+
+        tileMap->RenderLayer(1, (int) Camera::pos.x, (int) Camera::pos.y);
+    }
 }
 
 bool State::QuitRequested () {

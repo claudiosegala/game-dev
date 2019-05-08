@@ -6,7 +6,6 @@
 #include <Minion.h>
 #include <Sprite.h>
 
-// TODO: verify if it is ok
 Alien::Alien(GameObject& go, int qnt_minions) : Component(go), minions(qnt_minions) {
     auto bg = new Sprite(go, "assets/img/alien.png");
 
@@ -132,12 +131,13 @@ void Alien::Shoot (Action task) {
 
     if (go != nullptr) {
         auto component = go->GetComponent("Minion");
-        // TODO: treat empty component
 
-        auto minion = std::static_pointer_cast<Minion>(component);
+        if (component != nullptr) {
+            auto minion = std::static_pointer_cast<Minion>(component);
 
-        // Make it shoot
-        minion->Shoot(task.pos);
+            // Make it shoot
+            minion->Shoot(task.pos);
+        }
     }
     
     // Remove completed task
