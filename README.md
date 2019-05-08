@@ -1,6 +1,6 @@
 # [Penguin](https://github.com/claudiosegala/penguin)
 
-A small game to train on how to use SDL2
+A small game of a penguin vs aliens. The goal of this development is to get use to SDL2.
 
 ## Running
 
