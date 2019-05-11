@@ -42,10 +42,10 @@ void Sprite::SetScale (float x, float y) {
 
     this->scale = Vec2(x, y);
 
+    SetClip(0, 0, this->width, this->height);
+
     this->associated.box.width = static_cast<float>(GetWidth());
     this->associated.box.height = static_cast<float>(GetHeight());
-
-    SetClip(this->clipRect.x, this->clipRect.y, GetWidth(), GetHeight());
 }
 
 Vec2 Sprite::GetScale() {
