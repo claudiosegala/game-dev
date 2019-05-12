@@ -13,52 +13,58 @@
 class Game {
     public:
 
-    ~Game();
+        static int const windowWidth;
 
-    void Run();
+        static int const windowHeight;
 
-    void Start();
+        static std::string const windowName;
 
-    void Loop(InputManager&);
+        ~Game();
 
-    void End();
+        void Run();
 
-    static Game* GetInstance();
+        static Game* GetInstance();
 
-    State* GetState();
+        State* GetState();
 
-    SDL_Renderer* GetRenderer();
+        SDL_Renderer* GetRenderer();
 
-    float GetDeltaTime();
+        float GetDeltaTime();
 
     private:
 
-    unsigned int frameStart;
+        static Game* instance;
 
-    float dt;
+        float dt;
 
-    SDL_Window* window;
+        unsigned int frameStart;
 
-    SDL_Renderer* renderer;
+        State* state;
 
-    State* state;
+        SDL_Window* window;
 
-    static Game* instance;
+        SDL_Renderer* renderer;
 
-    Game(const std::string&, int, int);
+        Game(const std::string&, int, int);
 
-    void Init_SDL();
+        void Init_SDL();
 
-    void Init_IMG();
+        void Init_IMG();
 
-    void Init_MIX();
+        void Init_MIX();
 
-    void Init_WDW(const std::string&, int, int);
+        void Init_WDW(const std::string&, int, int);
 
-    void Init_RDR();
+        void Init_RDR();
 
-    void Init_STS();
+        void Init_STS();
 
-    void CalculateDeltaTime();
+        void Start();
+
+        void Loop();
+
+        void End();
+
+        void CalculateDeltaTime();
 
 };

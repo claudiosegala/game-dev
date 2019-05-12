@@ -3,6 +3,8 @@
 #include <Component.h>
 #include <GameObject.h>
 #include <Logger.h>
+#include <Timer.h>
+#include <Vec2.h>
 #include <Util.h>
 
 #include <string>
@@ -13,46 +15,56 @@
 class Alien : public Component {
     public:
 
-    Alien(GameObject&, int);
+        static int alienCount;
 
-    ~Alien();
+        Alien(GameObject&, int);
 
-    void Start();
+        ~Alien();
 
-    void Update(float);
+        void Start();
 
-    void Render();
+        void Update(float);
 
-    bool Is(std::string);
+        void Render();
+
+        void NotifyCollision(GameObject&);
+
+        bool Is(std::string);
 
     private:
 
-    class Action {
-        public:
-        
-        enum class ActionType { 
-            MOVE, 
-            SHOOT 
+        static int const life;
+
+        static int const restCoolDown;
+
+        static float const pace;
+
+        static float const spinPace;
+
+        enum class AlienState { 
+            MOVING, 
+            RESTING,
+            NOP
         };
+
+        int hp;
+
+        Vec2 speed;
+
+        Vec2 destination;
         
-        Vec2 pos;
+        Timer restTimer;
 
-        ActionType type;
+        AlienState state;
 
-        Action (ActionType, float, float);
+        std::vector<std::weak_ptr<GameObject>> minions;
 
-    };
+        void Rest(float);
 
-    void Move(Action, float);
+        void Move();
 
-    void Shoot(Action);
+        void Shoot(Vec2);
 
-    Vec2 speed;
-
-    int hp;
-
-    std::queue<Action> taskQueue;
-
-    std::vector<std::weak_ptr<GameObject>> minions;
+        int GetClosestMinion(Vec2);
 
 };

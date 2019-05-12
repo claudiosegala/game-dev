@@ -2,6 +2,8 @@
 #include <Game.h>
 #include <InputManager.h>
 
+float const Camera::pace = 1500.0f;
+
 Vec2 Camera::pos;
 
 Vec2 Camera::speed;
@@ -9,10 +11,6 @@ Vec2 Camera::speed;
 GameObject* Camera::focus;
 
 void Camera::Follow(GameObject* newFocus) {
-    // if (Camera::focus != nullptr) {
-    //     delete Camera::focus;
-    // }
-
     Camera::focus = newFocus;
 }
 
@@ -22,26 +20,28 @@ void Camera::Unfollow() {
 
 void Camera::Update(float dt) {
     if (focus != nullptr) {
-        Camera::pos = Camera::focus->box.Center();
+        // Follows the game object
+        auto center = Camera::focus->box.Center();
+        auto centerWindow = Vec2(Game::windowWidth, Game::windowHeight) / 2;
+
+        Camera::pos = center - centerWindow;
         return;
     }
 
-    auto k = (float) 1500.0; // to adjust speed
-
-    Camera::speed = Camera::GetMovement() * dt * k;
+    Camera::speed = Camera::GetMovement() * dt * Camera::pace;
     Camera::pos += Camera::speed;
 }
 
 Vec2 Camera::GetMovement() {
     auto& in  = InputManager::GetInstance();
     
-    auto r = in.IsKeyDown(RIGHT_ARROW_KEY);
-    auto l = in.IsKeyDown(LEFT_ARROW_KEY);
-    auto u = in.IsKeyDown(UP_ARROW_KEY);
-    auto d = in.IsKeyDown(DOWN_ARROW_KEY);
+    auto right = in.IsKeyDown(RIGHT_ARROW_KEY);
+    auto left = in.IsKeyDown(LEFT_ARROW_KEY);
+    auto up = in.IsKeyDown(UP_ARROW_KEY);
+    auto down = in.IsKeyDown(DOWN_ARROW_KEY);
 
-    float x = r ? 1 : (l ? -1 : 0);
-    float y = d ? 1 : (u ? -1 : 0);
+    float x = right ? 1.0f : (left ? -1.0f : 0.0f);
+    float y = down ? 1.0f : (up ? -1.0f : 0.0f);
 
     return Vec2(x, y);
 }

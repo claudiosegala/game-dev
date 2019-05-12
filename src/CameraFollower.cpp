@@ -1,9 +1,7 @@
 #include <Camera.h>
 #include <CameraFollower.h>
 
-CameraFollower::CameraFollower(GameObject& go) : Component(go) {
-
-}
+CameraFollower::CameraFollower(GameObject& go) : Component(go) {}
 
 void CameraFollower::Update(float dt) {
     UNUSED(dt);
@@ -11,9 +9,7 @@ void CameraFollower::Update(float dt) {
     this->associated.box.vector = Camera::pos;
 }
 
-void CameraFollower::Render() {
-
-}
+void CameraFollower::Render() {}
 
 bool CameraFollower::Is(std::string type) {
     return (type == "CameraFollower");

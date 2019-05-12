@@ -1,9 +1,11 @@
 #include <Vec2.h>
 
-Vec2::Vec2(float xv, float yv) : Point(xv, yv) {}
+Vec2::Vec2() : x(0), y(0) {}
 
-Vec2::Vec2(Point start, Point destiny)  {
-    (*this) = destiny - start;
+Vec2::Vec2(float xv, float yv) : x(xv), y(yv) {}
+
+Vec2::Vec2(Vec2 &start, Vec2 &destination)  {
+    (*this) = destination - start;
 }
 
 bool Vec2::IsOrigin() const {
@@ -52,16 +54,13 @@ Vec2 Vec2::GetRotate(float angle) const {
     );
 }
 
+float Vec2::Distance(const Vec2& V, const Vec2& U) {
+    return (float) hypot(V.x - U.x, V.y - U.y);
+}
+
 Vec2 Vec2::operator= (const Vec2& V) {
     this->x = V.x;
     this->y = V.y;
-
-    return *this;
-}
-
-Vec2 Vec2::operator= (const Point& P) {
-    this->x = P.x;
-    this->y = P.y;
 
     return *this;
 }
@@ -106,31 +105,13 @@ Vec2 Vec2::operator+= (const Vec2 &V) {
     return (*this);
 }
 
-Vec2 Vec2::operator+= (const Point &P) {
-    this->x += P.x;
-    this->y += P.y;
-
-    return (*this);
-}
-
 Vec2 Vec2::operator-(const Vec2 &V) const {
     return Vec2(this->x - V.x, this->y - V.y);
-}
-
-Vec2 Vec2::operator-(const Point &P) const {
-    return Vec2(this->x - P.x, this->y - P.y);
 }
 
 Vec2 Vec2::operator-= (const Vec2 &V) {
     this->x -= V.x;
     this->y -= V.y;
-
-    return (*this);
-}
-
-Vec2 Vec2::operator-= (const Point &P) {
-    this->x -= P.x;
-    this->y -= P.y;
 
     return (*this);
 }

@@ -1,19 +1,26 @@
 #include <Minion.h>
 #include <Sprite.h>
 #include <Bullet.h>
+#include <Collider.h>
 #include <Game.h>
 #include <State.h>
 
+float const Minion::alienDistance = 200.0f;
+
 Minion::Minion (GameObject& go, std::weak_ptr<GameObject> alienCenter, float arcOffset) : Component(go) {
+    // Adding image
+    auto k = 1 + RAND/2;
+    auto image = new Sprite(this->associated, "assets/img/minion.png");
+    image->SetScale(k, k);
+    go.AddComponent(image);
+
+    // Adding Collider
+    auto collider = new Collider(go);
+    go.AddComponent(collider);
+
+    // Initializing variables
     this->alienCenter = alienCenter;
     this->arc = arcOffset;
-
-    auto k = 1 + RAND/2;
-    auto bg = new Sprite(this->associated, "assets/img/minion.png");
-
-    bg->SetScale(k, k);
-
-    this->associated.AddComponent(bg);
 
     SetPosition(0);
 }
@@ -36,28 +43,26 @@ void Minion::SetPosition(float dt) {
         return;
     }
     
-    auto distAlien = Vec2(200, 0);
     auto alienPos = alien->box.Center();
+    auto pos = Vec2(Minion::alienDistance, 0).GetRotate(this->arc) + alienPos;
 
-    distAlien.Rotate(this->arc);
-    distAlien += alienPos;
-
-    this->associated.box.SetCenter(distAlien);
+    this->associated.box.SetCenter(pos);
     this->associated.angle = this->arc;
     this->arc += 0.3 * dt;
 }
 
 void Minion::Shoot(Vec2 pos) {
-    auto dir = (pos - this->associated.box.Center()) * -1;
+    auto center = this->associated.box.Center();
+    auto dir = (pos - center) * -1;
     auto ang = dir.GetAngle();
 
     auto game = Game::GetInstance();
     auto state = game->GetState();
 
     auto go = new GameObject();
-    auto bullet = new Bullet(*go, ang, 100, 10, 10000.0, "assets/img/minionbullet1.png");
+    auto bullet = new Bullet(*go, ang, Bullet::defaultSpeed, Bullet::defaultDamage, Bullet::defaultMaxDistance, "assets/img/minionbullet2.png", 3, 0.2, false);
 
-    go->box.SetCenter(this->associated.box.Center());
+    go->box.SetCenter(center);
     go->angle = PI + ang;
 
     go->AddComponent(bullet);

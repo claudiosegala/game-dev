@@ -6,22 +6,33 @@
 
 class Bullet : public Component {
     public:
-    
-    Bullet(GameObject&, float, float, int, float, std::string);
 
-    void Update(float);
+        static float const defaultSpeed;
 
-    void Render();
+        static float const defaultDamage;
 
-    bool Is(std::string);
+        static float const defaultMaxDistance;
 
-    int GetDamage();
+        bool targetPlayer;
+        
+        Bullet(GameObject&, float, float, int, float, std::string, int frameCount = 1, float frameTime = 1.0f, bool targetPlayer = false);
+
+        void Update(float);
+
+        void Render();
+
+        void NotifyCollision(GameObject&);
+
+        bool Is(std::string);
+
+        int GetDamage();
 
     private:
 
-    Vec2 speed;
+        int damage;
 
-    float distanceLeft;
+        float distanceLeft;
 
-    int damage;
+        Vec2 speed;
+        
 };

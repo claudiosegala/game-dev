@@ -8,21 +8,23 @@
 class Minion : public Component {
     public:
 
-    Minion (GameObject&, std::weak_ptr<GameObject>, float arcOffsetDeg = 0);
-    
-    void Update(float);
-    
-    void Render();
-    
-    bool Is(std::string);
-    
-    void Shoot(Vec2);
+        Minion (GameObject&, std::weak_ptr<GameObject>, float arcOffsetDeg = 0);
+        
+        void Update(float);
+        
+        void Render();
+        
+        bool Is(std::string);
+        
+        void Shoot(Vec2);
 
     private:
 
-    std::weak_ptr<GameObject> alienCenter;
+        static float const alienDistance;
 
-    float arc;
+        float arc;
 
-    void SetPosition(float);
+        std::weak_ptr<GameObject> alienCenter;
+
+        void SetPosition(float);
 };

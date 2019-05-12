@@ -1,79 +1,80 @@
 #pragma once
 
-#include <Point.h>
 #include <Logger.h>
 #include <Util.h>
 
 #include <iostream>
 #include <cmath>
 
-class Vec2 : public Point {
+class Vec2 {
     public:
 
-    explicit Vec2(float xv = 0, float yv = 0);
+        float x;
 
-    Vec2(Point, Point);
+        float y;
 
-    //> Find if the vector is (0, 0)
-    bool IsOrigin() const;
+        Vec2();
 
-    void Reset();
+        Vec2(float xv, float yv);
 
-    ///> Find magnitude of vector
-    float GetLength() const;
+        Vec2(Vec2&, Vec2&);
 
-    ///> Find angle with point (0, 0)
-    float GetAngle() const;
+        //> Find if the vector is (0, 0)
+        bool IsOrigin() const;
 
-    ///> Find angle between this vector and another
-    float GetAngle(const Vec2&) const;
+        //> Set to (0, 0)
+        void Reset();
 
-    ///> Transform vector, on unit
-    void Unit();
+        ///> Find magnitude of vector
+        float GetLength() const;
 
-    ///> Get unit vector
-    Vec2 GetUnit() const;
+        ///> Find angle with point (0, 0)
+        float GetAngle() const;
 
-    ///> Transform vector, rotating
-    void Rotate(float);
+        ///> Find angle between this vector and another
+        float GetAngle(const Vec2&) const;
 
-    ///> Get rotated vector
-    Vec2 GetRotate(float) const;
-    
-    ///> Cross product
-    Vec2 operator* (const Vec2&);
-    
-    ///> Dot product
-    float operator^ (const Vec2&) const;
+        ///> Transform vector, on unit
+        void Unit();
 
-    Vec2 operator* (const float) const;
+        ///> Get unit vector
+        Vec2 GetUnit() const;
 
-    void operator*= (const float);
+        ///> Transform vector, rotating
+        void Rotate(float);
 
-    Vec2 operator/ (const float) const;
+        ///> Get rotated vector
+        Vec2 GetRotate(float) const;
 
-    void operator/= (const float);
+        //> Distance between Vec2
+        static float Distance(const Vec2&, const Vec2&);
+        
+        ///> Cross product
+        Vec2 operator* (const Vec2&);
+        
+        ///> Dot product
+        float operator^ (const Vec2&) const;
 
-    Vec2 operator+(const Vec2&) const;
+        Vec2 operator* (const float) const;
 
-    Vec2 operator+= (const Vec2&);
+        void operator*= (const float);
 
-    Vec2 operator+= (const Point&);
+        Vec2 operator/ (const float) const;
 
-    Vec2 operator-(const Vec2&) const;
+        void operator/= (const float);
 
-    Vec2 operator-(const Point&) const;
+        Vec2 operator+(const Vec2&) const;
 
-    Vec2 operator-= (const Vec2&);
+        Vec2 operator+= (const Vec2&);
 
-    Vec2 operator-= (const Point&);
+        Vec2 operator-(const Vec2&) const;
 
-    Vec2 operator= (const Point&);
+        Vec2 operator-= (const Vec2&);
 
-    Vec2 operator= (const Vec2&);
+        Vec2 operator= (const Vec2&);
 
-    friend std::ostream& operator<<(std::ostream &os, const  Vec2& n);
+        friend std::ostream& operator<<(std::ostream &os, const  Vec2& n);
 
-    friend std::istream& operator>>(std::istream &is, Vec2& n);
+        friend std::istream& operator>>(std::istream &is, Vec2& n);
             
 };

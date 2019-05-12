@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Logger.h>
-#include <Point.h>
 #include <Util.h>
 #include <Vec2.h>
 
@@ -10,43 +9,41 @@
 class Rect {
     public:
 
-    Vec2 vector;
+        Vec2 vector;
 
-    float width;
+        float width;
 
-    float height;
+        float height;
 
-    Rect();
+        Rect();
 
-    Rect(Vec2, float, float);
+        Rect(Vec2, float, float);
 
-    Rect(float, float, float, float);
+        Rect(float, float, float, float);
 
-    Point Center() const;
+        Vec2 Center() const;
 
-    float CenterDistance(const Rect&) const;
+        float CenterDistance(const Rect&) const;
 
-    void SetCenter(const Point&);
+        void SetCenter(const Vec2&);
 
-    bool IsInside(const Point&) const;
+        bool IsInside(const Vec2&) const;
 
-    std::tuple<Point, Point> GetPoints() const;
+        std::tuple<Vec2, Vec2> GetPoints() const;
 
-    Rect operator+ (const Vec2&) const;
+        Rect operator+ (const Vec2&) const;
 
-    void operator+= (const Vec2&);
+        void operator+= (const Vec2&);
 
-    Rect operator- (const Vec2&) const;
+        Rect operator- (const Vec2&) const;
 
-    void operator-= (const Vec2&);
+        void operator-= (const Vec2&);
 
-    Rect operator* (float) const;
+        Rect operator* (float) const;
 
-    void operator*= (float);
+        void operator*= (float);
 
-    Rect operator= (const Rect&);
+        friend std::ostream& operator<<(std::ostream &os, const  Rect& n);
 
-    friend std::ostream& operator<<(std::ostream &os, const  Rect& n);
-
-    friend std::istream& operator>>(std::istream &is, Rect& n);
+        friend std::istream& operator>>(std::istream &is, Rect& n);
 };

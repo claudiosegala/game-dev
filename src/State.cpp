@@ -9,9 +9,14 @@
 #include <TileSet.h>
 #include <Vec2.h>
 #include <Alien.h>
+#include <PenguinBody.h>
+#include <PenguinCannon.h>
+#include <Collider.h>
+#include <Collision.h>
 
 State::State () {
     CreateField();
+    CreateMainCharacter();
     CreateEnemies();
     
     this->started = false;
@@ -29,10 +34,7 @@ State::~State () {
 
 void State::Start () {
     LoadAssets();
-
-    for (auto &field : this->objects) {
-       field->Start();
-    }
+    Init();
 
     this->started = true;
 }
@@ -53,11 +55,15 @@ void State::Update (float dt) {
 
     Camera::Update(dt);
 
-    for (int i = 0; i < (int) this->objects.size(); i++) {
-        this->objects[i]->Update(dt);
-    }
-    
+    MakeUpdate(dt);
+    CheckCollision();
     Prune();
+}
+
+void State::Init () {
+    for (auto &field : this->objects) {
+       field->Start();
+    }
 }
 
 void State::Render () {
@@ -78,6 +84,43 @@ void State::Render () {
 
 bool State::QuitRequested () {
     return this->quitRequested;
+}
+
+void State::MakeUpdate(float dt) {
+    for (int i = 0; i < (int) this->objects.size(); i++) {
+        this->objects[i]->Update(dt);
+    }
+}
+
+void State::CheckCollision () {
+    std::vector<int> objs;
+
+    for (int i = 0; i < (int) this->objects.size(); i++) {
+        if (this->objects[i]->GetComponent("Collider") != nullptr) {
+            objs.push_back(i);
+        }
+    }
+
+
+    for (int i = 0; i < (int) objs.size(); i++) {
+        for (int j = i+1; j < (int) objs.size(); j++) {
+            auto obj1 = this->objects[objs[i]];
+            auto obj2 = this->objects[objs[j]];
+
+            if (Collision::IsColliding(obj1->box, obj2->box, obj1->angle, obj2->angle)) {
+                auto obj1_ptr = obj1.get();
+                auto obj2_ptr = obj2.get();
+
+                if (obj1_ptr) {
+                    obj2->NotifyCollision(*obj1_ptr);
+                }
+
+                if (obj2_ptr) {
+                    obj1->NotifyCollision(*obj2_ptr);
+                }
+            }
+        }
+    }
 }
 
 void State::Prune () {
@@ -104,6 +147,19 @@ void State::CreateField () {
     field->box.vector = Vec2(0, 0);
 
     this->objects.emplace_back(field);
+}
+
+void State::CreateMainCharacter () {
+    auto mainChar = new GameObject();
+
+    auto pd = new PenguinBody(*mainChar);
+    mainChar->AddComponent(pd);
+
+    mainChar->box.vector = Vec2(704, 640);
+
+    this->objects.emplace_back(mainChar);
+
+    Camera::Follow(mainChar);
 }
 
 void State::CreateEnemies () {

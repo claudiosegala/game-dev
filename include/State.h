@@ -13,37 +13,45 @@
 class State {
     public:
 
-    State();
+        State();
 
-    ~State();
+        ~State();
 
-    bool QuitRequested();
+        bool QuitRequested();
 
-    void LoadAssets();
+        void LoadAssets();
 
-    void Update(float);
+        void Update(float);
 
-    void Render();
+        void Render();
 
-    void Start();
+        void Start();
 
-    std::weak_ptr<GameObject> AddObject(GameObject*);
+        std::weak_ptr<GameObject> AddObject(GameObject*);
 
-    std::weak_ptr<GameObject> GetObjectPtr(GameObject*);
+        std::weak_ptr<GameObject> GetObjectPtr(GameObject*);
 
     private:
 
-    bool started;
+        bool started;
 
-    bool quitRequested;
+        bool quitRequested;
 
-    Music music;
+        Music music;
 
-    std::vector<std::shared_ptr<GameObject>> objects;
+        std::vector<std::shared_ptr<GameObject>> objects;
 
-    void Prune();
+        void Init();
 
-    void CreateField();
+        void MakeUpdate(float);
 
-    void CreateEnemies();
+        void CheckCollision();
+
+        void Prune();
+
+        void CreateField();
+
+        void CreateMainCharacter();
+
+        void CreateEnemies();
 };

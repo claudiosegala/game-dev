@@ -1,23 +1,24 @@
 #include <InputManager.h>
 
 InputManager& InputManager::GetInstance() {
+    // Make this a singleton
     static InputManager instance;
 
     return instance;
 }
 
 InputManager::InputManager() : mouseState { 0, 0, 0, 0, 0, 0 }, mouseUpdate { 0, 0, 0, 0, 0, 0} {
+    // Initialize variables
+
     this->quitRequested = false;
     this->updateCounter = 0;
     this->mouseX = 0;
     this->mouseY = 0;
 }
 
-InputManager::~InputManager() {}
-
 void InputManager::Update() {
     Setup();
-    GetMouse();
+    RetrieveMouse();
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -30,7 +31,7 @@ void InputManager::Setup() {
     this->updateCounter++;
 }
 
-void InputManager::GetMouse() {
+void InputManager::RetrieveMouse() {
     SDL_GetMouseState(&this->mouseX, &this->mouseY);
 }
 
@@ -99,6 +100,13 @@ bool InputManager::MouseRelease(int button) {
 
 bool InputManager::IsMouseDown(int button) {
     return this->mouseState[button];
+}
+
+Vec2 InputManager::GetMouse(Vec2 relative) {
+    return Vec2 {
+        static_cast<float>(GetMouseX()) + relative.x,
+        static_cast<float>(GetMouseY()) + relative.y
+    };
 }
 
 int InputManager::GetMouseX() {
