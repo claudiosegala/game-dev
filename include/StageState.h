@@ -10,12 +10,12 @@
 #include <algorithm>
 #include <string>
 
-class State {
+class StageState {
     public:
 
-        State();
+        StageState();
 
-        ~State();
+        ~StageState();
 
         bool QuitRequested();
 

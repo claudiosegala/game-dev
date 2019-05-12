@@ -3,7 +3,7 @@
 #include <Bullet.h>
 #include <Collider.h>
 #include <Game.h>
-#include <State.h>
+#include <StageState.h>
 
 float const Minion::alienDistance = 200.0f;
 
