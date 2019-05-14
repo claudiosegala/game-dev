@@ -28,13 +28,13 @@ void TitleState::Update(float dt) {
 
     auto& in = InputManager::GetInstance();
 
-    this->quitRequested = in.QuitRequested();
-
-    if (this->quitRequested) return;
-
     this->popRequested = in.IsKeyDown(ESCAPE_KEY);
 
     if (this->popRequested) return;
+
+    this->quitRequested = in.QuitRequested();
+
+    if (this->quitRequested) return;
 
     if (in.KeyPress(SPACE_BAR)) {
         auto game = Game::GetInstance();
