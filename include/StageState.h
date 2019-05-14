@@ -4,20 +4,20 @@
 #include <GameObject.h>
 #include <Logger.h>
 #include <Util.h>
+#include <State.h>
+#include <TileSet.h>
 
 #include <vector>
 #include <memory>
 #include <algorithm>
 #include <string>
 
-class StageState {
+class StageState : public State {
     public:
 
         StageState();
 
         ~StageState();
-
-        bool QuitRequested();
 
         void LoadAssets();
 
@@ -27,27 +27,18 @@ class StageState {
 
         void Start();
 
-        std::weak_ptr<GameObject> AddObject(GameObject*);
+        void Pause();
 
-        std::weak_ptr<GameObject> GetObjectPtr(GameObject*);
+        void Resume();
 
     private:
 
-        bool started;
-
-        bool quitRequested;
+        // TODO: discover why this
+        TileSet* tileSet;
 
         Music music;
 
-        std::vector<std::shared_ptr<GameObject>> objects;
-
-        void Init();
-
-        void MakeUpdate(float);
-
         void CheckCollision();
-
-        void Prune();
 
         void CreateField();
 
