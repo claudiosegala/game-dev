@@ -1,4 +1,5 @@
 #include <InputManager.h>
+#include <Util.h>
 
 InputManager& InputManager::GetInstance() {
     // Make this a singleton
@@ -38,6 +39,7 @@ void InputManager::RetrieveMouse() {
 void InputManager::TreatEvent(SDL_Event& event) {
     switch (event.type) {
         case SDL_QUIT: {
+            W(event.type);
             this->quitRequested = true;
             break;
         }
