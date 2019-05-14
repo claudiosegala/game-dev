@@ -27,16 +27,27 @@ StageState::StageState () {
 }
 
 StageState::~StageState () {
-    Logger::Info("Destroying StageState");
+    // TODO: verify
+    //Logger::Info("Destroying StageState TileSet");
+    //delete this->tileSet;
+
+    Logger::Info("Destroying StageState Music");
     this->music.Stop();
-    this->objects.clear();
 }
 
 void StageState::Start () {
     LoadAssets();
-    Init();
+    StartArray();
 
     this->started = true;
+}
+
+void StageState::Pause () {
+
+}
+
+void StageState::Resume () {
+    
 }
 
 void StageState::LoadAssets () {
@@ -55,23 +66,15 @@ void StageState::Update (float dt) {
 
     Camera::Update(dt);
 
-    MakeUpdate(dt);
+    UpdateArray(dt);
     CheckCollision();
-    Prune();
-}
-
-void StageState::Init () {
-    for (auto &field : this->objects) {
-       field->Start();
-    }
+    PruneArray();
 }
 
 void StageState::Render () {
-    for (auto &field : this->objects) {
-        field->Render();
-    }
+    RenderArray();
 
-    for (auto &field : this->objects) {
+    for (auto &field : this->objectArray) {
         auto component = field->GetComponent("TileMap");
 
         if (component == nullptr) continue;
@@ -82,21 +85,11 @@ void StageState::Render () {
     }
 }
 
-bool StageState::QuitRequested () {
-    return this->quitRequested;
-}
-
-void StageState::MakeUpdate(float dt) {
-    for (int i = 0; i < (int) this->objects.size(); i++) {
-        this->objects[i]->Update(dt);
-    }
-}
-
 void StageState::CheckCollision () {
     std::vector<int> objs;
 
-    for (int i = 0; i < (int) this->objects.size(); i++) {
-        if (this->objects[i]->GetComponent("Collider") != nullptr) {
+    for (int i = 0; i < (int) this->objectArray.size(); i++) {
+        if (this->objectArray[i]->GetComponent("Collider") != nullptr) {
             objs.push_back(i);
         }
     }
@@ -104,8 +97,8 @@ void StageState::CheckCollision () {
 
     for (int i = 0; i < (int) objs.size(); i++) {
         for (int j = i+1; j < (int) objs.size(); j++) {
-            auto obj1 = this->objects[objs[i]];
-            auto obj2 = this->objects[objs[j]];
+            auto obj1 = this->objectArray[objs[i]];
+            auto obj2 = this->objectArray[objs[j]];
 
             if (Collision::IsColliding(obj1->box, obj2->box, obj1->angle, obj2->angle)) {
                 auto obj1_ptr = obj1.get();
@@ -123,14 +116,6 @@ void StageState::CheckCollision () {
     }
 }
 
-void StageState::Prune () {
-    auto it = std::remove_if(this->objects.begin(), this->objects.end(), [&] (std::shared_ptr<GameObject>& o) { 
-        return o->IsDead();
-    });
-
-    this->objects.erase(it, this->objects.end());
-}
-
 void StageState::CreateField () {
     auto field = new GameObject();
 
@@ -146,7 +131,7 @@ void StageState::CreateField () {
 
     field->box.vector = Vec2(0, 0);
 
-    this->objects.emplace_back(field);
+    AddObject(field);
 }
 
 void StageState::CreateMainCharacter () {
@@ -156,10 +141,9 @@ void StageState::CreateMainCharacter () {
     mainChar->AddComponent(pd);
 
     mainChar->box.vector = Vec2(704, 640);
-
-    this->objects.emplace_back(mainChar);
-
     Camera::Follow(mainChar);
+
+    AddObject(mainChar);
 }
 
 void StageState::CreateEnemies () {
@@ -170,25 +154,5 @@ void StageState::CreateEnemies () {
 
     alien->box.vector = Vec2(512, 300);
 
-    this->objects.emplace_back(alien);
-}
-
-std::weak_ptr<GameObject> StageState::AddObject (GameObject* field) {
-    this->objects.emplace_back(field);
-
-    if (this->started) {
-        field->Start();
-    }
-
-    return this->objects.back();
-}
-
-std::weak_ptr<GameObject> StageState::GetObjectPtr(GameObject* field) {
-    auto ptr = std::find_if(this->objects.begin(), this->objects.end(), [&](const std::shared_ptr<GameObject>& _go) {
-        return _go.get() == field;
-    });
-
-    return ptr != this->objects.end() 
-        ? std::weak_ptr<GameObject>(*ptr)
-        : std::weak_ptr<GameObject>();
+    AddObject(alien);
 }

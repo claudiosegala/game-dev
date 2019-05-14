@@ -9,6 +9,7 @@
 #include <string>
 #include <stdexcept>
 #include <iostream>
+#include <stack>
 
 class Game {
     public:
@@ -19,15 +20,19 @@ class Game {
 
         static std::string const windowName;
 
-        ~Game();
+        Game(const std::string&, int, int);
 
-        void Run();
+        ~Game();
 
         static Game* GetInstance();
 
-        StageState* GetState();
+        State* GetCurrentState();
 
         SDL_Renderer* GetRenderer();
+
+        void Run();
+
+        void Push(State*);
 
         float GetDeltaTime();
 
@@ -39,13 +44,15 @@ class Game {
 
         unsigned int frameStart;
 
-        StageState* state;
+        State* storedState;
 
         SDL_Window* window;
 
         SDL_Renderer* renderer;
 
-        Game(const std::string&, int, int);
+        std::stack<std::unique_ptr<State>> stateStack;
+
+        void CalculateDeltaTime();
 
         void Init_SDL();
 
@@ -57,14 +64,10 @@ class Game {
 
         void Init_RDR();
 
-        void Init_STS();
-
         void Start();
 
         void Loop();
 
         void End();
-
-        void CalculateDeltaTime();
 
 };

@@ -17,26 +17,35 @@ Game::Game(const std::string &title, int width, int height) {
     this->instance = this;
     this->frameStart = 0.0;
     this->dt = 0;
+    this->storedState = nullptr;
 
     Init_SDL();
     Init_IMG();
     Init_MIX();
     Init_WDW(title, width, height);
     Init_RDR();
-    Init_STS();
 
     Logger::Info("Created the game instance");
 }
 
 Game::~Game() {
-    delete this->state;
+    if (this->storedState != nullptr) {
+        Logger::Info("Erasing Stored State");
+        delete this->storedState;
+    }
 
+    Logger::Info("Cleaning Stack of States");
+    while(!this->stateStack.empty()) {
+        this->stateStack.pop();
+    }
+
+    // Clean the resources
+    Logger::Info("Destroying Resources");
     Resources::ClearImages();
-
     Resources::ClearMusics();
-    
     Resources::ClearSounds();
 
+    // Clean SDL instances
     Logger::Info("Destroying Renderer");
     SDL_DestroyRenderer(this->renderer);
     
@@ -47,7 +56,9 @@ Game::~Game() {
     Mix_CloseAudio();
     
     Logger::Info("Quiting SDL Mixer");
-    while(Mix_Init(0)) Mix_Quit(); // That is the only way to make sure of quitting accordingly to documentation
+    while(Mix_Init(0)) {
+        Mix_Quit(); // The best way (by documentation)
+    }
     
     Logger::Info("Quiting SDL Image");
     IMG_Quit();
@@ -56,7 +67,15 @@ Game::~Game() {
     SDL_Quit();
 }
 
+void Game::Push (State* state) {
+    this->storedState = state;
+}
+
 void Game::Run() {
+    if (this->storedState == nullptr) {
+        return;    
+    }
+
     Start();
     Loop();
     End();    
@@ -65,19 +84,51 @@ void Game::Run() {
 void Game::Start() {
     Logger::Info("Started Game");
 
-    this->state->Start();
+    this->stateStack.emplace(this->storedState);
+
+    this->storedState->Start();
+
+    this->storedState = nullptr;
 }
 
 void Game::Loop () {
     auto& in = InputManager::GetInstance();
 
-    while(!this->state->QuitRequested()) {
+
+    while (!this->stateStack.empty()) {
+        auto state = this->stateStack.top().get();
+
+        if (state->QuitRequested()) {
+            break;
+        }
+
+        if (state->PopRequested()) {
+            this->stateStack.pop();
+
+            if (!this->stateStack.empty()) {
+                state = this->stateStack.top().get();
+                state->Resume();
+            }
+        }
+
+        if (this->storedState != nullptr) {
+            if (state != nullptr) {
+                state->Pause();
+            }
+
+            this->stateStack.emplace(this->storedState);
+
+            state = this->stateStack.top().get();
+
+            state->Start();
+        }
+
         CalculateDeltaTime();
 
         in.Update();
 
-        this->state->Update(this->dt);
-        this->state->Render();
+        state->Update(this->dt);
+        state->Render();
 
         SDL_RenderPresent(this->renderer);
     }
@@ -95,16 +146,12 @@ Game* Game::GetInstance () {
     return Game::instance = new Game(Game::windowName, Game::windowWidth, Game::windowHeight);
 }
 
-StageState* Game::GetState () {
-    return this->state;
+State* Game::GetCurrentState () {
+    return this->stateStack.top().get();
 }
 
 SDL_Renderer* Game::GetRenderer () {
     return this->renderer;
-}
-
-void Game::Init_STS () {
-    this->state = new StageState();
 }
 
 void Game::Init_RDR () {

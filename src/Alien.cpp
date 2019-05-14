@@ -50,7 +50,7 @@ Alien::~Alien() {
 void Alien::Start() {
     // Init minions
     auto game = Game::GetInstance();
-    auto state = game->GetState();
+    auto state = game->GetCurrentState();
     auto associated_ptr = state->GetObjectPtr(&this->associated);
 
     auto n = (int) this->minions.size();
@@ -201,7 +201,7 @@ void Alien::NotifyCollision(GameObject &other) {
 
     // Adding to state
     auto game = Game::GetInstance();
-    auto state = game->GetState();
+    auto state = game->GetCurrentState();
     state->AddObject(gameObject);
 }
 

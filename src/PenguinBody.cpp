@@ -42,7 +42,7 @@ PenguinBody::~PenguinBody() {
 
 void PenguinBody::Start() {
     auto game = Game::GetInstance();
-    auto state = game->GetState();
+    auto state = game->GetCurrentState();
     auto ownGo = state->GetObjectPtr(&this->associated);
 
     auto go = new GameObject();
@@ -114,7 +114,7 @@ void PenguinBody::NotifyCollision(GameObject &other) {
 
     // Adding to state
     auto game = Game::GetInstance();
-    auto state = game->GetState();
+    auto state = game->GetCurrentState();
     state->AddObject(gameObject);
 }
 

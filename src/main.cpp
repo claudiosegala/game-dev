@@ -1,5 +1,7 @@
 #include <SDL_Include.h>
 #include <Game.h>
+#include <State.h>
+#include <StageState.h>
 #include <Util.h>
 
 #include <stdlib.h>
@@ -15,10 +17,13 @@ int main(int argc, char** argv)
 
         Logger::GetInstance();    
     
-        auto g = Game::GetInstance();
+        auto game = Game::GetInstance();
 
-        g->Run();
-        g->~Game();
+        game->Push(new StageState());
+
+        game->Run();
+
+        game->~Game();
     } catch (std::runtime_error e) {
         Logger::Error(e.what());
     }

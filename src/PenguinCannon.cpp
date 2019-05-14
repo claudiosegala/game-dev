@@ -67,6 +67,6 @@ void PenguinCannon::Shoot() {
     gameObject->AddComponent(bullet);
 
     auto game = Game::GetInstance();
-    auto state = game->GetState();
+    auto state = game->GetCurrentState();
     state->AddObject(gameObject);
 }

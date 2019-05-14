@@ -57,7 +57,7 @@ void Minion::Shoot(Vec2 pos) {
     auto ang = dir.GetAngle();
 
     auto game = Game::GetInstance();
-    auto state = game->GetState();
+    auto state = game->GetCurrentState();
 
     auto go = new GameObject();
     auto bullet = new Bullet(*go, ang, Bullet::defaultSpeed, Bullet::defaultDamage, Bullet::defaultMaxDistance, "assets/img/minionbullet2.png", 3, 0.2, false);
