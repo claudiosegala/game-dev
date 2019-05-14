@@ -99,10 +99,12 @@ void Game::Loop () {
         auto state = this->stateStack.top().get();
 
         if (state->QuitRequested()) {
+            Logger::Info("Quitting");
             break;
         }
 
         if (state->PopRequested()) {
+            Logger::Info("Changing State");
             this->stateStack.pop();
 
             if (!this->stateStack.empty()) {
@@ -112,15 +114,22 @@ void Game::Loop () {
         }
 
         if (this->storedState != nullptr) {
+            Logger::Info("Adding State");
             if (state != nullptr) {
                 state->Pause();
             }
 
             this->stateStack.emplace(this->storedState);
 
+            this->storedState = nullptr;
+
             state = this->stateStack.top().get();
 
             state->Start();
+        }
+
+        if (this->stateStack.empty()) {
+            break;
         }
 
         CalculateDeltaTime();

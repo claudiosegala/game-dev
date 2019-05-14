@@ -14,7 +14,7 @@
 #include <Collider.h>
 #include <Collision.h>
 
-StageState::StageState () {
+StageState::StageState () : State() {
     CreateField();
     CreateMainCharacter();
     CreateEnemies();
@@ -57,12 +57,13 @@ void StageState::LoadAssets () {
 void StageState::Update (float dt) {
     auto& in = InputManager::GetInstance();
 
-    this->quitRequested = in.IsKeyDown(ESCAPE_KEY) | in.QuitRequested();
+    this->quitRequested = in.QuitRequested();
 
-    if (this->quitRequested) {
-        Logger::Info("Quitting");
-        return;
-    }
+    if (this->quitRequested) return;
+
+    this->popRequested = in.IsKeyDown(ESCAPE_KEY);
+
+    if (this->popRequested) return;
 
     Camera::Update(dt);
 
