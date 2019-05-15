@@ -14,24 +14,23 @@
 #include <Collider.h>
 #include <Collision.h>
 
-StageState::StageState () : State() {
-    CreateField();
-    CreateMainCharacter();
-    CreateEnemies();
-    
+StageState::StageState () : State() {    
     this->started = false;
     this->quitRequested = false;
 
     this->music.Open("assets/audio/stageState.ogg");
     this->music.Play();
+
+    CreateField();
+    CreateMainCharacter();
+    CreateEnemies();
 }
 
 StageState::~StageState () {
-    // TODO: verify
-    //Logger::Info("Destroying StageState TileSet");
-    //delete this->tileSet;
-
-    Camera::Unfollow();
+    if (this->tileSet != nullptr) {
+        Logger::Info("Destroying StageState TileSet");
+        delete this->tileSet;
+    }
 
     Logger::Info("Destroying StageState Music");
     this->music.Stop();
@@ -122,11 +121,12 @@ void StageState::CheckCollision () {
 void StageState::CreateField () {
     auto field = new GameObject();
 
+    this->tileSet = new TileSet(*field, 64, 64, "assets/img/tileset.png");
+
     auto bg = new Sprite(*field, "assets/img/ocean.jpg");
     field->AddComponent(bg);
 
-    auto ts = new TileSet(*field, 64, 64, "assets/img/tileset.png");
-    auto tm = new TileMap(*field, "assets/map/tileMap.txt", ts);
+    auto tm = new TileMap(*field, "assets/map/tileMap.txt", this->tileSet);
     field->AddComponent(tm);
 
     auto cf = new CameraFollower(*field);
@@ -138,24 +138,24 @@ void StageState::CreateField () {
 }
 
 void StageState::CreateMainCharacter () {
-    auto mainChar = new GameObject();
+    auto gameObject = new GameObject();
 
-    auto pd = new PenguinBody(*mainChar);
-    mainChar->AddComponent(pd);
+    auto mainChar = new PenguinBody(*gameObject);
+    gameObject->AddComponent(mainChar);
 
-    mainChar->box.vector = Vec2(704, 640);
-    Camera::Follow(mainChar);
+    gameObject->box.vector = Vec2(704, 640);
+    Camera::Follow(gameObject);
 
-    AddObject(mainChar);
+    AddObject(gameObject);
 }
 
 void StageState::CreateEnemies () {
-    auto alien = new GameObject();
+    auto gameObject = new GameObject();
 
-    auto al = new Alien(*alien, 5);
-    alien->AddComponent(al);
+    auto alien = new Alien(*gameObject, 5);
+    gameObject->AddComponent(alien);
 
-    alien->box.vector = Vec2(512, 300);
+    gameObject->box.vector = Vec2(512, 300);
 
-    AddObject(alien);
+    AddObject(gameObject);
 }

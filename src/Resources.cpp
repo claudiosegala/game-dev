@@ -38,10 +38,10 @@ std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
     return Resources::imageTable[file];
 }
 
-std::tuple<int, int> Resources::QueryImage (std::shared_ptr<SDL_Texture> texture) {
+std::tuple<int, int> Resources::QueryImage (SDL_Texture *texture) {
     auto width = 0;
     auto height = 0;
-    auto query = SDL_QueryTexture(texture.get(), nullptr, nullptr, &width, &height);
+    auto query = SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 
     if (query < 0) {
         auto msg = SDL_GetError();

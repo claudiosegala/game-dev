@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Util.h>
+#include <Timer.h>
 #include <State.h>
 
 class TitleState : public State {
@@ -21,4 +22,8 @@ class TitleState : public State {
         void Pause();
         
         void Resume();
+
+    private:
+
+        Timer timer;
 };

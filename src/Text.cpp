@@ -16,14 +16,26 @@ Text::~Text() {
     if (this->texture != nullptr) {
         SDL_DestroyTexture(this->texture);
     }
+
+    if (this->timer != nullptr) {
+        delete this->timer;
+    }
 }
 
 std::string Text::GetName () {
-    return std::string() + "pt-" + this->fontFile;
+    // TODO: dafuq
+    //return std::string() + "pt-" + this->fontFile;
+    return this->fontFile;
 }
 
 void Text::Update(float dt) {
-    UNUSED(dt);
+    if (this->timer != nullptr) {
+        this->timer->Update(dt);
+
+        if (this->timer->Get() > 0.0f) {
+            this->associated.RequestDelete();
+        }
+    }
 }
 
 // TODO: verify if this is correct
@@ -79,6 +91,11 @@ void Text::SetFontSize(int size) {
     RemakeTexture();
 }
 
+void Text::SetFadeOut (float t) {
+    this->timer = new Timer();
+    this->timer->SetStart(-t);
+}
+
 void Text::RemakeTexture() {
     if (this->texture != nullptr) {
         SDL_DestroyTexture(this->texture);
@@ -104,6 +121,10 @@ void Text::RemakeTexture() {
     auto renderer = game->GetRenderer();
 
     this->texture = SDL_CreateTextureFromSurface(renderer, aux);
+
+    std::tie(this->associated.box.width, this->associated.box.height) = Resources::QueryImage(this->texture);
+
+    W(this->associated.box);
 
     SDL_FreeSurface(aux);
 }

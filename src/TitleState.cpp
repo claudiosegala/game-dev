@@ -3,6 +3,7 @@
 #include <Rect.h>
 #include <Sprite.h>
 #include <Camera.h>
+#include <Text.h>
 #include <Game.h>
 #include <StageState.h>
 #include <InputManager.h>
@@ -28,9 +29,9 @@ void TitleState::LoadAssets() {
 }
 
 void TitleState::Update(float dt) {
-    UNUSED(dt);
-
     auto& in = InputManager::GetInstance();
+
+    this->timer.Update(dt);
 
     this->popRequested = in.KeyPress(ESCAPE_KEY);
 
@@ -39,6 +40,18 @@ void TitleState::Update(float dt) {
     this->quitRequested = in.QuitRequested();
 
     if (this->quitRequested) return;
+
+    if (this->timer.Get() > 0 && !HasComponent("Text")) {
+        auto gameObject = new GameObject();
+        auto text = new Text(*gameObject, "assets/font/Call me maybe.ttf", 100, Text::TextStyle::SOLID, "Press Space Bar to Start",  { 255, 0, 0, 1 });
+
+        text->SetFadeOut(1.0f);
+        gameObject->AddComponent(text);
+
+        AddObject(gameObject);
+        // TODO: center image and make it bigger
+        this->timer.SetStart(-1.5f);
+    }
 
     if (in.KeyPress(SPACE_BAR)) {
         auto game = Game::GetInstance();

@@ -22,7 +22,7 @@ Sprite::~Sprite() {}
 void Sprite::Open (const std::string &file) {
     this->texture = Resources::GetImage(file);
     
-    std::tie(this->width, this->height) = Resources::QueryImage(this->texture);
+    std::tie(this->width, this->height) = Resources::QueryImage(this->texture.get());
 
     SetClip();
     SetBox();

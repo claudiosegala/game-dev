@@ -22,6 +22,7 @@ Game::Game(const std::string &title, int width, int height) {
     Init_SDL();
     Init_IMG();
     Init_MIX();
+    Init_TTF();
     Init_WDW(title, width, height);
     Init_RDR();
 

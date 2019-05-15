@@ -1,6 +1,4 @@
-#include <SDL_Include.h>
 #include <Game.h>
-#include <State.h>
 #include <TitleState.h>
 #include <Util.h>
 

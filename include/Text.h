@@ -4,6 +4,7 @@
 #include <Util.h>
 #include <Component.h>
 #include <GameObject.h>
+#include <Timer.h>
 
 class Text : public Component {
     public:
@@ -36,7 +37,11 @@ class Text : public Component {
 
         void SetFontSize(int);
 
+        void SetFadeOut(float);
+
     private:
+
+        Timer* timer;
 
         std::shared_ptr<TTF_Font> font;
 

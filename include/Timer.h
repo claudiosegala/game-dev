@@ -7,6 +7,8 @@ class Timer {
 
         Timer();
 
+        void SetStart(float);
+
         void Update(float);
 
         void Restart();

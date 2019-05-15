@@ -16,7 +16,7 @@ class Resources {
 
         static std::shared_ptr<SDL_Texture> GetImage(std::string);
 
-        static std::tuple<int, int> QueryImage(std::shared_ptr<SDL_Texture>);
+        static std::tuple<int, int> QueryImage(SDL_Texture*);
 
         static void PruneImages();
 

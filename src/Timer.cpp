@@ -4,6 +4,10 @@ Timer::Timer() {
     this->time = 0.0f;
 }
 
+void Timer::SetStart (float st) {
+    this->time = st;
+}
+
 void Timer::Update (float dt) {
     this->time += dt;
 }
