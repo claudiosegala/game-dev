@@ -5,15 +5,16 @@
 #include <Util.h>
 
 #include <unordered_map>
+#include <memory>
 #include <string>
 #include <tuple>
 
 class Resources {
     public:
 
-        static SDL_Texture* GetImage(std::string);
+        static std::shared_ptr<SDL_Texture> GetImage(std::string);
 
-        static std::tuple<int, int> QueryImage(SDL_Texture*);
+        static std::tuple<int, int> QueryImage(std::shared_ptr<SDL_Texture>);
 
         static void ClearImages();
 
@@ -27,7 +28,7 @@ class Resources {
 
     private:
 
-        static std::unordered_map<std::string, SDL_Texture*> imageTable;
+        static std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> imageTable;
 
         static std::unordered_map<std::string, Mix_Music*> musicTable;
 

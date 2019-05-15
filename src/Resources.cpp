@@ -1,34 +1,39 @@
+#include <SDL_Include.h>
 #include <Resources.h>
 #include <Game.h>
 
-std::unordered_map<std::string, SDL_Texture*> Resources::imageTable;
+std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> Resources::imageTable;
 
 std::unordered_map<std::string, Mix_Music*> Resources::musicTable;
 
 std::unordered_map<std::string, Mix_Chunk*> Resources::soundTable;
 
-SDL_Texture* Resources::GetImage(std::string file) {
+std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
     if (Resources::imageTable.find(file) == Resources::imageTable.end()) {
         Logger::Info("Loading image in path: " + file);
 
-        auto g = Game::GetInstance();
-        auto image = IMG_LoadTexture(g->GetRenderer(), file.c_str());
+        auto game = Game::GetInstance();
+        auto renderer = game->GetRenderer();
+        auto image = IMG_LoadTexture(renderer, file.c_str());
         
         if (image == nullptr) {
             auto sdl_msg = IMG_GetError();
             throw std::runtime_error(sdl_msg);
         }
 
-        Resources::imageTable[file] = image;
+        // TODO: why this works
+        std::shared_ptr<SDL_Texture> image_ptr(image, [=](SDL_Texture* texture) { SDL_DestroyTexture(texture); });
+
+        Resources::imageTable[file] = image_ptr;
     }
 
     return Resources::imageTable[file];
 }
 
-std::tuple<int, int> Resources::QueryImage (SDL_Texture* texture) {
+std::tuple<int, int> Resources::QueryImage (std::shared_ptr<SDL_Texture> texture) {
     auto width = 0;
     auto height = 0;
-    auto query = SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+    auto query = SDL_QueryTexture(texture.get(), nullptr, nullptr, &width, &height);
 
     if (query < 0) {
         auto sdl_msg = SDL_GetError();
@@ -38,19 +43,19 @@ std::tuple<int, int> Resources::QueryImage (SDL_Texture* texture) {
     return std::make_tuple(width, height);
 }
 
+// TODO: is this correct
 void Resources::ClearImages() {
-    Logger::Info("Clearing images");
+    Logger::Info("Pruning images");
 
-    for (auto &el : Resources::imageTable) {
-        auto image = el.second;
+    auto it = begin(Resources::imageTable);
 
-        if (image != nullptr) {
-            SDL_DestroyTexture(image);
-            image = nullptr;
+    while (it != end(Resources::imageTable)) {
+        if (it->second.unique()) {
+            it = Resources::imageTable.erase(it);
+        } else {
+            ++it;
         }
     }
-
-    Resources::imageTable.clear();
 }
 
 Mix_Music* Resources::GetMusic(std::string file) {

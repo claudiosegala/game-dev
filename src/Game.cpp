@@ -107,6 +107,8 @@ void Game::Loop () {
             Logger::Info("Popping State");
             this->stateStack.pop();
 
+            Resources::ClearImages();
+
             if (!this->stateStack.empty()) {
                 Logger::Info("Changing State");
                 state = this->stateStack.top().get();

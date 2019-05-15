@@ -124,7 +124,7 @@ void Sprite::Render (int x, int y) {
         static_cast<int>(srcRect.h * this->scale.y)
     };
 
-    SDL_RenderCopyEx(g->GetRenderer(), this->texture, &srcRect, &dstRect, (this->associated.angle * 180) / PI, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(g->GetRenderer(), this->texture.get(), &srcRect, &dstRect, (this->associated.angle * 180) / PI, nullptr, SDL_FLIP_NONE);
 }
 
 bool Sprite::Is (std::string type) {

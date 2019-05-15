@@ -71,7 +71,7 @@ class Sprite : public Component {
 
         Timer selfDestructCount;
 
-        SDL_Texture* texture;
+        std::shared_ptr<SDL_Texture> texture;
 
         SDL_Rect clipRect;
 
