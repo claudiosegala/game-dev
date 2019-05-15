@@ -4,9 +4,15 @@
 
 std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> Resources::imageTable;
 
-std::unordered_map<std::string, Mix_Music*> Resources::musicTable;
+std::unordered_map<std::string, std::shared_ptr<Mix_Music>> Resources::musicTable;
 
-std::unordered_map<std::string, Mix_Chunk*> Resources::soundTable;
+std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>> Resources::soundTable;
+
+void Resources::Prune () {
+    Resources::PruneImages();
+    Resources::PruneMusics();
+    Resources::PruneSounds();
+}
 
 std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
     if (Resources::imageTable.find(file) == Resources::imageTable.end()) {
@@ -44,7 +50,7 @@ std::tuple<int, int> Resources::QueryImage (std::shared_ptr<SDL_Texture> texture
 }
 
 // TODO: is this correct
-void Resources::ClearImages() {
+void Resources::PruneImages() {
     Logger::Info("Pruning images");
 
     auto it = begin(Resources::imageTable);
@@ -58,7 +64,7 @@ void Resources::ClearImages() {
     }
 }
 
-Mix_Music* Resources::GetMusic(std::string file) {
+std::shared_ptr<Mix_Music> Resources::GetMusic(std::string file) {
     if (Resources::musicTable.find(file) == Resources::musicTable.end()) {
         Logger::Info("Loading music in path: " + file);
 
@@ -69,28 +75,29 @@ Mix_Music* Resources::GetMusic(std::string file) {
             throw std::runtime_error(mix_msg);
         }
 
-        Resources::musicTable[file] = music;
+        std::shared_ptr<Mix_Music> music_ptr(music, [=](Mix_Music* music) { Mix_FreeMusic(music); });
+
+        Resources::musicTable[file] = music_ptr;
     }
 
     return Resources::musicTable[file];
 }
 
-void Resources::ClearMusics() {
-    Logger::Info("Clearing musics");
+void Resources::PruneMusics() {
+    Logger::Info("Pruning musics");
 
-    for (auto &el : Resources::musicTable) {
-        auto music = el.second;
+    auto it = begin(Resources::musicTable);
 
-        if (music != nullptr) {
-            Mix_FreeMusic(music);
-            music = nullptr;
+    while (it != end(Resources::musicTable)) {
+        if (it->second.unique()) {
+            it = Resources::musicTable.erase(it);
+        } else {
+            ++it;
         }
     }
-
-    Resources::musicTable.clear();
 }
 
-Mix_Chunk* Resources::GetSound(std::string file) {
+std::shared_ptr<Mix_Chunk> Resources::GetSound(std::string file) {
     if (Resources::soundTable.find(file) == Resources::soundTable.end()) {
         Logger::Info("Loading sound in path: " + file);
 
@@ -101,22 +108,27 @@ Mix_Chunk* Resources::GetSound(std::string file) {
             throw std::runtime_error(mix_msg);
         }
 
-        Resources::soundTable[file] = sound;
+        std::shared_ptr<Mix_Chunk> sound_ptr(sound, [=](Mix_Chunk* sound) { Mix_FreeChunk(sound); });
+
+        Resources::soundTable[file] = sound_ptr;
     }
 
     return Resources::soundTable[file];
 }
 
-void Resources::ClearSounds() {
-    Logger::Info("Clearing sounds");
-    for (auto &el : Resources::soundTable) {
-        auto sound = el.second;
-        
-        if (sound != nullptr) {
-            Mix_FreeChunk(sound);
-            sound = nullptr;
+void Resources::PruneSounds() {
+    Logger::Info("Pruning sounds");
+
+    auto it = begin(Resources::soundTable);
+
+    while (it != end(Resources::soundTable)) {
+        if (it->second.unique()) {
+            it = Resources::soundTable.erase(it);
+        } else {
+            ++it;
         }
     }
-
-    Resources::soundTable.clear();
 }
+
+
+

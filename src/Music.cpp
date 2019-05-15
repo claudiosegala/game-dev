@@ -1,9 +1,7 @@
 #include <Music.h>
 #include <Resources.h>
 
-Music::Music() {
-    this->music = nullptr;
-}
+Music::Music() : music() {}
 
 Music::Music(const std::string &file) {
     Open(file);
@@ -11,11 +9,12 @@ Music::Music(const std::string &file) {
 
 Music::~Music() {}
 
+// TODO: is this correct
 void Music::Play(int times) {
     if (this->music == nullptr) return;
 
     Logger::Info("Start Playing Music");
-    auto err = Mix_PlayMusic(this->music, times);
+    auto err = Mix_PlayMusic(this->music.get(), times);
 
     if (err < 0) {
         auto mix_msg = Mix_GetError();

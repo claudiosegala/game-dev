@@ -39,11 +39,8 @@ Game::~Game() {
         this->stateStack.pop();
     }
 
-    // Clean the resources
     Logger::Info("Destroying Resources");
-    Resources::ClearImages();
-    Resources::ClearMusics();
-    Resources::ClearSounds();
+    Resources::Prune();
 
     // Clean SDL instances
     Logger::Info("Destroying Renderer");
@@ -107,7 +104,7 @@ void Game::Loop () {
             Logger::Info("Popping State");
             this->stateStack.pop();
 
-            Resources::ClearImages();
+            Resources::Prune();
 
             if (!this->stateStack.empty()) {
                 Logger::Info("Changing State");

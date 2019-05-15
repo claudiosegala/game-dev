@@ -4,6 +4,7 @@
 #include <SDL_Include.h>
 #include <Util.h>
 
+#include <memory>
 #include <iostream>
 #include <string>
 
@@ -26,6 +27,6 @@ class Music {
 
     private:
 
-        Mix_Music* music;
+        std::shared_ptr<Mix_Music> music;
 
 };

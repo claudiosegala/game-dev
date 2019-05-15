@@ -6,6 +6,8 @@
 #include <SDL_Include.h>
 #include <Util.h>
 
+#include <memory>
+
 class Sound : public Component {
     public:
 
@@ -33,6 +35,6 @@ class Sound : public Component {
 
         int channel;
 
-        Mix_Chunk* chunk;
+        std::shared_ptr<Mix_Chunk> chunk;
 
 };

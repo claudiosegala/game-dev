@@ -1,19 +1,18 @@
 #include <Sound.h>
 #include <Resources.h>
 
-Sound::Sound (GameObject& go) : Component(go) {
-    this->chunk = nullptr;
+Sound::Sound (GameObject& go) : Component(go), chunk() {
 }
 
-Sound::Sound (GameObject& go, std::string name) : Component(go) {
-    this->chunk = nullptr;
+Sound::Sound (GameObject& go, std::string name) : Component(go), chunk() {
     Open(name);
 }
 
 Sound::~Sound () {}
 
+// TODO: see if this is correct
 void Sound::Play (int times) {
-    this->channel = Mix_PlayChannel(-1, this->chunk, times - 1);
+    this->channel = Mix_PlayChannel(-1, this->chunk.get(), times - 1);
 
     if (this->channel < 0) {
         auto mix_msg = Mix_GetError();
