@@ -12,6 +12,8 @@ class Camera {
 
         static Vec2 speed;
 
+        static void Reset();
+
         static void Follow(GameObject*);
 
         static void Unfollow();

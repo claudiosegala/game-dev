@@ -1,6 +1,8 @@
 #include <TitleState.h>
 #include <GameObject.h>
+#include <Rect.h>
 #include <Sprite.h>
+#include <Camera.h>
 #include <Game.h>
 #include <StageState.h>
 #include <InputManager.h>
@@ -8,11 +10,13 @@
 TitleState::TitleState() : State() {
     auto gameObject = new GameObject();
 
-    auto image = new Sprite(*gameObject, "assets/img/ocean.jpg");
+    auto image = new Sprite(*gameObject, "assets/img/title.jpg");
 
     gameObject->AddComponent(image);
 
     AddObject(gameObject);
+
+    Camera::Reset();
 }
         
 TitleState::~TitleState() {
@@ -28,7 +32,7 @@ void TitleState::Update(float dt) {
 
     auto& in = InputManager::GetInstance();
 
-    this->popRequested = in.IsKeyDown(ESCAPE_KEY);
+    this->popRequested = in.KeyPress(ESCAPE_KEY);
 
     if (this->popRequested) return;
 
@@ -42,14 +46,20 @@ void TitleState::Update(float dt) {
 
         game->Push(stageState);
     }
+
+    UpdateArray(dt);
+    PruneArray();
 }
 
 void TitleState::Render() {
-
+    RenderArray();
 }
 
 void TitleState::Start() {
+    LoadAssets();
+    StartArray();
 
+    this->started = true;
 }
 
 void TitleState::Pause() {
@@ -57,5 +67,5 @@ void TitleState::Pause() {
 }
 
 void TitleState::Resume() {
-
+    Camera::Reset();
 }

@@ -10,7 +10,11 @@ Vec2 Camera::speed;
 
 GameObject* Camera::focus;
 
-void Camera::Follow(GameObject* newFocus) {
+void Camera::Reset () {
+    Camera::pos.Reset();
+}
+
+void Camera::Follow (GameObject* newFocus) {
     Camera::focus = newFocus;
 }
 
