@@ -15,8 +15,8 @@ void Sound::Play (int times) {
     this->channel = Mix_PlayChannel(-1, this->chunk.get(), times - 1);
 
     if (this->channel < 0) {
-        auto mix_msg = Mix_GetError();
-        throw std::runtime_error(mix_msg);
+        auto msg = Mix_GetError();
+        throw std::runtime_error(msg);
     } else {
         Logger::Info("Music is playing on channel " + std::to_string(this->channel));
     }

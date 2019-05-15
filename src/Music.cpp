@@ -17,8 +17,8 @@ void Music::Play(int times) {
     auto err = Mix_PlayMusic(this->music.get(), times);
 
     if (err < 0) {
-        auto mix_msg = Mix_GetError();
-        throw std::runtime_error(mix_msg);
+        auto msg = Mix_GetError();
+        throw std::runtime_error(msg);
     }
 }
 
@@ -27,8 +27,8 @@ void Music::Stop(int msToStop) {
     auto err = Mix_FadeOutMusic(msToStop);
 
     if (err != 1) {
-        auto mix_msg = Mix_GetError();
-        throw std::runtime_error(mix_msg);
+        auto msg = Mix_GetError();
+        throw std::runtime_error(msg);
     }
 }
 

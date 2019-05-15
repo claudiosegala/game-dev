@@ -28,6 +28,10 @@ class Resources {
 
         static void PruneSounds();
 
+        static std::shared_ptr<TTF_Font> GetText(std::string);
+
+        static void PruneTexts();
+
     private:
 
         static std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> imageTable;
@@ -35,5 +39,7 @@ class Resources {
         static std::unordered_map<std::string, std::shared_ptr<Mix_Music>> musicTable;
 
         static std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>> soundTable;
+
+        static std::unordered_map<std::string, std::shared_ptr<TTF_Font>> textTable;
 
 };

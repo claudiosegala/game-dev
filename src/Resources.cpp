@@ -8,6 +8,8 @@ std::unordered_map<std::string, std::shared_ptr<Mix_Music>> Resources::musicTabl
 
 std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>> Resources::soundTable;
 
+std::unordered_map<std::string, std::shared_ptr<TTF_Font>> Resources::textTable;
+
 void Resources::Prune () {
     Resources::PruneImages();
     Resources::PruneMusics();
@@ -23,8 +25,8 @@ std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
         auto image = IMG_LoadTexture(renderer, file.c_str());
         
         if (image == nullptr) {
-            auto sdl_msg = IMG_GetError();
-            throw std::runtime_error(sdl_msg);
+            auto msg = IMG_GetError();
+            throw std::runtime_error(msg);
         }
 
         // TODO: why this works
@@ -42,8 +44,8 @@ std::tuple<int, int> Resources::QueryImage (std::shared_ptr<SDL_Texture> texture
     auto query = SDL_QueryTexture(texture.get(), nullptr, nullptr, &width, &height);
 
     if (query < 0) {
-        auto sdl_msg = SDL_GetError();
-        throw std::runtime_error(sdl_msg);
+        auto msg = SDL_GetError();
+        throw std::runtime_error(msg);
     }
 
     return std::make_tuple(width, height);
@@ -71,8 +73,8 @@ std::shared_ptr<Mix_Music> Resources::GetMusic(std::string file) {
         auto music = Mix_LoadMUS(file.c_str());
 
         if (music == nullptr) {
-            auto mix_msg = Mix_GetError();
-            throw std::runtime_error(mix_msg);
+            auto msg = Mix_GetError();
+            throw std::runtime_error(msg);
         }
 
         std::shared_ptr<Mix_Music> music_ptr(music, [=](Mix_Music* music) { Mix_FreeMusic(music); });
@@ -104,8 +106,8 @@ std::shared_ptr<Mix_Chunk> Resources::GetSound(std::string file) {
         auto sound = Mix_LoadWAV(file.c_str());
 
         if (sound == nullptr) {
-            auto mix_msg = Mix_GetError();
-            throw std::runtime_error(mix_msg);
+            auto msg = Mix_GetError();
+            throw std::runtime_error(msg);
         }
 
         std::shared_ptr<Mix_Chunk> sound_ptr(sound, [=](Mix_Chunk* sound) { Mix_FreeChunk(sound); });
@@ -130,5 +132,36 @@ void Resources::PruneSounds() {
     }
 }
 
+std::shared_ptr<TTF_Font> Resources::GetText(std::string file) {
+    if (Resources::textTable.find(file) == Resources::textTable.end()) {
+        Logger::Info("Loading text in path: " + file);
 
+        // TODO: what to do on the second operator
+        auto text = TTF_OpenFont(file.c_str(), 15);
 
+        if (text == nullptr) {
+            auto msg = TTF_GetError();
+            throw std::runtime_error(msg);
+        }
+
+        std::shared_ptr<TTF_Font> text_ptr(text, [=](TTF_Font* text) { TTF_CloseFont(text); });
+
+        Resources::textTable[file] = text_ptr;
+    }
+
+    return Resources::textTable[file];
+}
+
+void Resources::PruneTexts() {
+    Logger::Info("Pruning texts");
+
+    auto it = begin(Resources::textTable);
+
+    while (it != end(Resources::textTable)) {
+        if (it->second.unique()) {
+            it = Resources::textTable.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}

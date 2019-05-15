@@ -29,19 +29,6 @@ Game::Game(const std::string &title, int width, int height) {
 }
 
 Game::~Game() {
-    if (this->storedState != nullptr) {
-        Logger::Info("Erasing Stored State");
-        delete this->storedState;
-    }
-
-    Logger::Info("Cleaning Stack of States");
-    while(!this->stateStack.empty()) {
-        this->stateStack.pop();
-    }
-
-    Logger::Info("Destroying Resources");
-    Resources::Prune();
-
     // Clean SDL instances
     Logger::Info("Destroying Renderer");
     SDL_DestroyRenderer(this->renderer);
@@ -49,6 +36,9 @@ Game::~Game() {
     Logger::Info("Destroying Window");
     SDL_DestroyWindow(this->window);
     
+    Logger::Info("Quiting SDL TTF");
+    TTF_Quit();
+
     Logger::Info("Quiting SDL Mix Audio");
     Mix_CloseAudio();
     
@@ -147,6 +137,19 @@ void Game::Loop () {
 
 void Game::End() {
     Logger::Info("Ended Game");
+
+    if (this->storedState != nullptr) {
+        Logger::Info("Erasing Stored State");
+        delete this->storedState;
+    }
+
+    Logger::Info("Cleaning Stack of States");
+    while(!this->stateStack.empty()) {
+        this->stateStack.pop();
+    }
+
+    Logger::Info("Destroying Resources");
+    Resources::Prune();
 }
 
 Game* Game::GetInstance () {
@@ -185,8 +188,8 @@ void Game::Init_RDR () {
     if (this->renderer == nullptr) {
         SDL_GetNumRenderDrivers();
 
-        auto sdl_msg = SDL_GetError();
-        throw std::runtime_error(sdl_msg);
+        auto msg = SDL_GetError();
+        throw std::runtime_error(msg);
     }
 }
 
@@ -198,8 +201,29 @@ void Game::Init_WDW (const std::string &title, int width, int height) {
     this->window = SDL_CreateWindow(title.c_str(), (int) pos, (int) pos, width, height, flags);
 
     if (this->window == nullptr) {
-        auto sdl_msg = SDL_GetError();
-        throw std::runtime_error(sdl_msg);
+        auto msg = SDL_GetError();
+        throw std::runtime_error(msg);
+    }
+}
+
+void Game::Init_IMG () {
+    /*
+        Available Flags:
+        IMG_INIT_JPG
+        IMG_INIT_PNG
+        IMG_INIT_TIF
+    */
+    auto flags = (
+        IMG_INIT_JPG |
+        IMG_INIT_PNG
+    );
+    
+    Logger::Info("Initing SDL Image");
+    auto res = IMG_Init(flags);
+
+    if (res != flags) {
+        auto msg = "ImageError: " + std::string(IMG_GetError())  + "\nThe flag sent was " + std::to_string(flags) + ", but the result of initing image was " + std::to_string(res) + "\n";
+        throw std::runtime_error(msg);
     }
 }
 
@@ -221,47 +245,34 @@ void Game::Init_MIX () {
     auto res = Mix_Init(flags);
 
     if (res != flags) {
-        auto mix_msg = "MixError: " + std::string(Mix_GetError()) + "\n";
-        auto msg = "The flag sent was " + std::to_string(flags) + ", but the result of initing mixer was " + std::to_string(res) + "\n";
-        throw std::runtime_error(mix_msg + msg);
+        auto msg = "MixError: " + std::string(Mix_GetError()) + "\nThe flag sent was " + std::to_string(flags) + ", but the result of initing mixer was " + std::to_string(res) + "\n";
+        throw std::runtime_error(msg);
     }
 
     Logger::Info("Configuring Audio");
     res = Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 
     if (res < 0) {
-        auto mix_msg = Mix_GetError();
-        throw std::runtime_error(mix_msg);
+        auto msg = Mix_GetError();
+        throw std::runtime_error(msg);
     }
     
     Logger::Info("Allocating Channels");
     res = Mix_AllocateChannels(32);
 
     if (res < 0) {
-        auto mix_msg = Mix_GetError();
-        throw std::runtime_error(mix_msg);
+        auto msg = Mix_GetError();
+        throw std::runtime_error(msg);
     }
 }
 
-void Game::Init_IMG () {
-    /*
-        Available Flags:
-        IMG_INIT_JPG
-        IMG_INIT_PNG
-        IMG_INIT_TIF
-    */
-    auto flags = (
-        IMG_INIT_JPG |
-        IMG_INIT_PNG
-    );
-    
-    Logger::Info("Initing SDL Image");
-    auto res = IMG_Init(flags);
+void Game::Init_TTF() {
+    Logger::Info("Initing SDL TTF");
+    auto res = TTF_Init();
 
-    if (res != flags) {
-        auto img_msg = "ImageError: " + std::string(IMG_GetError())  + "\n";
-        auto msg = "The flag sent was " + std::to_string(flags) + ", but the result of initing image was " + std::to_string(res) + "\n";
-        throw std::runtime_error(img_msg + msg);
+    if (res == -1) {
+        auto msg = "TTFError: " + std::string(TTF_GetError())  + "\n";
+        throw std::runtime_error(msg);
     }
 }
 
@@ -288,8 +299,8 @@ void Game::Init_SDL () {
     auto err = SDL_Init(flags);
 
     if (err < 0) {
-        auto sdl_msg = "SDLError: " + std::string(SDL_GetError()) + "\n";
-        throw std::runtime_error(sdl_msg);
+        auto msg = "SDLError: " + std::string(SDL_GetError()) + "\n";
+        throw std::runtime_error(msg);
     }
 }
 

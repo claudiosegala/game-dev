@@ -60,6 +60,8 @@ class Game {
 
         void Init_MIX();
 
+        void Init_TTF();
+
         void Init_WDW(const std::string&, int, int);
 
         void Init_RDR();

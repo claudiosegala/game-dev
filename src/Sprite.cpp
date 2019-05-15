@@ -114,7 +114,7 @@ void Sprite::Render (float _x, float _y) {
 }
 
 void Sprite::Render (int x, int y) {
-    auto g = Game::GetInstance();
+    auto game = Game::GetInstance();
     auto srcRect = this->clipRect;
 
     SDL_Rect dstRect{ 
@@ -124,7 +124,7 @@ void Sprite::Render (int x, int y) {
         static_cast<int>(srcRect.h * this->scale.y)
     };
 
-    SDL_RenderCopyEx(g->GetRenderer(), this->texture.get(), &srcRect, &dstRect, (this->associated.angle * 180) / PI, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(game->GetRenderer(), this->texture.get(), &srcRect, &dstRect, (this->associated.angle * 180) / PI, nullptr, SDL_FLIP_NONE);
 }
 
 bool Sprite::Is (std::string type) {

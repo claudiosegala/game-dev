@@ -8,7 +8,7 @@ DEP_FLAGS = -MT $@ -MMD -MP -MF $(DEP_PATH)/$*.d
 
 DIRECTIVES = -std=c++11 -Wall -Wextra -O3 -DLOG_WARN -DLOG_ERROR -DLOG_INFO -c -I $(HEADER_PATH)
 
-LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lm # -lSDL2_ttf -lSDL2_net
+LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lm -lSDL2_ttf #-lSDL2_net
 
 HEADER_PATH = include
 SRC_PATH = src
