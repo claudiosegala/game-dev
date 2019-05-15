@@ -31,6 +31,8 @@ StageState::~StageState () {
     //Logger::Info("Destroying StageState TileSet");
     //delete this->tileSet;
 
+    Camera::Unfollow();
+
     Logger::Info("Destroying StageState Music");
     this->music.Stop();
 }
@@ -57,13 +59,13 @@ void StageState::LoadAssets () {
 void StageState::Update (float dt) {
     auto& in = InputManager::GetInstance();
 
+    this->popRequested = in.KeyPress(ESCAPE_KEY);
+
+    if (this->popRequested) return;
+
     this->quitRequested = in.QuitRequested();
 
     if (this->quitRequested) return;
-
-    this->popRequested = in.IsKeyDown(ESCAPE_KEY);
-
-    if (this->popRequested) return;
 
     Camera::Update(dt);
 

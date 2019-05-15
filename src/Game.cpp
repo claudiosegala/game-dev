@@ -104,10 +104,11 @@ void Game::Loop () {
         }
 
         if (state->PopRequested()) {
-            Logger::Info("Changing State");
+            Logger::Info("Popping State");
             this->stateStack.pop();
 
             if (!this->stateStack.empty()) {
+                Logger::Info("Changing State");
                 state = this->stateStack.top().get();
                 state->Resume();
             }
@@ -122,6 +123,8 @@ void Game::Loop () {
             this->stateStack.emplace(this->storedState);
 
             this->storedState = nullptr;
+
+            Logger::Info("Changing State");
 
             state = this->stateStack.top().get();
 
