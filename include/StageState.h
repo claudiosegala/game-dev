@@ -33,6 +33,8 @@ class StageState : public State {
 
     private:
 
+        static const int aliens_count;
+
         // TODO: discover why this
         TileSet* tileSet;
 
@@ -45,4 +47,6 @@ class StageState : public State {
         void CreateMainCharacter();
 
         void CreateEnemies();
+
+        void EndMatch(bool);
 };

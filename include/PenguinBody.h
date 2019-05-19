@@ -4,6 +4,7 @@
 #include <GameObject.h>
 #include <Component.h>
 #include <Vec2.h>
+#include <Rect.h>
 
 class PenguinBody : public Component{
     public:
@@ -45,4 +46,6 @@ class PenguinBody : public Component{
         Vec2 speed;
 
         std::weak_ptr<GameObject> pcannon;
+
+        bool ValidatePosition(Rect, Vec2);
 };

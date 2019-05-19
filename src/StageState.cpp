@@ -13,6 +13,11 @@
 #include <PenguinCannon.h>
 #include <Collider.h>
 #include <Collision.h>
+#include <EndState.h>
+#include <Game.h>
+#include <GameData.h>
+
+const int StageState::aliens_count = 3;
 
 StageState::StageState () : State() {    
     this->started = false;
@@ -52,10 +57,21 @@ void StageState::Resume () {
 }
 
 void StageState::LoadAssets () {
-    // For now, nothing
+    // TODO: fill?
 }
 
 void StageState::Update (float dt) {
+    // TODO: check
+    if (Alien::alienCount == 0) {
+        EndMatch(true);
+        return;
+    }
+
+    if (PenguinBody::player == nullptr) {
+        EndMatch(false);
+        return;
+    }
+
     auto& in = InputManager::GetInstance();
 
     this->popRequested = in.KeyPress(ESCAPE_KEY);
@@ -150,12 +166,26 @@ void StageState::CreateMainCharacter () {
 }
 
 void StageState::CreateEnemies () {
-    auto gameObject = new GameObject();
+    for (int i = 0; i < StageState::aliens_count; i++) {
+        auto gameObject = new GameObject();
+        auto alien = new Alien(*gameObject, 5);
 
-    auto alien = new Alien(*gameObject, 5);
-    gameObject->AddComponent(alien);
+        gameObject->AddComponent(alien);
+        gameObject->box.vector = Vec2(
+            512 + (rand() % 1000), 
+            300 + (rand() % 1000)
+        );
 
-    gameObject->box.vector = Vec2(512, 300);
+        AddObject(gameObject);
+    }
+}
 
-    AddObject(gameObject);
+void StageState::EndMatch (bool victory) {
+    GameData::playerVictory = victory;
+
+    this->popRequested = true;
+
+    auto game = Game::GetInstance();
+
+    game->Push(new EndState());
 }

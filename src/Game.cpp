@@ -53,6 +53,7 @@ Game::~Game() {
     
     Logger::Info("Quiting SDL");
     SDL_Quit();
+    W("ERROR IS ON SDL_QUIT")
 }
 
 void Game::Push (State* state) {

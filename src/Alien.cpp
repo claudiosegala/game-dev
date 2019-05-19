@@ -88,7 +88,9 @@ void Alien::Rest (float dt) {
     // Update Timer
     this->restTimer.Update(dt);
 
-    if (this->restTimer.Get() <= Alien::restCoolDown) return;
+    auto _randomic_number = rand() % 2 ? -rand() : rand();
+
+    if (this->restTimer.Get() <= Alien::restCoolDown + _randomic_number) return;
 
     // Start Moving
     auto u = this->associated.box.Center();

@@ -72,7 +72,10 @@ void PenguinBody::Update(float dt) {
 
     this->speed = Vec2(1, 0).GetRotate(this->angle) * linearSpeed;
     this->associated.angle = this->angle;
-    this->associated.box.vector += this->speed;
+
+    if (ValidatePosition(this->associated.box, this->speed)) {
+        this->associated.box.vector += this->speed;
+    }
 }
 
 void PenguinBody::Render() {}
@@ -124,4 +127,24 @@ bool PenguinBody::Is(std::string type) {
 
 Vec2 PenguinBody::GetPosition() {
     return this->associated.box.Center();
+}
+
+// TODO: improve
+bool PenguinBody::ValidatePosition (Rect curr, Vec2 movement) {
+    auto nxt = curr.vector + movement;
+    
+    std::vector<Vec2> P { 
+        Vec2(nxt.x, nxt.y + curr.height),
+        Vec2(nxt.x + curr.width, nxt.y + curr.height),
+        Vec2(nxt.x + curr.width, nxt.y),
+        Vec2(nxt.x, nxt.y)
+    };
+
+    for (auto p : P) {
+        if (p.x < 0 || p.x > 1408 || p.y < 0 || p.y > 1280) {
+            return false;
+        }
+    }
+
+    return true;
 }

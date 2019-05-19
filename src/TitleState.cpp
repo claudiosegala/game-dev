@@ -25,7 +25,7 @@ TitleState::~TitleState() {
 }
 
 void TitleState::LoadAssets() {
-
+    // TODO: fill?
 }
 
 void TitleState::Update(float dt) {
@@ -43,7 +43,8 @@ void TitleState::Update(float dt) {
 
     if (this->timer.Get() > 0 && !HasComponent("Text")) {
         auto gameObject = new GameObject();
-        auto text = new Text(*gameObject, "assets/font/Call me maybe.ttf", 100, Text::TextStyle::SOLID, "Press Space Bar to Start",  { 255, 0, 0, 1 });
+        auto msg = "Press Space Bar to Start";
+        auto text = new Text(*gameObject, "assets/font/Call me maybe.ttf", 100, Text::TextStyle::SOLID, msg,  { 255, 0, 0, 1 });
 
         text->SetFadeOut(1.0f);
         gameObject->AddComponent(text);

@@ -23,7 +23,7 @@ Text::~Text() {
 }
 
 std::string Text::GetName () {
-    // TODO: dafuq
+    // TODO: why should I add the size to the name?
     //return std::string() + "pt-" + this->fontFile;
     return this->fontFile;
 }
