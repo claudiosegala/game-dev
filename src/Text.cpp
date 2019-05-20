@@ -124,7 +124,5 @@ void Text::RemakeTexture() {
 
     std::tie(this->associated.box.width, this->associated.box.height) = Resources::QueryImage(this->texture);
 
-    W(this->associated.box);
-
     SDL_FreeSurface(aux);
 }

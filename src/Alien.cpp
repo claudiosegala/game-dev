@@ -21,6 +21,8 @@ float const Alien::pace = 200.0;
 float const Alien::spinPace = 0.001;
 
 Alien::Alien(GameObject& associated, int qnt_minions) : Component(associated), restTimer(), minions(qnt_minions) {
+    Logger::Info("Creating Alien");
+
     // Adding Image
     auto image = new Sprite(this->associated, "assets/img/alien.png");
     this->associated.AddComponent(image);
@@ -39,6 +41,8 @@ Alien::Alien(GameObject& associated, int qnt_minions) : Component(associated), r
 };
 
 Alien::~Alien() {
+    Logger::Info("Destroying Alien");
+
     // Clear minions
     // I can do this cause it is the job of the shared_ptr to free the memory
     this->minions.clear();
@@ -48,6 +52,8 @@ Alien::~Alien() {
 }
 
 void Alien::Start() {
+    Logger::Info("Starting Alien");
+
     // Init minions
     auto game = Game::GetInstance();
     auto state = game->GetCurrentState();
@@ -88,7 +94,7 @@ void Alien::Rest (float dt) {
     // Update Timer
     this->restTimer.Update(dt);
 
-    auto _randomic_number = rand() % 2 ? -rand() : rand();
+    auto _randomic_number = (rand() % 2) * -(rand() % 2);
 
     if (this->restTimer.Get() <= Alien::restCoolDown + _randomic_number) return;
 

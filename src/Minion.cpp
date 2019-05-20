@@ -8,6 +8,8 @@
 float const Minion::alienDistance = 200.0f;
 
 Minion::Minion (GameObject& go, std::weak_ptr<GameObject> alienCenter, float arcOffset) : Component(go) {
+    Logger::Info("Creating Minion");
+    
     // Adding image
     auto k = 1 + RAND/2;
     auto image = new Sprite(this->associated, "assets/img/minion.png");

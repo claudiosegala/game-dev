@@ -19,6 +19,8 @@ float const PenguinBody::maxSpeed = 1.0f;
 PenguinBody* PenguinBody::player;
 
 PenguinBody::PenguinBody (GameObject& associated) : Component(associated), pcannon() {
+    Logger::Info("Creating Penguin Body");
+
     // Adding image
     auto image = new Sprite(this->associated, "assets/img/penguin.png");
     this->associated.AddComponent(image);
@@ -37,10 +39,14 @@ PenguinBody::PenguinBody (GameObject& associated) : Component(associated), pcann
 }
 
 PenguinBody::~PenguinBody() {
+    Logger::Info("Destroying Penguin Body");
+
     PenguinBody::player = nullptr;
 }
 
 void PenguinBody::Start() {
+    Logger::Info("Starting Penguin Body");
+
     auto game = Game::GetInstance();
     auto state = game->GetCurrentState();
     auto ownGo = state->GetObjectPtr(&this->associated);

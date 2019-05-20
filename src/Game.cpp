@@ -53,7 +53,7 @@ Game::~Game() {
     
     Logger::Info("Quiting SDL");
     SDL_Quit();
-    W("ERROR IS ON SDL_QUIT")
+    W("ERROR IS NOT ON SDL_QUIT")
 }
 
 void Game::Push (State* state) {
@@ -61,6 +61,7 @@ void Game::Push (State* state) {
 }
 
 void Game::Run() {
+    Logger::Info("Running");
     if (this->storedState == nullptr) {
         return;    
     }
@@ -71,7 +72,7 @@ void Game::Run() {
 }
 
 void Game::Start() {
-    Logger::Info("Started Game");
+    Logger::Info("Starting Game");
 
     this->stateStack.emplace(this->storedState);
 
@@ -81,6 +82,7 @@ void Game::Start() {
 }
 
 void Game::Loop () {
+    Logger::Info("Initting Loop");
     auto& in = InputManager::GetInstance();
 
 
@@ -269,7 +271,7 @@ void Game::Init_MIX () {
 }
 
 void Game::Init_TTF() {
-    Logger::Info("Initing SDL TTF");
+    Logger::Info("Initing TTF");
     auto res = TTF_Init();
 
     if (res == -1) {

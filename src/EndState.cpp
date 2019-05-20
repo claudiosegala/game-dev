@@ -57,7 +57,7 @@ void EndState::Update (float dt) {
         
         auto game = Game::GetInstance();
         // TODO: isn't already a title state? why push another?
-        game->Push(new TitleState());
+        // game->Push(new TitleState());
     }
 }
 

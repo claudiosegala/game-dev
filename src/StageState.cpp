@@ -19,7 +19,8 @@
 
 const int StageState::aliens_count = 3;
 
-StageState::StageState () : State() {    
+StageState::StageState () : State() {
+    Logger::Info("Initing Stage State");   
     this->started = false;
     this->quitRequested = false;
 
@@ -32,16 +33,19 @@ StageState::StageState () : State() {
 }
 
 StageState::~StageState () {
+    Logger::Info("Destroying Stage State");
+
     if (this->tileSet != nullptr) {
-        Logger::Info("Destroying StageState TileSet");
+        Logger::Info("Destroying Stage State TileSet");
         delete this->tileSet;
     }
 
-    Logger::Info("Destroying StageState Music");
+    Logger::Info("Destroying Stage State Music");
     this->music.Stop();
 }
 
 void StageState::Start () {
+    Logger::Info("Starting Stage State");
     LoadAssets();
     StartArray();
 
@@ -49,14 +53,15 @@ void StageState::Start () {
 }
 
 void StageState::Pause () {
-
+    Logger::Info("Pausing Stage State");
 }
 
 void StageState::Resume () {
-    
+    Logger::Info("Resuming Stage State");
 }
 
 void StageState::LoadAssets () {
+    Logger::Info("Loading Assets of Stage State");
     // TODO: fill?
 }
 
@@ -135,6 +140,7 @@ void StageState::CheckCollision () {
 }
 
 void StageState::CreateField () {
+    Logger::Info("Creating field for Stage State");
     auto field = new GameObject();
 
     this->tileSet = new TileSet(*field, 64, 64, "assets/img/tileset.png");
@@ -154,6 +160,7 @@ void StageState::CreateField () {
 }
 
 void StageState::CreateMainCharacter () {
+    Logger::Info("Creating Main Character for Stage State");
     auto gameObject = new GameObject();
 
     auto mainChar = new PenguinBody(*gameObject);
@@ -166,6 +173,7 @@ void StageState::CreateMainCharacter () {
 }
 
 void StageState::CreateEnemies () {
+    Logger::Info("Creating Enemies for Stage State");
     for (int i = 0; i < StageState::aliens_count; i++) {
         auto gameObject = new GameObject();
         auto alien = new Alien(*gameObject, 5);
@@ -181,6 +189,8 @@ void StageState::CreateEnemies () {
 }
 
 void StageState::EndMatch (bool victory) {
+    Logger::Info("Ending Match in Stage State");
+
     GameData::playerVictory = victory;
 
     this->popRequested = true;
