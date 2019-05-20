@@ -16,9 +16,9 @@ int const Alien::life = 50;
 
 int const Alien::restCoolDown = 5;
 
-float const Alien::pace = 200.0;
+float const Alien::pace = 200.0f;
 
-float const Alien::spinPace = 0.001;
+float const Alien::spinPace = 0.001f;
 
 Alien::Alien(GameObject& associated, int qnt_minions) : Component(associated), restTimer(), minions(qnt_minions) {
     Logger::Info("Creating Alien");

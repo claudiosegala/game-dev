@@ -13,6 +13,9 @@ Sprite::Sprite(GameObject& associated, const std::string &file, int frameCount, 
     this->frameTime = frameTime;
     this->secondsToSelfDestruct = secondsToSelfDestruct;
     this->associated.angle = 0.0f;
+	this->clipRect = { 0, 0, 0, 0 };
+	this->height = 0;
+	this->width = 0;
 
     Open(file);
 }
@@ -132,11 +135,11 @@ bool Sprite::Is (std::string type) {
 }
 
 int Sprite::GetWidth() {
-    return this->width * this->scale.x / this->frameCount;
+    return this->width * static_cast<int>(this->scale.x) / this->frameCount;
 }
 
 int Sprite::GetHeight() {
-    return this->height * this->scale.y;
+    return this->height * static_cast<int>(this->scale.y);
 }
 
 bool Sprite::IsOpen() {

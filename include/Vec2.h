@@ -15,6 +15,8 @@ class Vec2 {
 
         Vec2();
 
+		Vec2(int, int);
+
         Vec2(float xv, float yv);
 
         Vec2(Vec2&, Vec2&);

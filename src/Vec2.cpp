@@ -2,6 +2,8 @@
 
 Vec2::Vec2() : x(0), y(0) {}
 
+Vec2::Vec2(int xv, int yv) : x(static_cast<float>(xv)), y(static_cast<float>(yv)) {}
+
 Vec2::Vec2(float xv, float yv) : x(xv), y(yv) {}
 
 Vec2::Vec2(Vec2 &start, Vec2 &destination)  {

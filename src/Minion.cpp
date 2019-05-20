@@ -46,7 +46,7 @@ void Minion::SetPosition(float dt) {
     }
     
     auto alienPos = alien->box.Center();
-    auto pos = Vec2(Minion::alienDistance, 0).GetRotate(this->arc) + alienPos;
+    auto pos = Vec2(Minion::alienDistance, 0.0f).GetRotate(this->arc) + alienPos;
 
     this->associated.box.SetCenter(pos);
     this->associated.angle = this->arc;
