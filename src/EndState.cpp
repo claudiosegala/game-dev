@@ -59,11 +59,17 @@ void EndState::Update (float dt) {
         // TODO: isn't already a title state? why push another?
         // game->Push(new TitleState());
     }
+
+	UpdateArray(dt);
 }
 
-void EndState::Render () {}
+void EndState::Render () {
+	RenderArray();
+}
 
-void EndState::Start () {}
+void EndState::Start () {
+	StartArray();
+}
 
 void EndState::Pause () {}
 
