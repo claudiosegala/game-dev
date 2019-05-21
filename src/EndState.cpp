@@ -30,7 +30,8 @@ EndState::EndState () {
 
     gameObject->AddComponent(text);
 
-    AddObject(gameObject);
+	// TODO: should it be this way
+    (void) AddObject(gameObject);
 }
 
 EndState::~EndState () {}

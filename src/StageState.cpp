@@ -159,7 +159,8 @@ void StageState::CreateField () {
 
     field->box.vector = Vec2(0, 0);
 
-    AddObject(field);
+	// TODO: should it be this way
+	(void)AddObject(field);
 }
 
 void StageState::CreateMainCharacter () {
@@ -172,7 +173,8 @@ void StageState::CreateMainCharacter () {
     gameObject->box.vector = Vec2(704, 640);
     Camera::Follow(gameObject);
 
-    AddObject(gameObject);
+	// TODO: should it be this way
+	(void)AddObject(gameObject);
 }
 
 void StageState::CreateEnemies () {
@@ -187,7 +189,8 @@ void StageState::CreateEnemies () {
             300 + (rand() % 1000)
         );
 
-        AddObject(gameObject);
+		// TODO: should it be this way
+		(void)AddObject(gameObject);
     }
 }
 

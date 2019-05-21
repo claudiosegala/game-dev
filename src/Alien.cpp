@@ -210,7 +210,8 @@ void Alien::NotifyCollision(GameObject &other) {
     // Adding to state
     auto game = Game::GetInstance();
     auto state = game->GetCurrentState();
-    state->AddObject(gameObject);
+
+    (void) state->AddObject(gameObject);
 }
 
 bool Alien::Is(std::string type) {
