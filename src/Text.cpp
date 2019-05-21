@@ -103,7 +103,9 @@ void Text::RemakeTexture() {
 
     this->font = Resources::GetText(GetName());
 
-    SDL_Surface *aux;
+    SDL_Surface *aux = nullptr;
+	auto game = Game::GetInstance();
+	auto renderer = game->GetRenderer();
 
     switch (this->style) {
         case TextStyle::SOLID:
@@ -116,9 +118,6 @@ void Text::RemakeTexture() {
             aux = TTF_RenderText_Blended(this->font.get(), this->text.c_str(), this->color);
             break;
     }
-
-    auto game = Game::GetInstance();
-    auto renderer = game->GetRenderer();
 
     this->texture = SDL_CreateTextureFromSurface(renderer, aux);
 

@@ -198,7 +198,7 @@ void Alien::NotifyCollision(GameObject &other) {
     auto gameObject = new GameObject();
     
     // Adding explosion image
-    auto image = new Sprite(*gameObject, "assets/img/aliendeath.png", 4, 0.05, 0.2);
+    auto image = new Sprite(*gameObject, "assets/img/aliendeath.png", 4, 0.05f, 0.2f);
     gameObject->box = this->associated.box;
     gameObject->AddComponent(image);
 
