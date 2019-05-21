@@ -23,7 +23,6 @@ StageState::StageState () : State(), music() {
     Logger::Info("Initing Stage State");   
     this->started = false;
     this->quitRequested = false;
-	this->tileSet = nullptr;
     this->music.Open("assets/audio/stageState.ogg");
 
     LoadAssets();
@@ -31,13 +30,6 @@ StageState::StageState () : State(), music() {
 
 StageState::~StageState () {
     Logger::Info("Destroying Stage State");
-
-    if (this->tileSet != nullptr) {
-        Logger::Info("Destroying Stage State TileSet");
-        delete this->tileSet;
-    }
-
-    Logger::Info("Destroying Stage State Music");
     this->music.Stop();
 }
 
@@ -145,7 +137,7 @@ void StageState::CreateField () {
     backgroundObject->AddComponent(cameraFollower);
     backgroundObject->box.vector = Vec2(0, 0);
 
-	(void)AddObject(backgroundObject);
+    (void)AddObject(backgroundObject);
 }
 
 void StageState::CreateMainCharacter () {
@@ -157,7 +149,7 @@ void StageState::CreateMainCharacter () {
 
     Camera::Follow(gameObject);
 
-	(void)AddObject(gameObject);
+    (void)AddObject(gameObject);
 }
 
 void StageState::CreateEnemies () {
@@ -176,7 +168,7 @@ void StageState::CreateEnemies () {
             300 + range(1000)
         };
 
-		(void)AddObject(alienObject);
+        (void)AddObject(alienObject);
     }
 }
 
