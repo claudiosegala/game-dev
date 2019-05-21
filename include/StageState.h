@@ -35,9 +35,6 @@ class StageState : public State {
 
         static const int aliens_count;
 
-        // TODO: discover why this
-        TileSet* tileSet;
-
         Music music;
 
         void CheckCollision();
