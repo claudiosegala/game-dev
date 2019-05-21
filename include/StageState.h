@@ -32,6 +32,9 @@ class StageState : public State {
         void Resume();
 
     private:
+    
+        //> Unnecessary
+        TileSet* tileSet;
 
         static const int aliens_count;
 
