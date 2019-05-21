@@ -24,7 +24,7 @@ StageState::StageState () : State(), music() {
     this->started = false;
     this->quitRequested = false;
     this->music.Open("assets/audio/stageState.ogg");
-
+    this->tileSet = nullptr;
     LoadAssets();
 }
 
