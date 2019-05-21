@@ -22,8 +22,6 @@ void Sound::Play (int times) {
     } else {
         Logger::Info("Music is playing on channel " + std::to_string(this->channel));
     }
-
-    // TODO: should I invoke Mix_Volume?
 }
 
 void Sound::Stop () {
