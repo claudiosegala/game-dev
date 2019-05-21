@@ -4,7 +4,7 @@ Logger* Logger::instance;
 
 Logger::Logger() {
     if (this->instance != nullptr) {
-        throw std::runtime_error("There should be only one instance!");
+        throw std::runtime_error("There should be only one instance!\n");
     }
 
     this->instance = this;

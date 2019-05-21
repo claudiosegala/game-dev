@@ -27,6 +27,9 @@ class Vec2 {
         //> Set to (0, 0)
         void Reset();
 
+        //> Limit the values of x and y to a range
+        void Limit(float, float, float, float);
+
         ///> Find magnitude of vector
         float GetLength() const;
 

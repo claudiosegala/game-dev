@@ -20,28 +20,28 @@ PenguinBody* PenguinBody::player;
 
 PenguinBody::PenguinBody (GameObject& associated) : Component(associated), pcannon() {
     Logger::Info("Creating Penguin Body");
-
-    // Adding image
-    auto image = new Sprite(this->associated, "assets/img/penguin.png");
-    this->associated.AddComponent(image);
-
-    // Adding collider
-    auto collider = new Collider(this->associated);
-    this->associated.AddComponent(collider);
-
-    // Initing variables
+    PenguinBody::player = this;
+    
     this->hp = PenguinBody::life;
     this->angle = 0.0f;
     this->linearSpeed = 0.0f;
     this->speed = Vec2(0, 0);
-
-    PenguinBody::player = this;
+    
+    LoadAssets();
 }
 
 PenguinBody::~PenguinBody() {
     Logger::Info("Destroying Penguin Body");
 
     PenguinBody::player = nullptr;
+}
+
+void PenguinBody::LoadAssets() {
+    auto image = new Sprite(this->associated, "assets/img/penguin.png");
+    auto collider = new Collider(this->associated);
+
+    this->associated.AddComponent(image);
+    this->associated.AddComponent(collider);
 }
 
 void PenguinBody::Start() {
@@ -78,10 +78,8 @@ void PenguinBody::Update(float dt) {
 
     this->speed = Vec2(1, 0).GetRotate(this->angle) * linearSpeed;
     this->associated.angle = this->angle;
-
-    if (ValidatePosition(this->associated.box, this->speed)) {
-        this->associated.box.vector += this->speed;
-    }
+    this->associated.box.vector += this->speed;
+    this->associated.box.vector.Limit(1408, 0, 1280, 0);
 }
 
 void PenguinBody::Render() {}
@@ -96,35 +94,11 @@ void PenguinBody::NotifyCollision(GameObject &other) {
     // Check if bullet was launch by me
     if (bullet->targetPlayer) return;
 
-    // Alien loses life
     this->hp -= bullet->GetDamage();
 
-    // Check if has died
     if (this->hp > 0) return;
 
-    // Unfollow to avoid erros
-    Camera::Unfollow();
-
-    // 'Dies'
-    this->associated.RequestDelete();
-
-    // Start adding Animation of death
-    auto gameObject = new GameObject();
-    
-    // Adding explosion image
-    auto image = new Sprite(*gameObject, "assets/img/penguindeath.png", 5, 0.05f, 0.25f);
-    gameObject->box = this->associated.box;
-    gameObject->AddComponent(image);
-
-    // Adding sound of explosion
-    auto sound = new Sound(*gameObject, "assets/audio/boom.wav");
-    gameObject->AddComponent(sound);
-    sound->Play();
-
-    // Adding to state
-    auto game = Game::GetInstance();
-    auto state = game->GetCurrentState();
-    (void) state->AddObject(gameObject);
+    Die();
 }
 
 bool PenguinBody::Is(std::string type) {
@@ -135,22 +109,22 @@ Vec2 PenguinBody::GetPosition() {
     return this->associated.box.Center();
 }
 
-// TODO: improve
-bool PenguinBody::ValidatePosition (Rect curr, Vec2 movement) {
-    auto nxt = curr.vector + movement;
+void PenguinBody::Die () {
+    this->associated.RequestDelete();
+
+    Camera::Unfollow();
     
-    std::vector<Vec2> P { 
-        Vec2(nxt.x, nxt.y + curr.height),
-        Vec2(nxt.x + curr.width, nxt.y + curr.height),
-        Vec2(nxt.x + curr.width, nxt.y),
-        Vec2(nxt.x, nxt.y)
-    };
+    auto explosionObject = new GameObject();
+    auto image = new Sprite(*explosionObject, "assets/img/penguindeath.png", 5, 0.05f, 0.25f);
+    auto sound = new Sound(*explosionObject, "assets/audio/boom.wav");
 
-    for (auto p : P) {
-        if (p.x < 0 || p.x > 1408 || p.y < 0 || p.y > 1280) {
-            return false;
-        }
-    }
+    explosionObject->AddComponent(image);
+    explosionObject->AddComponent(sound);
+    explosionObject->box.SetCenter(this->associated.box.Center());
 
-    return true;
+    auto game = Game::GetInstance();
+    auto state = game->GetCurrentState();
+    (void) state->AddObject(explosionObject);
+
+    sound->Play();
 }

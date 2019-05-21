@@ -13,16 +13,17 @@ Sound::Sound (GameObject& go, std::string name) : Component(go), chunk() {
 
 Sound::~Sound () {}
 
-// TODO: see if this is correct
 void Sound::Play (int times) {
     this->channel = Mix_PlayChannel(-1, this->chunk.get(), times - 1);
 
     if (this->channel < 0) {
-        auto msg = Mix_GetError();
+        auto msg = "MixError: " + std::string(Mix_GetError()) + "\n";
         throw std::runtime_error(msg);
     } else {
         Logger::Info("Music is playing on channel " + std::to_string(this->channel));
     }
+
+    // TODO: should I invoke Mix_Volume?
 }
 
 void Sound::Stop () {

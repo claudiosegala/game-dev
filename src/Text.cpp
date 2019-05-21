@@ -6,7 +6,7 @@
 
 Text::Text (GameObject& associated, std::string file, int size, TextStyle style, std::string text, SDL_Color color) 
 : Component(associated), text(text), style(style), fontFile(file), fontSize(size), color(color) {
-    this->font = Resources::GetText(GetName());
+    this->font = Resources::GetText(this->fontFile, this->fontSize);
     this->texture = nullptr;
 	this->timer = nullptr;
 
@@ -23,12 +23,6 @@ Text::~Text() {
     }
 }
 
-std::string Text::GetName () {
-    // TODO: why should I add the size to the name?
-    //return std::string() + "pt-" + this->fontFile;
-    return this->fontFile;
-}
-
 void Text::Update(float dt) {
     if (this->timer != nullptr) {
         this->timer->Update(dt);
@@ -39,7 +33,6 @@ void Text::Update(float dt) {
     }
 }
 
-// TODO: verify if this is correct
 void Text::Render() {
     if (this->texture == nullptr) return;
 
@@ -54,12 +47,17 @@ void Text::Render() {
 
     SDL_Rect dstRect { 
         static_cast<int>(this->associated.box.vector.x - Camera::pos.x),
-        static_cast<int>(this->associated.box.vector.x - Camera::pos.y),
+        static_cast<int>(this->associated.box.vector.y - Camera::pos.y),
         static_cast<int>(this->associated.box.width),
         static_cast<int>(this->associated.box.height)
     };
 
-    SDL_RenderCopyEx(game->GetRenderer(), this->texture, &srcRect, &dstRect, (this->associated.angle * 180) / PI, nullptr, SDL_FLIP_NONE);
+    auto err = SDL_RenderCopyEx(game->GetRenderer(), this->texture, &srcRect, &dstRect, (this->associated.angle * 180) / PI, nullptr, SDL_FLIP_NONE);
+
+    if (err < 0) {
+        auto msg = "SDLError: " + std::string(SDL_GetError()) + "\n";
+        throw std::runtime_error(msg);
+    }
 }
 
 bool Text::Is(std::string type) {
@@ -102,7 +100,7 @@ void Text::RemakeTexture() {
         SDL_DestroyTexture(this->texture);
     }
 
-    this->font = Resources::GetText(GetName());
+    this->font = Resources::GetText(this->fontFile, this->fontSize);
 
     SDL_Surface *aux = nullptr;
 	auto game = Game::GetInstance();
@@ -121,6 +119,11 @@ void Text::RemakeTexture() {
     }
 
     this->texture = SDL_CreateTextureFromSurface(renderer, aux);
+
+    if (this->texture) {
+        auto msg = "SDLError: " + std::string(SDL_GetError()) + "\n";
+        throw std::runtime_error(msg);
+    }
 
     std::tie(this->associated.box.width, this->associated.box.height) = Resources::QueryImage(this->texture);
 

@@ -28,7 +28,7 @@ class Resources {
 
         static void PruneSounds();
 
-        static std::shared_ptr<TTF_Font> GetText(std::string);
+        static std::shared_ptr<TTF_Font> GetText(std::string, int);
 
         static void PruneTexts();
 

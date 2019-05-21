@@ -51,19 +51,19 @@ bool State::QuitRequested() {
 }
 
 void State::RenderArray() {
-    for (auto i = 0; i < this->objectArray.size(); i++) {
+    for (auto i = 0; i < (int) this->objectArray.size(); i++) {
         this->objectArray[i]->Render();
     }
 }
 
 void State::StartArray() {
-    for (auto i = 0; i < this->objectArray.size(); i++) {
+    for (auto i = 0; i < (int) this->objectArray.size(); i++) {
         this->objectArray[i]->Start();
     }
 }
 
 void State::UpdateArray(float dt) {
-    for (auto i = 0; i < this->objectArray.size(); i++) {
+    for (auto i = 0; i < (int) this->objectArray.size(); i++) {
         this->objectArray[i]->Update(dt);
     }
 }

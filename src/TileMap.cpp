@@ -18,7 +18,7 @@ void TileMap::Load(std::string file) {
     std::ifstream fs(file);
 
     if (!fs.is_open()) {
-        auto msg = std::string("Could not open file created file"); 
+        auto msg = std::string("Could not open file created file\n"); 
         throw std::runtime_error(msg);
     }
 

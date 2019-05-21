@@ -19,8 +19,6 @@ class Text : public Component {
 
         ~Text();
 
-        std::string GetName();
-
         void Update(float);
 
         void Render();

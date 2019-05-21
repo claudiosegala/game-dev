@@ -18,6 +18,20 @@ void Vec2::Reset() {
     this->x = this->y = 0;
 }
 
+void Vec2::Limit(float upperX, float lowerX, float upperY, float lowerY) {
+    if (this->x < lowerX) {
+        this->x = lowerX;
+    } else {
+        this->x = fmin(this->x, upperX);
+    }
+
+    if (this->y < lowerY) {
+        this->y = lowerY;
+    } else {
+        this->y = fmin(this->y, upperY);
+    }
+}
+
 float Vec2::GetLength() const {
     return (float) hypot(this->x, this->y);
 }

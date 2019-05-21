@@ -25,7 +25,7 @@ std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
         auto image = IMG_LoadTexture(renderer, file.c_str());
         
         if (image == nullptr) {
-            auto msg = IMG_GetError();
+            auto msg = "ImgError: " + std::string(IMG_GetError()) + "\n";
             throw std::runtime_error(msg);
         }
 
@@ -40,17 +40,16 @@ std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
 std::tuple<int, int> Resources::QueryImage (SDL_Texture *texture) {
     auto width = 0;
     auto height = 0;
-    auto query = SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+    auto err = SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
 
-    if (query < 0) {
-        auto msg = SDL_GetError();
+    if (err < 0) {
+        auto msg = "SDLError: " + std::string(SDL_GetError()) + "\n";
         throw std::runtime_error(msg);
     }
 
     return std::make_tuple(width, height);
 }
 
-// TODO: is this correct
 void Resources::PruneImages() {
     Logger::Info("Pruning images");
 
@@ -72,7 +71,7 @@ std::shared_ptr<Mix_Music> Resources::GetMusic(std::string file) {
         auto music = Mix_LoadMUS(file.c_str());
 
         if (music == nullptr) {
-            auto msg = Mix_GetError();
+            auto msg = "MixError: " + std::string(Mix_GetError()) + "\n";
             throw std::runtime_error(msg);
         }
 
@@ -105,7 +104,7 @@ std::shared_ptr<Mix_Chunk> Resources::GetSound(std::string file) {
         auto sound = Mix_LoadWAV(file.c_str());
 
         if (sound == nullptr) {
-            auto msg = Mix_GetError();
+            auto msg = "MixError: " + std::string(Mix_GetError()) + "\n";
             throw std::runtime_error(msg);
         }
 
@@ -131,25 +130,26 @@ void Resources::PruneSounds() {
     }
 }
 
-std::shared_ptr<TTF_Font> Resources::GetText(std::string file) {
-    if (Resources::textTable.find(file) == Resources::textTable.end()) {
+std::shared_ptr<TTF_Font> Resources::GetText(std::string file, int size) {
+    auto key = std::to_string(size) + "pt-" + file;
+
+    if (Resources::textTable.find(key) == Resources::textTable.end()) {
         Logger::Info("Loading text in path: " + file);
 
-        // TODO: what to do on the second operator
-        auto text = TTF_OpenFont(file.c_str(), 15);
+        auto text = TTF_OpenFont(file.c_str(), size);
 
         if (text == nullptr) {
-            auto msg = TTF_GetError();
+            auto msg = "TTFError: " + std::string(TTF_GetError()) + "\n";
             throw std::runtime_error(msg);
         }
 
 		// TODO: fix, sometimes it gives error on this when I shut the thing
         std::shared_ptr<TTF_Font> text_ptr(text, [=](TTF_Font* text) { TTF_CloseFont(text); });
 
-        Resources::textTable[file] = text_ptr;
+        Resources::textTable[key] = text_ptr;
     }
 
-    return Resources::textTable[file];
+    return Resources::textTable[key];
 }
 
 void Resources::PruneTexts() {

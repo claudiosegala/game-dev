@@ -9,7 +9,6 @@ Music::Music(const std::string &file) {
 
 Music::~Music() {}
 
-// TODO: is this correct
 void Music::Play(int times) {
     if (this->music == nullptr) return;
 
@@ -17,7 +16,7 @@ void Music::Play(int times) {
     auto err = Mix_PlayMusic(this->music.get(), times);
 
     if (err < 0) {
-        auto msg = Mix_GetError();
+        auto msg = "MixError: " + std::string(Mix_GetError()) + "\n";
         throw std::runtime_error(msg);
     }
 }
@@ -27,7 +26,7 @@ void Music::Stop(int msToStop) {
     auto err = Mix_FadeOutMusic(msToStop);
 
     if (err != 1) {
-        auto msg = Mix_GetError();
+        auto msg = "MixError: " + std::string(Mix_GetError()) + "\n";
         throw std::runtime_error(msg);
     }
 }

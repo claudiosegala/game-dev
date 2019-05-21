@@ -6,6 +6,9 @@
 #include <Vec2.h>
 #include <Rect.h>
 
+#include <string>
+#include <iostream>
+
 class PenguinBody : public Component{
     public:
 
@@ -22,6 +25,8 @@ class PenguinBody : public Component{
         PenguinBody (GameObject&);
 
         ~PenguinBody();
+
+        void LoadAssets();
 
         void Start();
 
@@ -48,4 +53,6 @@ class PenguinBody : public Component{
         std::weak_ptr<GameObject> pcannon;
 
         bool ValidatePosition(Rect, Vec2);
+
+        void Die();
 };

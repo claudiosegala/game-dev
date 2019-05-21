@@ -6,38 +6,40 @@
 #include <Music.h>
 #include <Text.h>
 #include <InputManager.h>
+#include <Util.h>
+#include <Camera.h>
 #include <TitleState.h>
 
 EndState::EndState () {
-    auto gameObject = new GameObject();
-
-    if (GameData::playerVictory) {
-        auto bg = new Sprite(*gameObject, "assets/img/win.jpg");
-        gameObject->AddComponent(bg);
-
-        this->backgroundMusic.Open("assets/audio/endStateWin.ogg");
-    } else {
-        auto bg = new Sprite(*gameObject, "assets/img/lose.jpg");
-        gameObject->AddComponent(bg);
-
-        this->backgroundMusic.Open("assets/audio/endStateLose.ogg");        
-    }
-
-    this->backgroundMusic.Play();
-
-    auto msg = "Pressione SPACE BAR para jogar novamente e ESC para sair";
-    auto text = new Text(*gameObject, "assets/font/Call me maybe.ttf", 100, Text::TextStyle::SOLID, msg,  { 255, 0, 0, 1 });
-
-    gameObject->AddComponent(text);
-
-	// TODO: should it be this way
-    (void) AddObject(gameObject);
+    Logger::Info("Initing End State");
+    LoadAssets();
 }
 
-EndState::~EndState () {}
+EndState::~EndState () {
+    Logger::Info("Destroying End State");
+}
 
 void EndState::LoadAssets () {
-    // TODO: fill?
+    auto soundAsset = GameData::playerVictory ? "assets/audio/endStateWin.ogg" : "assets/audio/endStateLose.ogg";
+
+    this->backgroundMusic.Open(soundAsset);
+
+    auto imageAsset = GameData::playerVictory ? "assets/img/win.jpg" : "assets/img/lose.jpg";
+    auto imageObject = new GameObject();
+    auto image = new Sprite(*imageObject, imageAsset);
+
+    imageObject->AddComponent(image);
+
+    auto msg = "Pressione SPACE BAR para jogar novamente e ESC para sair";
+    auto textAsset = "assets/font/Call me maybe.ttf";
+    auto textObject = new GameObject();
+    auto text = new Text(*textObject, textAsset, 50, Text::TextStyle::SOLID, msg, { 255, 0, 0, 1 });
+
+    textObject->AddComponent(text);
+    textObject->box.SetCenter({ 512, 580 });
+
+    (void) AddObject(imageObject);
+    (void) AddObject(textObject);
 }
 
 void EndState::Update (float dt) {
@@ -55,10 +57,6 @@ void EndState::Update (float dt) {
 
     if (in.KeyPress(SPACE_BAR)) {
         this->popRequested = true;
-        
-        auto game = Game::GetInstance();
-        // TODO: isn't already a title state? why push another?
-        // game->Push(new TitleState());
     }
 
 	UpdateArray(dt);
@@ -69,9 +67,21 @@ void EndState::Render () {
 }
 
 void EndState::Start () {
+    Logger::Info("Starting End State");
+    Camera::Reset();
+    
 	StartArray();
+
+    this->started = true;
+    this->backgroundMusic.Play();
 }
 
-void EndState::Pause () {}
+void EndState::Pause () {
+    Logger::Info("Pausing End State");
+    this->backgroundMusic.Stop(0);
+}
 
-void EndState::Resume () {}
+void EndState::Resume () {
+    Logger::Info("Resuming End State");
+    Camera::Reset();
+}

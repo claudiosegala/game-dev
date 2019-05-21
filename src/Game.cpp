@@ -11,7 +11,7 @@ Game* Game::instance;
 
 Game::Game(const std::string &title, int width, int height) {
     if (this->instance != nullptr) {
-        throw std::runtime_error("There should be only one instance!");
+        throw std::runtime_error("There should be only one instance!\n");
     }
 
     this->instance = this;
@@ -55,7 +55,6 @@ Game::~Game() {
     
     Logger::Info("Quiting SDL");
     SDL_Quit();
-    W("ERROR IS NOT ON SDL_QUIT")
 }
 
 void Game::Push (State* state) {
@@ -194,7 +193,7 @@ void Game::Init_RDR () {
     if (this->renderer == nullptr) {
         SDL_GetNumRenderDrivers();
 
-        auto msg = SDL_GetError();
+        auto msg = "SDLError: " + std::string(SDL_GetError()) + "\n";
         throw std::runtime_error(msg);
     }
 }
@@ -207,7 +206,7 @@ void Game::Init_WDW (const std::string &title, int width, int height) {
     this->window = SDL_CreateWindow(title.c_str(), (int) pos, (int) pos, width, height, flags);
 
     if (this->window == nullptr) {
-        auto msg = SDL_GetError();
+        auto msg = "SDLError: " + std::string(SDL_GetError()) + "\n";
         throw std::runtime_error(msg);
     }
 }
@@ -259,7 +258,7 @@ void Game::Init_MIX () {
     res = Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 
     if (res < 0) {
-        auto msg = Mix_GetError();
+        auto msg = "MixError: " + std::string(Mix_GetError()) + "\n";
         throw std::runtime_error(msg);
     }
     
@@ -267,7 +266,7 @@ void Game::Init_MIX () {
     res = Mix_AllocateChannels(32);
 
     if (res < 0) {
-        auto msg = Mix_GetError();
+        auto msg = "MixError: " + std::string(Mix_GetError()) + "\n";
         throw std::runtime_error(msg);
     }
 }

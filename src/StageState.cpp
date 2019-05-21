@@ -24,13 +24,9 @@ StageState::StageState () : State(), music() {
     this->started = false;
     this->quitRequested = false;
 	this->tileSet = nullptr;
-
     this->music.Open("assets/audio/stageState.ogg");
-    this->music.Play();
 
-    CreateField();
-    CreateMainCharacter();
-    CreateEnemies();
+    LoadAssets();
 }
 
 StageState::~StageState () {
@@ -42,21 +38,20 @@ StageState::~StageState () {
     }
 
     Logger::Info("Destroying Stage State Music");
-	//if (this->music != nullptr) {
-		this->music.Stop();
-	//}
+    this->music.Stop();
 }
 
 void StageState::Start () {
     Logger::Info("Starting Stage State");
-    LoadAssets();
     StartArray();
 
     this->started = true;
+    this->music.Play();
 }
 
 void StageState::Pause () {
     Logger::Info("Pausing Stage State");
+    this->music.Stop(0);
 }
 
 void StageState::Resume () {
@@ -65,21 +60,13 @@ void StageState::Resume () {
 
 void StageState::LoadAssets () {
     Logger::Info("Loading Assets of Stage State");
-    // TODO: fill?
+    
+    CreateField();
+    CreateMainCharacter();
+    CreateEnemies();
 }
 
 void StageState::Update (float dt) {
-    // TODO: check
-    if (Alien::alienCount == 0) {
-        EndMatch(true);
-        return;
-    }
-
-    if (PenguinBody::player == nullptr) {
-        EndMatch(false);
-        return;
-    }
-
     auto& in = InputManager::GetInstance();
 
     this->popRequested = in.KeyPress(ESCAPE_KEY);
@@ -89,6 +76,11 @@ void StageState::Update (float dt) {
     this->quitRequested = in.QuitRequested();
 
     if (this->quitRequested) return;
+
+    if (Alien::alienCount == 0 || PenguinBody::player == nullptr) {
+        EndMatch(PenguinBody::player != nullptr);
+        return;
+    }
 
     Camera::Update(dt);
 
@@ -120,7 +112,6 @@ void StageState::CheckCollision () {
         }
     }
 
-
     for (int i = 0; i < (int) objs.size(); i++) {
         for (int j = i+1; j < (int) objs.size(); j++) {
             auto obj1 = this->objectArray[objs[i]];
@@ -143,60 +134,53 @@ void StageState::CheckCollision () {
 }
 
 void StageState::CreateField () {
-    Logger::Info("Creating field for Stage State");
-    auto field = new GameObject();
+    auto backgroundObject = new GameObject();
+    auto tileSet = new TileSet(*backgroundObject, 64, 64, "assets/img/tileset.png");
+    auto image = new Sprite(*backgroundObject, "assets/img/ocean.jpg");
+    auto tileMap = new TileMap(*backgroundObject, "assets/map/tileMap.txt", tileSet);
+    auto cameraFollowe = new CameraFollower(*backgroundObject);
 
-    auto ts = new TileSet(*field, 64, 64, "assets/img/tileset.png");
+    backgroundObject->AddComponent(tileMap);
+    backgroundObject->AddComponent(image);
+    backgroundObject->AddComponent(cameraFollowe);
+    backgroundObject->box.vector = Vec2(0, 0);
 
-    auto bg = new Sprite(*field, "assets/img/ocean.jpg");
-    field->AddComponent(bg);
-
-    auto tm = new TileMap(*field, "assets/map/tileMap.txt", ts);
-    field->AddComponent(tm);
-
-    auto cf = new CameraFollower(*field);
-    field->AddComponent(cf);
-
-    field->box.vector = Vec2(0, 0);
-
-	// TODO: should it be this way
-	(void)AddObject(field);
+	(void)AddObject(backgroundObject);
 }
 
 void StageState::CreateMainCharacter () {
-    Logger::Info("Creating Main Character for Stage State");
     auto gameObject = new GameObject();
-
     auto mainChar = new PenguinBody(*gameObject);
-    gameObject->AddComponent(mainChar);
 
+    gameObject->AddComponent(mainChar);
     gameObject->box.vector = Vec2(704, 640);
+
     Camera::Follow(gameObject);
 
-	// TODO: should it be this way
 	(void)AddObject(gameObject);
 }
 
 void StageState::CreateEnemies () {
-    Logger::Info("Creating Enemies for Stage State");
+    auto range = [=] (int n) {
+        n++;
+        return (rand() - n) % n; // -n to n
+    };
+
     for (int i = 0; i < StageState::aliens_count; i++) {
-        auto gameObject = new GameObject();
-        auto alien = new Alien(*gameObject, 5);
+        auto alienObject = new GameObject();
+        auto alien = new Alien(*alienObject, 5);
 
-        gameObject->AddComponent(alien);
-        gameObject->box.vector = Vec2(
-            512 + (rand() % 1000), 
-            300 + (rand() % 1000)
-        );
+        alienObject->AddComponent(alien);
+        alienObject->box.vector = {
+            512 + range(1000), 
+            300 + range(1000)
+        };
 
-		// TODO: should it be this way
-		(void)AddObject(gameObject);
+		(void)AddObject(alienObject);
     }
 }
 
 void StageState::EndMatch (bool victory) {
-    Logger::Info("Ending Match in Stage State");
-
     GameData::playerVictory = victory;
 
     this->popRequested = true;

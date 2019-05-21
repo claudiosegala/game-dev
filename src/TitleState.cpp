@@ -9,29 +9,27 @@
 #include <InputManager.h>
 
 TitleState::TitleState() : State() {
-    auto gameObject = new GameObject();
-
-    auto image = new Sprite(*gameObject, "assets/img/title.jpg");
-
-    gameObject->AddComponent(image);
-
-    (void) AddObject(gameObject);
-
+    Logger::Info("Initing Title State");
     Camera::Reset();
+
+    LoadAssets();
 }
         
 TitleState::~TitleState() {
-
+    Logger::Info("Destroying Title State");
 }
 
 void TitleState::LoadAssets() {
-    // TODO: fill?
+    auto imageObject = new GameObject();
+    auto image = new Sprite(*imageObject, "assets/img/title.jpg");
+
+    imageObject->AddComponent(image);
+
+    (void) AddObject(imageObject);
 }
 
 void TitleState::Update(float dt) {
     auto& in = InputManager::GetInstance();
-
-    this->timer.Update(dt);
 
     this->popRequested = in.KeyPress(ESCAPE_KEY);
 
@@ -41,17 +39,17 @@ void TitleState::Update(float dt) {
 
     if (this->quitRequested) return;
 
-    if (this->timer.Get() > 0 && !HasComponent("Text")) {
-        auto gameObject = new GameObject();
+    if (!HasComponent("Text")) {
+        auto textObject = new GameObject();
+        auto textAsset = "assets/font/Call me maybe.ttf";
         auto msg = "Press Space Bar to Start";
-        auto text = new Text(*gameObject, "assets/font/Call me maybe.ttf", 100, Text::TextStyle::SOLID, msg,  { 255, 0, 0, 1 });
+        auto text = new Text(*textObject, textAsset, 100, Text::TextStyle::SOLID, msg,  { 255, 0, 0, 1 });
 
         text->SetFadeOut(1.0f);
-        gameObject->AddComponent(text);
+        textObject->AddComponent(text);
+        textObject->box.SetCenter({ 512, 500 });
 
-        (void)AddObject(gameObject);
-        // TODO: center image and make it bigger
-        this->timer.SetStart(-1.5f);
+        (void)AddObject(textObject);
     }
 
     if (in.KeyPress(SPACE_BAR)) {
@@ -70,16 +68,19 @@ void TitleState::Render() {
 }
 
 void TitleState::Start() {
-    LoadAssets();
+    Logger::Info("Starting Title State");
+    Camera::Reset();
+
     StartArray();
 
     this->started = true;
 }
 
 void TitleState::Pause() {
-
+    Logger::Info("Pausing Title State");
 }
 
 void TitleState::Resume() {
+    Logger::Info("Resuming Title State");
     Camera::Reset();
 }
