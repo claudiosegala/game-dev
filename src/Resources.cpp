@@ -14,6 +14,7 @@ void Resources::Prune () {
     Resources::PruneImages();
     Resources::PruneMusics();
     Resources::PruneSounds();
+    Resources::PruneTexts();
 }
 
 std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
@@ -143,7 +144,6 @@ std::shared_ptr<TTF_Font> Resources::GetText(std::string file, int size) {
             throw std::runtime_error(msg);
         }
 
-		// TODO: fix, sometimes it gives error on this when I shut the thing
         std::shared_ptr<TTF_Font> text_ptr(text, [=](TTF_Font* text) { TTF_CloseFont(text); });
 
         Resources::textTable[key] = text_ptr;
