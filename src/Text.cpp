@@ -8,6 +8,7 @@ Text::Text (GameObject& associated, std::string file, int size, TextStyle style,
 : Component(associated), text(text), style(style), fontFile(file), fontSize(size), color(color) {
     this->font = Resources::GetText(GetName());
     this->texture = nullptr;
+	this->timer = nullptr;
 
     RemakeTexture();
 }

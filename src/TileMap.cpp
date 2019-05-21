@@ -2,7 +2,11 @@
 #include <Camera.h>
 
 TileMap::TileMap(GameObject& go, std::string file, TileSet* ts) : Component(go), tileSet(ts) {
-    Load(file);
+	this->mapDepth = 0;
+	this->mapHeight = 0;
+	this->mapWidth = 0;
+	
+	Load(file);
 }
 
 TileMap::~TileMap () {

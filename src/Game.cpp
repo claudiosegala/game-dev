@@ -15,9 +15,11 @@ Game::Game(const std::string &title, int width, int height) {
     }
 
     this->instance = this;
-    this->frameStart = 0.0;
-    this->dt = 0;
+    this->frameStart = 0.0f;
+    this->dt = 0.0f;
     this->storedState = nullptr;
+	this->window = nullptr;
+	this->renderer = nullptr;
 
     Init_SDL();
     Init_IMG();

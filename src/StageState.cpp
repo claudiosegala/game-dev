@@ -19,10 +19,11 @@
 
 const int StageState::aliens_count = 3;
 
-StageState::StageState () : State() {
+StageState::StageState () : State(), music() {
     Logger::Info("Initing Stage State");   
     this->started = false;
     this->quitRequested = false;
+	this->tileSet = nullptr;
 
     this->music.Open("assets/audio/stageState.ogg");
     this->music.Play();
@@ -41,7 +42,9 @@ StageState::~StageState () {
     }
 
     Logger::Info("Destroying Stage State Music");
-    this->music.Stop();
+	//if (this->music != nullptr) {
+		this->music.Stop();
+	//}
 }
 
 void StageState::Start () {
@@ -143,12 +146,12 @@ void StageState::CreateField () {
     Logger::Info("Creating field for Stage State");
     auto field = new GameObject();
 
-    this->tileSet = new TileSet(*field, 64, 64, "assets/img/tileset.png");
+    auto ts = new TileSet(*field, 64, 64, "assets/img/tileset.png");
 
     auto bg = new Sprite(*field, "assets/img/ocean.jpg");
     field->AddComponent(bg);
 
-    auto tm = new TileMap(*field, "assets/map/tileMap.txt", this->tileSet);
+    auto tm = new TileMap(*field, "assets/map/tileMap.txt", ts);
     field->AddComponent(tm);
 
     auto cf = new CameraFollower(*field);
