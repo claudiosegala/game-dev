@@ -5,9 +5,9 @@
 #include <Collider.h>
 #include <PenguinBody.h>
 
-float const Bullet::defaultSpeed = 100.0f;
+int const Bullet::defaultDamage = 10;
 
-float const Bullet::defaultDamage = 10.0f;
+float const Bullet::defaultSpeed = 100.0f;
 
 float const Bullet::defaultMaxDistance = 400.0f;
 

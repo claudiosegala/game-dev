@@ -15,7 +15,7 @@ TitleState::TitleState() : State() {
 
     gameObject->AddComponent(image);
 
-    AddObject(gameObject);
+    (void) AddObject(gameObject);
 
     Camera::Reset();
 }
@@ -49,7 +49,7 @@ void TitleState::Update(float dt) {
         text->SetFadeOut(1.0f);
         gameObject->AddComponent(text);
 
-        AddObject(gameObject);
+        (void)AddObject(gameObject);
         // TODO: center image and make it bigger
         this->timer.SetStart(-1.5f);
     }

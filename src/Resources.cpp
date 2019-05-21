@@ -29,7 +29,6 @@ std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
             throw std::runtime_error(msg);
         }
 
-        // TODO: why this works
         std::shared_ptr<SDL_Texture> image_ptr(image, [=](SDL_Texture* texture) { SDL_DestroyTexture(texture); });
 
         Resources::imageTable[file] = image_ptr;
@@ -144,6 +143,7 @@ std::shared_ptr<TTF_Font> Resources::GetText(std::string file) {
             throw std::runtime_error(msg);
         }
 
+		// TODO: fix, sometimes it gives error on this when I shut the thing
         std::shared_ptr<TTF_Font> text_ptr(text, [=](TTF_Font* text) { TTF_CloseFont(text); });
 
         Resources::textTable[file] = text_ptr;

@@ -112,7 +112,7 @@ void PenguinBody::NotifyCollision(GameObject &other) {
     auto gameObject = new GameObject();
     
     // Adding explosion image
-    auto image = new Sprite(*gameObject, "assets/img/penguindeath.png", 5, 0.05, 0.25);
+    auto image = new Sprite(*gameObject, "assets/img/penguindeath.png", 5, 0.05f, 0.25f);
     gameObject->box = this->associated.box;
     gameObject->AddComponent(image);
 
@@ -124,7 +124,7 @@ void PenguinBody::NotifyCollision(GameObject &other) {
     // Adding to state
     auto game = Game::GetInstance();
     auto state = game->GetCurrentState();
-    state->AddObject(gameObject);
+    (void) state->AddObject(gameObject);
 }
 
 bool PenguinBody::Is(std::string type) {

@@ -50,23 +50,22 @@ void Minion::SetPosition(float dt) {
 
     this->associated.box.SetCenter(pos);
     this->associated.angle = this->arc;
-    this->arc += 0.3 * dt;
+    this->arc += 0.3f * dt;
 }
 
 void Minion::Shoot(Vec2 pos) {
     auto center = this->associated.box.Center();
     auto dir = (pos - center) * -1;
     auto ang = dir.GetAngle();
-
-    auto game = Game::GetInstance();
-    auto state = game->GetCurrentState();
-
     auto go = new GameObject();
-    auto bullet = new Bullet(*go, ang, Bullet::defaultSpeed, Bullet::defaultDamage, Bullet::defaultMaxDistance, "assets/img/minionbullet2.png", 3, 0.2, false);
+    auto bullet = new Bullet(*go, ang, Bullet::defaultSpeed, Bullet::defaultDamage, Bullet::defaultMaxDistance, "assets/img/minionbullet2.png", 3, 0.2f, false);
 
     go->box.SetCenter(center);
     go->angle = PI + ang;
-
     go->AddComponent(bullet);
-    state->AddObject(go);
+
+	auto game = Game::GetInstance();
+	auto state = game->GetCurrentState();
+
+    (void)state->AddObject(go);
 }

@@ -2,9 +2,12 @@
 #include <Resources.h>
 
 Sound::Sound (GameObject& go) : Component(go), chunk() {
+	this->channel = -1;
 }
 
 Sound::Sound (GameObject& go, std::string name) : Component(go), chunk() {
+	this->channel = -1;
+
     Open(name);
 }
 

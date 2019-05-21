@@ -7,9 +7,9 @@
 class Bullet : public Component {
     public:
 
-        static float const defaultSpeed;
+        static int const defaultDamage;
 
-        static float const defaultDamage;
+        static float const defaultSpeed;
 
         static float const defaultMaxDistance;
 
