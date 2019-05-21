@@ -138,11 +138,11 @@ void StageState::CreateField () {
     auto tileSet = new TileSet(*backgroundObject, 64, 64, "assets/img/tileset.png");
     auto image = new Sprite(*backgroundObject, "assets/img/ocean.jpg");
     auto tileMap = new TileMap(*backgroundObject, "assets/map/tileMap.txt", tileSet);
-    auto cameraFollowe = new CameraFollower(*backgroundObject);
+    auto cameraFollower = new CameraFollower(*backgroundObject);
 
-    backgroundObject->AddComponent(tileMap);
     backgroundObject->AddComponent(image);
-    backgroundObject->AddComponent(cameraFollowe);
+    backgroundObject->AddComponent(tileMap);
+    backgroundObject->AddComponent(cameraFollower);
     backgroundObject->box.vector = Vec2(0, 0);
 
 	(void)AddObject(backgroundObject);

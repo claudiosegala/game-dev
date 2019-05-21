@@ -120,7 +120,7 @@ void Text::RemakeTexture() {
 
     this->texture = SDL_CreateTextureFromSurface(renderer, aux);
 
-    if (this->texture) {
+    if (this->texture == nullptr) {
         auto msg = "SDLError: " + std::string(SDL_GetError()) + "\n";
         throw std::runtime_error(msg);
     }
