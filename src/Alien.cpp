@@ -88,15 +88,14 @@ void Alien::Update(float dt) {
 }
 
 void Alien::Rest (float dt) {
-    auto &in = InputManager::GetInstance();
-    auto pos = in.GetMouse(Camera::pos);
-    
     // Update Timer
     this->restTimer.Update(dt);
 
     auto _randomic_number = (rand() % 2) * -(rand() % 2);
 
     if (this->restTimer.Get() <= Alien::restCoolDown + _randomic_number) return;
+
+    auto pos = PenguinBody::GetPosition();
 
     // Start Moving
     auto u = this->associated.box.Center();
