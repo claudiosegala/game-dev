@@ -8,7 +8,7 @@
 #include <StageState.h>
 #include <InputManager.h>
 
-TitleState::TitleState() : State() {
+TitleState::TitleState() : State(), timer() {
     Logger::Info("Initing Title State");
     Camera::Reset();
 
@@ -29,6 +29,8 @@ void TitleState::LoadAssets() {
 }
 
 void TitleState::Update(float dt) {
+    this->timer.Update(dt);
+
     auto& in = InputManager::GetInstance();
 
     this->popRequested = in.KeyPress(ESCAPE_KEY);
@@ -39,17 +41,19 @@ void TitleState::Update(float dt) {
 
     if (this->quitRequested) return;
 
-    if (!HasComponent("Text")) {
+    if (this->timer.Get() > 0.0f && !HasComponent("Text")) {
         auto textObject = new GameObject();
         auto textAsset = "assets/font/Call me maybe.ttf";
         auto msg = "Press Space Bar to Start";
-        auto text = new Text(*textObject, textAsset, 100, Text::TextStyle::SOLID, msg,  { 255, 0, 0, 1 });
+        auto text = new Text(*textObject, textAsset, 20, Text::TextStyle::SOLID, msg,  { 255, 0, 0, 1 });
 
         text->SetFadeOut(1.0f);
         textObject->AddComponent(text);
         textObject->box.SetCenter({ 512, 500 });
 
         (void)AddObject(textObject);
+
+        this->timer.SetStart(-1.5f);
     }
 
     if (in.KeyPress(SPACE_BAR)) {

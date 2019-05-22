@@ -33,7 +33,7 @@ void EndState::LoadAssets () {
     auto msg = "Pressione SPACE BAR para jogar novamente e ESC para sair";
     auto textAsset = "assets/font/Call me maybe.ttf";
     auto textObject = new GameObject();
-    auto text = new Text(*textObject, textAsset, 50, Text::TextStyle::SOLID, msg, { 255, 0, 0, 1 });
+    auto text = new Text(*textObject, textAsset, 20, Text::TextStyle::SOLID, msg, { 255, 0, 0, 1 });
 
     textObject->AddComponent(text);
     textObject->box.SetCenter({ 512, 580 });
