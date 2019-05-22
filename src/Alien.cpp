@@ -95,11 +95,13 @@ void Alien::Rest (float dt) {
 
     if (this->restTimer.Get() <= Alien::restCoolDown + _randomic_number) return;
 
-    auto pos = PenguinBody::GetPosition();
+    auto pg = PenguinBody::player;
+
+    if (pg == nullptr) return; 
 
     // Start Moving
     auto u = this->associated.box.Center();
-    auto v = this->destination = pos;
+    auto v = this->destination = pg->GetPosition();
     auto direction = Vec2(u, v).GetUnit();
 
     this->speed = direction * dt * Alien::pace;
